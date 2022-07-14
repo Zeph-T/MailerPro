@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -13,13 +14,21 @@ import { ConfigureStore } from "./Redux/ConfigureStore";
 
 const store = ConfigureStore();
 
+const globalMUITheme = createTheme({
+  typography: {
+    fontFamily: ["Poppins", "Roboto", "sans-serif"].join(","),
+  },
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
-    </Provider>
+    <ThemeProvider theme={globalMUITheme}>
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

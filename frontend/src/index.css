@@ -1,13 +1,109 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+  font-family: "Poppins", sans-serif;
+  font-size: 62.5%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+textarea,
+input {
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  /* Font Sizes */
+  --font-12: 1.2rem;
+  --font-13: 1.3rem;
+  --font-135: 1.35rem;
+  --font-14: 1.4rem;
+  --font-15: 1.5rem;
+  --font-16: 1.6rem;
+  --font-17: 1.7rem;
+  --font-18: 1.8rem;
+  --font-20: 2rem;
+  --font-22: 2.2rem;
+  --font-24: 2.4rem;
+  --font-26: 2.6rem;
+  --font-28: 2.8rem;
+  --font-30: 3rem;
+  --font-32: 3.2rem;
+  --font-36: 3.6rem;
+  --font-38: 3.8rem;
+  --font-40: 4rem;
+  --font-42: 4.2rem;
+  --font-45: 4.5rem;
+  --font-52: 5.2rem;
+  --font-55: 5.5rem;
+  --font-60: 6rem;
+  --font-70: 7rem;
+  --font-110: 11rem;
+  --font-150: 15rem;
+  --font-160: 16rem;
+  --font-200: 20rem;
+  --fontv-4: 4vw;
+  --fontv-3: 3vw;
+  --fontv-35: 3.5vw;
+
+  --max-width: 110rem;
+  --navbar-height: 6.9rem;
+
+  /* Color styles */
+  --pure-white: #fff;
+  --primary-text-color: #001030;
+  --primary-black: #222222;
+  --sec-black: #444444;
+  --ter-black: #888888;
+  --border-grey: #dddddd;
+  --disabled-grey: #cccccc;
+  --primary-black: #222222;
+  --flag-blue: #000080;
+  --flag-green: #138808;
+  --subscribed-green: #03a000;
+  --flag-orange: #ff9933;
+  --inactive-yellow: #ffc908;
+  --unsubscribed-red: #ff0000;
+  --required-red: #ff0000;
+  --primary-blue: #0468ff;
+}
+
+html::-webkit-scrollbar {
+  width: 1rem;
+}
+
+html::-webkit-scrollbar-track {
+  background-color: rgba(230, 230, 230, 0.2);
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 120, 120, 0.3);
+  outline: 1px solid slategrey;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input {
+  font-family: "Poppins", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }

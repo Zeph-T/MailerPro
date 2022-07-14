@@ -9,6 +9,12 @@ export default defineConfig({
   build: {
     outDir: "build",
   },
+  server: {
+    hmr: {
+      host: "localhost",
+    },
+    port: 3000,
+  },
   plugins: [
     reactRefresh(),
     svgrPlugin({
