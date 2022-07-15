@@ -1,0 +1,58 @@
+.Wrapper {
+  width: 8.6rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  padding: 1.5rem;
+  gap: 2.5rem;
+}
+
+.MenuIcon {
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 2.4rem;
+  background-color: var(--blue-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.NavLinksWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.NavLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-12);
+}
+
+.NavLinkIconWrapper {
+  width: 6rem;
+  height: 3.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  transition: background-color 0.1s ease-out;
+  position: relative;
+}
+
+.NavLinkIconWrapperActive {
+  background-color: var(--blue-navlink);
+}
+
+.NavLinkIcon {
+  position: absolute;
+  transition: opacity 0.1s ease-out;
+}

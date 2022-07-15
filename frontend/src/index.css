@@ -73,6 +73,9 @@ input {
   --unsubscribed-red: #ff0000;
   --required-red: #ff0000;
   --primary-blue: #0468ff;
+  --primary-background: #f2f9ff;
+  --blue-light: #d0e9ff;
+  --blue-navlink: #0079f1;
 }
 
 html::-webkit-scrollbar {

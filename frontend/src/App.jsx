@@ -4,6 +4,7 @@ import { Routes, Route, Outlet } from "react-router-dom";
 
 import Home from "./Containers/Home";
 import ManageCampaign from "./Containers/ManageCampaign";
+import Navbar from "./Components/Navbar";
 
 import "./App.css";
 
@@ -17,11 +18,12 @@ const App = () => {
         <Route
           element={
             <div className="container">
+              <Navbar />
               <Outlet />
             </div>
           }
         >
-          <Route path="/managecampaign" element={<ManageCampaign />} />
+          <Route path="*" element={<ManageCampaign />} />
           <Route path="/managecampaign/:id" element={<ManageCampaign />} />
           <Route path="/createcampaign" element={<ManageCampaign isNew />} />
         </Route>
