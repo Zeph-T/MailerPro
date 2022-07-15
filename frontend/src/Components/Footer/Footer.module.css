@@ -1,0 +1,51 @@
+.Wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2.5rem;
+  background-color: var(--pure-white);
+  border-radius: 1rem;
+}
+
+.LeftSection,
+.RightSection {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.IconLinksWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.TermsWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Terms {
+  font-size: var(--font-14);
+  font-weight: 400;
+  color: var(--sec-black);
+}
+
+.TermsBar {
+  font-size: var(--font-14);
+  font-weight: 500;
+  color: var(--disabled-grey);
+}
+
+.Copyright {
+  font-size: var(--font-14);
+  font-weight: 400;
+  color: var(--copyright-grey);
+}
+
+.LogoIcon {
+  width: 8.5rem;
+  height: fit-content;
+}

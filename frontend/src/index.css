@@ -64,6 +64,7 @@ input {
   --ter-black: #888888;
   --border-grey: #dddddd;
   --disabled-grey: #cccccc;
+  --copyright-grey: #7e7e7e;
   --primary-black: #222222;
   --flag-blue: #000080;
   --flag-green: #138808;
@@ -73,6 +74,9 @@ input {
   --unsubscribed-red: #ff0000;
   --required-red: #ff0000;
   --primary-blue: #0468ff;
+  --primary-background: #f2f9ff;
+  --blue-light: #d0e9ff;
+  --blue-navlink: #0079f1;
 }
 
 html::-webkit-scrollbar {

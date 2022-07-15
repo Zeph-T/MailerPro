@@ -4,8 +4,12 @@ import { Routes, Route, Outlet } from "react-router-dom";
 
 import Home from "./Containers/Home";
 import ManageCampaign from "./Containers/ManageCampaign";
+import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer/index";
 
 import "./App.css";
+
+import { LOGO_ICON } from "./Utils/staticData";
 
 const App = () => {
   return (
@@ -16,12 +20,19 @@ const App = () => {
         {/* If logged in */}
         <Route
           element={
-            <div className="container">
-              <Outlet />
+            <div className="Container">
+              <Navbar />
+              <div className="RightSection">
+                <div className="PrimaryComponentWrapper">
+                  <img src={LOGO_ICON} className="LogoIcon" alt="logo" />
+                  <Outlet />
+                </div>
+                <Footer />
+              </div>
             </div>
           }
         >
-          <Route path="/managecampaign" element={<ManageCampaign />} />
+          <Route path="*" element={<ManageCampaign />} />
           <Route path="/managecampaign/:id" element={<ManageCampaign />} />
           <Route path="/createcampaign" element={<ManageCampaign isNew />} />
         </Route>
