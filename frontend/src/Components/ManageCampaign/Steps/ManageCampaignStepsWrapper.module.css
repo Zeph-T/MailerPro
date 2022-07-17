@@ -1,0 +1,8 @@
+.Wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: fit-content;
+  min-height: 45rem;
+  gap: 3rem;
+}
