@@ -1,0 +1,36 @@
+.Wrapper {
+  display: flex;
+  gap: 4rem;
+  flex-wrap: wrap;
+}
+
+.State {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.StateNumber {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  background-color: var(--disabled-grey);
+  color: var(--pure-white);
+  font-size: var(--font-16);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.StateName {
+  font-size: var(--font-16);
+  color: var(--disabled-grey);
+}
+
+.StateNumberActive {
+  background-color: var(--primary-blue);
+}
+
+.StateNameActive {
+  color: var(--primary-blue);
+}
