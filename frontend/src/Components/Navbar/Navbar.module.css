@@ -49,7 +49,7 @@
 }
 
 .NavLinkIconWrapperActive {
-  background-color: var(--blue-navlink);
+  background-color: var(--primary-blue);
 }
 
 .NavLinkIcon {

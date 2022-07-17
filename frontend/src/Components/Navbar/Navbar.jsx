@@ -19,8 +19,10 @@ function Navbar() {
               key={index}
               to={link.path}
               className={(status) => {
-                console.log(status);
                 status.isActive && setActiveLink(link.path);
+                !status.isActive &&
+                  activeLink === link.path &&
+                  setActiveLink(null);
                 return styles.NavLink;
               }}
             >
