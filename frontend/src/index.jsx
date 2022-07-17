@@ -18,6 +18,17 @@ const globalMUITheme = createTheme({
   typography: {
     fontFamily: ["Poppins", "Roboto", "sans-serif"].join(","),
   },
+  palette: {
+    primary: {
+      main: "#0079f1",
+    },
+    buttonGreen: {
+      main: "#03a000",
+    },
+    buttonGrey: {
+      main: "#8c8c8c",
+    },
+  },
 });
 
 ReactDOM.render(
