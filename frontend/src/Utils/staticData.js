@@ -8,12 +8,14 @@ import DirectoryActive from "../Assets/General/NavIcons/DirectoryActive.svg";
 import CampaignActive from "../Assets/General/NavIcons/CampaignActive.svg";
 import MenuIcon from "../Assets/General/Menu.svg";
 import Logo from "../Assets/General/Logo.svg";
+import BackArrow from "../Assets/General/BackArrow.svg";
 
 import MailIcon from "../Assets/General/FooterIcons/Mail.svg";
 import LinkedinIcon from "../Assets/General/FooterIcons/Linkedin.svg";
 import FacebookIcon from "../Assets/General/FooterIcons/Facebook.svg";
 
 export const LOGO_ICON = Logo;
+export const BACK_ARROW_ICON = BackArrow;
 export const NAVBAR_DATA = {
   menuIcon: MenuIcon,
   navLinks: [
@@ -65,4 +67,69 @@ export const FOOTER_DATA = {
   privacyPolicy: "Privacy Policy",
   termsOfUse: "Terms of Use",
   copyright: "Copyright © 2020",
+};
+
+export const MANAGE_CAMPAIGN_DATA = {
+  createCampaign: "Create Campaign",
+  manageCampaign: "Manage Campaign",
+  back: "Back",
+  next: "Next",
+  steps: [
+    {
+      name: "Campaign Info",
+      inputs: [
+        {
+          name: "campaignName",
+          type: "text",
+          placeholder: "Enter Campaign Name",
+          required: true,
+          label: "Campaign Name",
+        },
+        {
+          name: "notes",
+          type: "text",
+          placeholder: "Enter description",
+          required: false,
+          label: "Notes",
+        },
+        {
+          name: "subject",
+          type: "text",
+          placeholder: "Enter Subject",
+          required: true,
+          label: "Subject",
+        },
+        {
+          name: "fromEmail",
+          type: "text",
+          placeholder: "Enter From Email",
+          required: true,
+          label: "From Email",
+        },
+        {
+          name: "fromName",
+          type: "text",
+          placeholder: "Enter From Name",
+          required: true,
+          label: "From Name",
+        },
+        {
+          name: "replyTo",
+          type: "text",
+          placeholder: "Enter Reply To",
+          required: false,
+          label: "Reply To",
+        },
+      ],
+    },
+    {
+      name: "Design Email",
+    },
+    {
+      name: "Select Sudience",
+    },
+    {
+      name: "Schedule",
+    },
+  ],
 };
