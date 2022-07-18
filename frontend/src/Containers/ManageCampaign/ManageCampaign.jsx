@@ -8,6 +8,7 @@ import {
   ManageCampaignStepsWrapper,
   ManageCampaignStepsPagination,
   ManageCampaignState1,
+  ManageCampaignState2,
 } from "./../../Components/ManageCampaign/Steps";
 
 const ManageCampaign = ({ isNew }) => {
@@ -34,6 +35,7 @@ const ManageCampaign = ({ isNew }) => {
       <ManageCampaignState currentState={currentState} />
       <ManageCampaignStepsWrapper>
         {currentState === 0 && <ManageCampaignState1 />}
+        {currentState === 1 && <ManageCampaignState2 />}
         <ManageCampaignStepsPagination
           currentState={currentState}
           totalStates={4}

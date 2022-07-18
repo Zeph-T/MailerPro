@@ -13,7 +13,8 @@ function ManageCampaignState1() {
             name={input.name}
             label={input.label}
             placeholder={input.placeholder}
-            key={index}
+            type={input.type}
+            key={index} 
           />
         );
       })}

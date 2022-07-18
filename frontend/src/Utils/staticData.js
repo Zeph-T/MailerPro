@@ -101,7 +101,7 @@ export const MANAGE_CAMPAIGN_DATA = {
         },
         {
           name: "fromEmail",
-          type: "text",
+          type: "email",
           placeholder: "Enter From Email",
           required: true,
           label: "From Email",
@@ -115,7 +115,7 @@ export const MANAGE_CAMPAIGN_DATA = {
         },
         {
           name: "replyTo",
-          type: "text",
+          type: "email",
           placeholder: "Enter Reply To",
           required: false,
           label: "Reply To",
