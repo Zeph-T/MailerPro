@@ -124,6 +124,7 @@ export const MANAGE_CAMPAIGN_DATA = {
     },
     {
       name: "Design Email",
+      chooseTemplate: "Choose Template",
     },
     {
       name: "Select Sudience",
