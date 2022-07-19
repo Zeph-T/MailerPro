@@ -8,6 +8,7 @@ import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer/index";
 
 import "./App.css";
+import "swiper/css";
 
 import { LOGO_ICON } from "./Utils/staticData";
 
