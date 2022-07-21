@@ -127,7 +127,18 @@ export const MANAGE_CAMPAIGN_DATA = {
       chooseTemplate: "Choose Template",
     },
     {
-      name: "Select Sudience",
+      name: "Select Audience",
+      options: [
+        {
+          name: "all",
+          label: "To All Subscribers",
+        },
+        {
+          name: "selected",
+          label: "To Contact with particular Tags",
+        },
+      ],
+      tags: "Tags",
     },
     {
       name: "Schedule",
