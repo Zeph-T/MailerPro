@@ -9,6 +9,7 @@ import {
   ManageCampaignStepsPagination,
   ManageCampaignState1,
   ManageCampaignState2,
+  ManageCampaignState3,
 } from "./../../Components/ManageCampaign/Steps";
 
 import IMG1 from "../../Assets/TMP/website templates/1.jpg";
@@ -41,6 +42,10 @@ const ManageCampaign = ({ isNew }) => {
       fromName: "",
       replyTo: "",
     },
+    audience: {
+      value: MANAGE_CAMPAIGN_DATA.steps[2].options[0].name,
+      tags: [],
+    },
   });
 
   const handleNext = () => {
@@ -56,6 +61,26 @@ const ManageCampaign = ({ isNew }) => {
       info: {
         ...currentDataState.info,
         [e.target.name]: e.target.value,
+      },
+    });
+  };
+
+  const handleAudienceChange = (e) => {
+    setCurrentDataState({
+      ...currentDataState,
+      audience: {
+        ...currentDataState.audience,
+        value: e.target.value,
+      },
+    });
+  };
+
+  const handleTagsChange = (e) => {
+    setCurrentDataState({
+      ...currentDataState,
+      audience: {
+        ...currentDataState.audience,
+        tags: [...currentDataState.audience.tags, e.target.value],
       },
     });
   };
@@ -87,6 +112,13 @@ const ManageCampaign = ({ isNew }) => {
               console.log(template);
               setCurrentDataState({ ...currentDataState, template });
             }}
+          />
+        )}
+        {currentState === 2 && (
+          <ManageCampaignState3
+            audience={currentDataState.audience}
+            handleAudienceChange={handleAudienceChange}
+            handleTagsChange={handleTagsChange}
           />
         )}
         <ManageCampaignStepsPagination

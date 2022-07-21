@@ -1,5 +1,5 @@
 import React from "react";
-import StyledMUIButton from "../../General/Helpers/StyledMUIButton";
+import { StyledMUIButton } from "../../General/Helpers";
 import styles from "./ManageCampaignStepsPagination.module.css";
 import { MANAGE_CAMPAIGN_DATA } from "./../../../Utils/staticData";
 
