@@ -3,7 +3,7 @@ import styles from "./ManageCampaignState1.module.css";
 import { MANAGE_CAMPAIGN_DATA } from "../../../Utils/staticData";
 import { StyledMUITextField } from "./../../General/Helpers";
 
-function ManageCampaignState1() {
+function ManageCampaignState1({ campaignInfo, handleCampaignInfoChange }) {
   return (
     <div className={styles.Wrapper}>
       {MANAGE_CAMPAIGN_DATA.steps[0].inputs.map((input, index) => {
@@ -14,7 +14,9 @@ function ManageCampaignState1() {
             label={input.label}
             placeholder={input.placeholder}
             type={input.type}
-            key={index} 
+            key={index}
+            value={campaignInfo[input.name]}
+            onChange={handleCampaignInfoChange}
           />
         );
       })}

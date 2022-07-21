@@ -33,7 +33,14 @@ const ManageCampaign = ({ isNew }) => {
   const [currentState, setCurrentState] = React.useState(0);
   const [currentDataState, setCurrentDataState] = React.useState({
     template: 0,
-    name: "",
+    info: {
+      campaignName: "",
+      notes: "",
+      subject: "",
+      fromEmail: "",
+      fromName: "",
+      replyTo: "",
+    },
   });
 
   const handleNext = () => {
@@ -41,6 +48,16 @@ const ManageCampaign = ({ isNew }) => {
   };
   const handleBack = () => {
     setCurrentState(currentState - 1);
+  };
+
+  const handleCampaignInfoChange = (e) => {
+    setCurrentDataState({
+      ...currentDataState,
+      info: {
+        ...currentDataState.info,
+        [e.target.name]: e.target.value,
+      },
+    });
   };
 
   return (
@@ -56,7 +73,12 @@ const ManageCampaign = ({ isNew }) => {
       />
       <ManageCampaignState currentState={currentState} />
       <ManageCampaignStepsWrapper>
-        {currentState === 0 && <ManageCampaignState1 />}
+        {currentState === 0 && (
+          <ManageCampaignState1
+            campaignInfo={currentDataState.info}
+            handleCampaignInfoChange={handleCampaignInfoChange}
+          />
+        )}
         {currentState === 1 && (
           <ManageCampaignState2
             templates={tempTemplates}
