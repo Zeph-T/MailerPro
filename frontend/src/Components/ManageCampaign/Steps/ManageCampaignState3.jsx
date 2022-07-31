@@ -6,6 +6,18 @@ import {
   StyledMUIFormControlLabel,
   StyledMUIRadio,
 } from "../../General/Helpers";
+import StyledMUISelectWithChip from "./../../General/Helpers/StyledMUISelectWithChip";
+
+const TMPTagsOptions = [
+  {
+    name: "Tag 1",
+    _id: "tag1",
+  },
+  {
+    name: "Tag 2",
+    _id: "tag2",
+  },
+];
 
 function ManageCampaignState3({
   audience,
@@ -28,6 +40,16 @@ function ManageCampaignState3({
           />
         ))}
       </RadioGroup>
+      {audience.value === "selected" && (
+        <StyledMUISelectWithChip
+          label={MANAGE_CAMPAIGN_DATA.steps[2].tags}
+          placeholder={MANAGE_CAMPAIGN_DATA.steps[2].selectTags}
+          value={audience.tags}
+          onChange={handleTagsChange}
+          options={TMPTagsOptions}
+          getOptionLabel={(option) => option.name}
+        />
+      )}
     </div>
   );
 }

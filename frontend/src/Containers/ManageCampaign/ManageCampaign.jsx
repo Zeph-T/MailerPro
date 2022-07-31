@@ -76,12 +76,12 @@ const ManageCampaign = ({ isNew }) => {
     });
   };
 
-  const handleTagsChange = (e) => {
+  const handleTagsChange = (e, value) => {
     setCurrentDataState({
       ...currentDataState,
       audience: {
         ...currentDataState.audience,
-        tags: [...currentDataState.audience.tags, e.target.value],
+        tags: [...value],
       },
     });
   };
