@@ -139,6 +139,7 @@ export const MANAGE_CAMPAIGN_DATA = {
         },
       ],
       tags: "Tags",
+      selectTags: "Select Tags",
     },
     {
       name: "Schedule",
