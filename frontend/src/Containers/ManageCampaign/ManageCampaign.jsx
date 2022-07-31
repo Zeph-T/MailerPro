@@ -26,6 +26,7 @@ const tempTemplates = [IMG1, IMG2, IMG3, IMG4, IMG5, IMG6, IMG7, IMG8].map(
     return {
       _id: _id,
       img: template,
+      html: `<div   class=${styles.TMPTemplateStyle}><h1> ${_id} </h1> </div>`,
     };
   }
 );

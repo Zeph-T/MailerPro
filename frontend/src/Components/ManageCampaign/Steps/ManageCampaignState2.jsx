@@ -36,15 +36,10 @@ function ManageCampaignState2({
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className={styles.TemplatePreviewWrapper}>
-        <img
-          src={
-            templates.find((template) => template._id === activeTemplate).img
-          }
-          alt="template"
-          className={styles.TemplatePreview}
-        />
-      </div>
+      <div
+        className={styles.TemplatePreviewWrapper}
+        dangerouslySetInnerHTML={{ __html: templates[activeTemplate].html }}
+      />
     </div>
   );
 }
