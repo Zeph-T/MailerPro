@@ -4,3 +4,12 @@
   flex-direction: column;
   gap: 3rem;
 }
+
+.TMPTemplateStyle {
+  width: 100%;
+  background-color: palegreen;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
