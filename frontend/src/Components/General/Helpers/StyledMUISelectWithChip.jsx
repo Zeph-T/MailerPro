@@ -1,39 +1,50 @@
 import React from "react";
-import { Checkbox, ListItemText, MenuItem, Select } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 
-const StyledMUISelectWithChip = ({ chipClass, handleDelete, ...props }) => {
+const StyledMUISelectWithChip = ({
+  label,
+  placeholder,
+  chipClass,
+  handleDelete,
+  ...props
+}) => {
   return (
-    <Select
+    <Autocomplete
       multiple
-      onChange={handleChange}
-      onOpen={() => console.log("select opened")}
-      IconComponent={KeyboardArrowDownIcon}
-      renderValue={(selected) => (
-        <div className={classes.chips}>
-          {selected.map((value) => (
-            <Chip
-              key={value}
-              label={value}
-              clickable
-              // deleteIcon={
-              //   <CancelIcon onMouseDown={(event) => event.stopPropagation()} />
-              // }
-              className={chipClass}
-              onDelete={(e) => handleDelete(e, value)}
-              onClick={() => console.log("clicked chip")}
-            />
-          ))}
-        </div>
-      )}
+      filterSelectedOptions
+      sx={{
+        fontSize: "var(--font-16) !important",
+      }}
       {...props}
-    >
-      {names.map((name) => (
-        <MenuItem key={name} value={name}>
-          <Checkbox checked={personName.includes(name)} />
-          <ListItemText primary={name} />
-        </MenuItem>
-      ))}
-    </Select>
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          InputProps={{
+            ...params.InputProps,
+            style: {
+              ...params.InputProps.style,
+              fontSize: 16,
+              borderRadius: 8,
+            },
+          }}
+          InputLabelProps={{
+            ...params.InputLabelProps,
+            style: {
+              ...params.InputLabelProps.style,
+              fontSize: 16,
+            },
+          }}
+          label={label}
+          placeholder={placeholder}
+        />
+      )}
+      ChipProps={{
+        sx: { fontSize: 12 },
+      }}
+      ListboxProps={{
+        sx: { fontSize: 14 },
+      }}
+    />
   );
 };
 
