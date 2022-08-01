@@ -1,13 +1,14 @@
 import React from "react";
 import { TextField } from "@mui/material";
 
-const StyledMUITextField = ({ inputStyles, borderRadius, ...props }) => {
+const StyledMUITextField = ({ borderRadius, ...props }) => {
   return (
     <TextField
       InputProps={{
+        ...props.InputProps,
         style: {
+          ...props.InputProps?.style,
           borderRadius: borderRadius ? borderRadius : 8,
-          ...inputStyles,
         },
       }}
       fullWidth
