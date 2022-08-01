@@ -1,14 +1,10 @@
 import React from "react";
 import { FormControlLabel, Typography } from "@mui/material";
 
-const StyledMUIFormControlLabel = ({ fontSize, label, sx, ...props }) => {
+const StyledMUIFormControlLabel = ({ label, sx, ...props }) => {
   return (
     <FormControlLabel
-      label={
-        <Typography sx={{ fontSize: fontSize ? fontSize : 16, ...sx }}>
-          {label}
-        </Typography>
-      }
+      label={<Typography sx={{ ...sx }}>{label}</Typography>}
       {...props}
     />
   );
