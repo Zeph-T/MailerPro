@@ -8,7 +8,7 @@ const StyledMUITextField = ({ borderRadius, ...props }) => {
         ...props.InputProps,
         style: {
           ...props.InputProps?.style,
-          borderRadius: borderRadius ? borderRadius : 80,
+          borderRadius: borderRadius ? borderRadius : 8,
         },
       }}
       fullWidth
@@ -16,5 +16,5 @@ const StyledMUITextField = ({ borderRadius, ...props }) => {
     />
   );
 };
-0
+
 export default StyledMUITextField;
