@@ -1,8 +1,8 @@
 import React from "react";
-import { TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import StyledMUITextField from "./";
 
 const StyledMUIDatePicker = ({ ...props }) => {
   return (
@@ -11,7 +11,7 @@ const StyledMUIDatePicker = ({ ...props }) => {
         <DatePicker
           inputFormat="dd/MM/yyyy"
           {...props}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => <StyledMUITextField {...params} />}
         />
       </LocalizationProvider>
     </>
