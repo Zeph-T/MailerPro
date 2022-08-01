@@ -14,9 +14,6 @@ function ManageCampaignState2({
       <Swiper
         spaceBetween={10}
         width={250}
-        // slidesPerView={5.3}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
         autoplay={false}
         style={{ margin: "0 auto" }}
         setWrapperSize={true}
