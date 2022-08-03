@@ -5,19 +5,31 @@
   gap: 1rem;
 }
 
-.Image {
-  height: 27.5rem;
+.NameComp {
   width: 25rem;
-  object-fit: cover;
+  font-size: var(--font-16);
+  padding: 1rem 2rem;
   cursor: pointer;
   border-radius: 0.8rem;
   border: 1px solid var(--border-grey);
+  background-color: var(--primary-background);
   transition: opacity 0.2s ease-out;
   opacity: 0.3;
 }
 
-.ActiveImage {
+.NameCompText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.ActiveNameComp {
   opacity: 1;
+  border-color: var(--primary-blue);
+  background-color: var(--primary-background);
 }
 
 .TemplatePreviewWrapper {

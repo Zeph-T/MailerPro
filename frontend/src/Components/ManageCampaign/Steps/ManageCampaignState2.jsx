@@ -20,16 +20,16 @@ function ManageCampaignState2({
       >
         {templates.map((template, index) => (
           <SwiperSlide key={index}>
-            <img
-              src={template.img}
-              alt="template"
+            <div
               className={
-                styles.Image +
+                styles.NameComp +
                 " " +
-                (activeTemplate === template._id ? styles.ActiveImage : "")
+                (activeTemplate === template._id ? styles.ActiveNameComp : "")
               }
               onClick={() => setActiveTemplate(template._id)}
-            />
+            >
+              <span className={styles.NameCompText}>{template.name}</span>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>

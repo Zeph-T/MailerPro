@@ -26,8 +26,8 @@ const tempTemplates = [IMG1, IMG2, IMG3, IMG4, IMG5, IMG6, IMG7, IMG8].map(
   (template, _id) => {
     return {
       _id: _id,
-      img: template,
       html: `<div   class=${styles.TMPTemplateStyle}><h1> ${_id} </h1> </div>`,
+      name: `Template ${_id + 1}`,
     };
   }
 );
@@ -54,7 +54,7 @@ const ManageCampaign = ({ isNew }) => {
     },
   });
 
-  console.log(currentDataState.schedule)
+  console.log(currentDataState.schedule);
 
   const handleNext = () => {
     setCurrentState(currentState + 1);
