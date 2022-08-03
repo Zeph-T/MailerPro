@@ -10,6 +10,7 @@ import {
   ManageCampaignState1,
   ManageCampaignState2,
   ManageCampaignState3,
+  ManageCampaignState4,
 } from "./../../Components/ManageCampaign/Steps";
 
 import IMG1 from "../../Assets/TMP/website templates/1.jpg";
@@ -47,7 +48,13 @@ const ManageCampaign = ({ isNew }) => {
       value: MANAGE_CAMPAIGN_DATA.steps[2].options[0].name,
       tags: [],
     },
+    schedule: {
+      value: MANAGE_CAMPAIGN_DATA.steps[3].options[0].name,
+      time: null,
+    },
   });
+
+  console.log(currentDataState.schedule)
 
   const handleNext = () => {
     setCurrentState(currentState + 1);
@@ -86,6 +93,26 @@ const ManageCampaign = ({ isNew }) => {
     });
   };
 
+  const handleScheduleChange = (e) => {
+    setCurrentDataState({
+      ...currentDataState,
+      schedule: {
+        ...currentDataState.schedule,
+        value: e.target.value,
+      },
+    });
+  };
+
+  const handleScheduleTimeChange = (newTime) => {
+    setCurrentDataState({
+      ...currentDataState,
+      schedule: {
+        ...currentDataState.schedule,
+        time: newTime,
+      },
+    });
+  };
+
   return (
     <div className={styles.container}>
       <Header
@@ -120,6 +147,13 @@ const ManageCampaign = ({ isNew }) => {
             audience={currentDataState.audience}
             handleAudienceChange={handleAudienceChange}
             handleTagsChange={handleTagsChange}
+          />
+        )}
+        {currentState === 3 && (
+          <ManageCampaignState4
+            schedule={currentDataState.schedule}
+            hnadleScheduleChange={handleScheduleChange}
+            handleScheduleTimeChange={handleScheduleTimeChange}
           />
         )}
         <ManageCampaignStepsPagination
