@@ -143,6 +143,18 @@ export const MANAGE_CAMPAIGN_DATA = {
     },
     {
       name: "Schedule",
+      options: [
+        {
+          name: "immediately",
+          label: "Send Now",
+        },
+        {
+          name: "later",
+          label: "Schedule for Later",
+        },
+      ],
+      dateAndTime: "Date And Time (IST)",
+      selectDateAndTime: "Select Date And Time",
     },
   ],
 };
