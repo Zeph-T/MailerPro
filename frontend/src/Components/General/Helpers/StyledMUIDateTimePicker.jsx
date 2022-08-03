@@ -10,8 +10,9 @@ const StyledMUIDateTimePicker = ({ ...props }) => {
     <>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DateTimePicker
-          {...props}
           renderInput={(params) => <StyledMUITextField {...params} />}
+          inputFormat="dd/MM/yyyy hh:mm a"
+          {...props}
         />
       </LocalizationProvider>
     </>
