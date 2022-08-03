@@ -33,7 +33,7 @@ const App = () => {
             </div>
           }
         >
-          <Route path="*" element={<ManageCampaign />} />
+          {/* <Route path="*" element={<ManageCampaign />} /> */}
           <Route path="/managecampaign/:id" element={<ManageCampaign />} />
           <Route path="/createcampaign" element={<ManageCampaign isNew />} />
         </Route>
