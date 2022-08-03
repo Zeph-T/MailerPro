@@ -1,15 +1,15 @@
 import React from "react";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import DateTimePicker from "@mui/x-date-pickers/DateTimePicker";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { StyledMUITextField } from "./";
+import { StyledMUITextField } from ".";
 
-const StyledMUIDatePicker = ({ ...props }) => {
+const StyledMUIDateTimePicker = ({ ...props }) => {
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          inputFormat="dd/MM/yyyy"
+        <DateTimePicker
           {...props}
           renderInput={(params) => <StyledMUITextField {...params} />}
         />
@@ -18,4 +18,4 @@ const StyledMUIDatePicker = ({ ...props }) => {
   );
 };
 
-export default StyledMUIDatePicker;
+export default StyledMUIDateTimePicker;
