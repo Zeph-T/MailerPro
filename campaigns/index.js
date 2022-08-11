@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { MongoCron } = require("mongodb-cron");
 const env = require('env');
 const http = require("http");
-
+const executeCampaign = require('./execute');
 
 const server = http.createServer((req,res)=>{
     res.send("Server Created");

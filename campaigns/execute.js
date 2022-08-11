@@ -36,7 +36,7 @@ let runSMSCampaign = function(campaign , contactList){
 
 }
 
-const executeCampaign = async function(document){
+let executeCampaign = async function(document){
     try{
         let deferred = Q.defer();
         if(document.campaignId){
@@ -62,3 +62,6 @@ const executeCampaign = async function(document){
     return deferred.promise;
 
 }
+
+
+module.exports = executeCampaign;
