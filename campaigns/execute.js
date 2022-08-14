@@ -83,6 +83,7 @@ let runEmailCampaign = function(campaign,contactList){
     while(list.length() != 0){
         let contact = list.pop();
         console.log(contact);
+        
     }
 }
 
