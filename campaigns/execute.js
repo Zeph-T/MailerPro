@@ -4,6 +4,55 @@ const Q = require('q');
 const Contacts = require('models/contact');
 const Campaign = require('models/campaign');
 
+class Node {
+    constructor(element){
+        this.contact = element;
+        this.next = null;
+    }
+}
+
+
+class LinkedList{
+    constructor(){
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
+
+    add(element){
+        let node = new Node(element);
+
+        if(this.head == null){
+            this.head = node;
+            this.tail = node;
+        }
+        else{
+            this.tail.next = node;
+            this.tail = this.tail.next;
+        }
+        this.size++;
+    }
+
+    length(){
+        return this.size;
+    }
+
+    printItems(){
+        let current = this.head;
+        while(current){
+            console.log(current.contact);
+            current = current.next;
+        }
+    }
+
+    pop_front(){
+        let node = this.head;
+        this.head = node.next;
+        this.size--;
+        return node;
+    }
+}
+
 
 const getContactList = async function(targetAudience){
     let deferred = Q.defer();
@@ -29,7 +78,12 @@ const getContactList = async function(targetAudience){
 // }
 
 let runEmailCampaign = function(campaign,contactList){
-
+    let list = new LinkedList();
+    for(let i = 0 ; i < contactList.length ; i++)list.add(contactList[i]);
+    while(list.length() != 0){
+        let contact = list.pop();
+        console.log(contact);
+    }
 }
 
 let runSMSCampaign = function(campaign , contactList){
