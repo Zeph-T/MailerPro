@@ -1,12 +1,52 @@
 import examplesRouter from './api/controllers/examples/router';
+import campaignsRouter from './api/controllers/campaigns/router';
+import usersRouter from './api/controllers/users/router';
 
 export default function routes(app) {
   app.use('/Y/examples', examplesRouter);
+  app.use('/campaigns', campaignsRouter);
+  app.use('/users', usersRouter);
 }
 
 
 /*
-Endpoint : "/createEmailCampaign",
+Endpoint : "/users/register",
+type : "POST",
+body : {
+  name : "",
+  email : "",
+  password : ""
+}
+response :
+  if success:
+    data : user Object
+  if error : {
+    data : {error : message}
+  }
+
+Endpoint : "/users/login",
+type : "POST",
+body : {
+  email : "",
+  password : ""
+}
+response :
+  if success:
+    data : {token : token}
+  if error : {
+    data : {error : message}
+  }
+
+Endpoint : "/campaigns",
+type : "GET",
+response :
+  if success:
+    data : [campaign Object]
+  if error : {
+    data : {error : message}
+  }
+
+Endpoint : "/campaigns/createEmailCampaign",
 type : "POST",
 body : same data present inside the campaign schema
 response :
@@ -16,7 +56,7 @@ response :
     data : {error : message}
   }
 
-Endpoint : "/updateEmailCampaign",
+Endpoint : "/campaigns/updateEmailCampaign",
 type : "POST",
 body : same data present inside the campaign schema
 response :
