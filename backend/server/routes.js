@@ -58,10 +58,10 @@ response :
 
 Endpoint : "/campaigns/updateEmailCampaign",
 type : "POST",
-body : same data present inside the campaign schema
+body : same data present inside the campaign schema + .id
 response :
   if success:
-    data : campaign Object
+    data : updated campaign Object
   if error : {
     data : {error : message}
   }
