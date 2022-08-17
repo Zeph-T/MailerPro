@@ -3,5 +3,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
-    'DB_STRING' :  process.env.DB_CONN_STRING
+    'DB_STRING' :  process.env.DB_CONN_STRING,
+    'AWS_ACCESS_KEY' : process.env.AWS_ACCESS_KEY,
+    'AWS_SECRET_ACCESS_KEY' : process.env.AWS_SECRET_ACCESS_KEY,
+    'AWS_REGION' : process.env.AWS_REGION
 }

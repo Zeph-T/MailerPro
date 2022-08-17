@@ -3,6 +3,8 @@ const mongoose = require('mongooose');
 const Q = require('q');
 const Contacts = require('models/contact');
 const Campaign = require('models/campaign');
+const aws = require('aws-sdk');
+const env = require('./env');
 
 class Node {
     constructor(element){
@@ -77,13 +79,62 @@ const getContactList = async function(targetAudience){
 
 // }
 
-let runEmailCampaign = function(campaign,contactList){
-    let list = new LinkedList();
-    for(let i = 0 ; i < contactList.length ; i++)list.add(contactList[i]);
-    while(list.length() != 0){
-        let contact = list.pop();
-        console.log(contact);
-        
+
+let sendEmail = function(contact,ses){
+    // send email
+}
+
+
+let smtpInfo = async function(ses){
+    let deferred = Q.defer();
+    try{
+        const oSendQuota = await ses.getSendQuota({});
+        deferred.resolve({ses,oSendQuota})
+    }catch(err){
+        deferred.reject(err);
+    }
+
+    return deferred.promise;
+}
+
+
+let getAWSConfig = async function(){
+    let deferred = Q.defer();
+    try{
+        aws.config.update({
+            'accesskeyId' : env.AWS_ACCESS_KEY,
+            'secretAccessKey' : env.AWS_SECRET_ACCESS_KEY,
+            region : env.AWS_REGION
+        })
+        let ses = new aws.SES({apiVersion : '2010-12-01'});
+        deferred.resolve(smtpInfo(ses));
+    }catch(err){
+        deferred.reject(err);
+    }
+    return deferred.promise;
+}
+
+let runEmailCampaign = async function(campaign,contactList){
+    try{
+        let list = new LinkedList();
+        for(let i = 0 ; i < contactList.length ; i++)list.add(contactList[i]);
+        let {ses , maxSendRate} = await getAWSConfig();
+        let nMaxSendRate = Math.floor(maxSendRate * 0.8);
+        let delay = Math.ceil(1000/nMaxSendRate);
+    
+        let intervalId = setInterval(function(){
+            if(list.length() != 0){
+                let contact = list.pop_front();
+                let result = sendEmail(contact,ses);
+                if(!result)result.add(contact,ses);
+                else if(list.length() == 0)deferred.resolve(true);
+            }else{
+                clearInterval(intervalId);
+            }
+        },delay);
+    }catch(err){
+        console.log(err);
+        deferred.reject(err);
     }
 }
 
