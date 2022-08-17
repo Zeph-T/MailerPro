@@ -80,8 +80,41 @@ const getContactList = async function(targetAudience){
 // }
 
 
-let sendEmail = function(contact,ses){
+let sendEmail = function(contact,ses,template,senderEmail,subject,replyMails){
     // send email
+    let bodyTemplate = Handlebars.compile(template,{noEscape: true});
+    let mailTextForReciever = bodyTemplate(contact);
+    let subjectTemplate = Handlebars.compile(subject,{noEscape: true});
+    let recieverSubject = subjectTemplate(contact);
+
+
+    ses.sendEmail({
+        Source : senderEmail,
+        Destination : {
+            ToAddresses : [contact.email]
+        },
+        Message : {
+            Subject : {
+                Data : recieverSubject
+            },
+            Body : {
+                Html : {
+                    Data : mailTextForReciever
+                }
+            }
+        },
+        ReplyToAddresses: replyMails
+    },function(err){
+        if(err.code == 'Throttling'){
+            if(error.message == 'Daily message quota exceeded')return 'ABORT!';
+            else if(error.message == 'Maximum sending rate exceeded')return 'THROTTLE';
+            else{
+                console.log('Error Occured while sending Emails');
+                return 'ABORT';
+            }
+        }
+    })
+
 }
 
 
@@ -121,12 +154,15 @@ let runEmailCampaign = async function(campaign,contactList){
         let {ses , maxSendRate} = await getAWSConfig();
         let nMaxSendRate = Math.floor(maxSendRate * 0.8);
         let delay = Math.ceil(1000/nMaxSendRate);
-    
+        let templateText = campaign.mailContent;
+        let senderMailAddress = campaign.senderMailAddress
+        let templateSubject = campaign.Subject;
         let intervalId = setInterval(function(){
             if(list.length() != 0){
                 let contact = list.pop_front();
-                let result = sendEmail(contact,ses);
-                if(!result)result.add(contact,ses);
+                let result = sendEmail(contact,ses,templateText,senderMailAddress,templateSubject);
+                if(result == 'THROTTLE')result.add(contact,ses);
+                else if(result == 'ABORT')deferred.reject(result);
                 else if(list.length() == 0)deferred.resolve(true);
             }else{
                 clearInterval(intervalId);
