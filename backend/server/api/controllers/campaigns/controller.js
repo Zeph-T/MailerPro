@@ -3,9 +3,15 @@ import isAuthenticated from '../../middlewares/isAuthenticated.jwt.js'
 
 export class Controller {
     all(req, res) {
-        isAuthenticated(req, res, () => {
-            Campaign.find({})
-                .then(r => res.json({ "data": r }),
+        isAuthenticated(req, res, async () => {
+            let campaignsCount = await Campaign.countDocuments();
+            var page = req.query.page ? parseInt(req.query.page) : 1;
+            var limit = req.query.limit ? parseInt(req.query.limit) : 10;
+            Campaign.find({}).limit(limit).skip((page - 1) * limit)
+                .then(r => res.json({ "data": {
+                    total: campaignsCount,
+                    campaigns: r,
+                } }),
                     error => res.json({ error: error }))
         });
     }

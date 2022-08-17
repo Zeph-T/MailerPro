@@ -39,9 +39,16 @@ response :
 
 Endpoint : "/campaigns",
 type : "GET",
+params: {
+  page : 1(default),
+  limit : 10(default)
+}
 response :
   if success:
-    data : [campaign Object]
+    data : {
+      campaigns: [campaigns],
+      total: total
+    }
   if error : {
     data : {error : message}
   }
