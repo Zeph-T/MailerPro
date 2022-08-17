@@ -14,6 +14,11 @@ import MailIcon from "../Assets/General/FooterIcons/Mail.svg";
 import LinkedinIcon from "../Assets/General/FooterIcons/Linkedin.svg";
 import FacebookIcon from "../Assets/General/FooterIcons/Facebook.svg";
 
+// Landing Page Assets
+import UpperImage from "../Assets/LandingPage/UpperImage.svg";
+import CircleDesignBlue from "../Assets/LandingPage/CircleDesignBlue.svg";
+import CircleDesignYellow from "../Assets/LandingPage/CircleDesignYellow.svg";
+
 export const LOGO_ICON = Logo;
 export const BACK_ARROW_ICON = BackArrow;
 export const NAVBAR_DATA = {
@@ -157,4 +162,20 @@ export const MANAGE_CAMPAIGN_DATA = {
       selectDateAndTime: "Select Date And Time",
     },
   ],
+};
+
+export const LANDING_PAGE_DATA = {
+  navbar: {
+    LOGO_ICON,
+    loginText: "Login",
+  },
+  upperContainer: {
+    UpperImage,
+    CircleDesignBlue,
+    CircleDesignYellow,
+    BackArrow,
+    title:
+      "All in one platform, that assists in sending, managing and analyzing bulk emails and SMS.",
+    button: "Get Started",
+  },
 };

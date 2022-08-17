@@ -1,0 +1,18 @@
+.Wrapper {
+  width: 100%;
+  max-width: 120rem;
+  margin: 2rem auto 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.Wrapper img {
+  width: 11rem;
+  object-fit: contain;
+}
+.Wrapper a {
+  font-weight: 500;
+  font-size: var(--font-18);
+  color: var(--primary-text-color);
+  cursor: pointer;
+}

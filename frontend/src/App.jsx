@@ -2,7 +2,7 @@ import React from "react";
 
 import { Routes, Route, Outlet } from "react-router-dom";
 
-import Home from "./Containers/Home";
+import LandingPage from "./Containers/LandingPage";
 import ManageCampaign from "./Containers/ManageCampaign";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer/index";
@@ -17,7 +17,7 @@ const App = () => {
     <>
       <Routes>
         {/* If not logged in */}
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<LandingPage />} />
         {/* If logged in */}
         <Route
           element={
