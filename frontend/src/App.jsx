@@ -6,11 +6,13 @@ import LandingPage from "./Containers/LandingPage";
 import ManageCampaign from "./Containers/ManageCampaign";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer/index";
+import SignIn from "./Containers/SignInUp/SignIn";
 
 import "./App.css";
 import "swiper/css";
 
 import { LOGO_ICON } from "./Utils/staticData";
+import SignUp from "./Containers/SignInUp/SignUp";
 
 const App = () => {
   return (
@@ -18,6 +20,9 @@ const App = () => {
       <Routes>
         {/* If not logged in */}
         <Route exact path="/" element={<LandingPage />} />
+        <Route exact path="/signin" element={<SignIn />} />
+        <Route exact path="/signup" element={<SignUp />} />
+
         {/* If logged in */}
         <Route
           element={
