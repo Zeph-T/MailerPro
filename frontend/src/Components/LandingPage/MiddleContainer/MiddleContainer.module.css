@@ -1,0 +1,34 @@
+.Wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 23rem;
+  height: 100vh;
+  background: linear-gradient(180deg, #2aa1ff 0%, #002abe 124.2%);
+}
+.EllipseImage {
+  width: 119%;
+  object-fit: contain;
+  position: absolute;
+  left: -9.75%;
+  top: -25%;
+  z-index: -1;
+}
+.MiddleDots {
+  position: absolute;
+  right: 0;
+  top: 38%;
+}
+.SubWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-size: var(--font-38);
+  text-align: center;
+  color: var(--pure-white);
+  gap: 10rem;
+}
+.SubWrapper > div {
+  max-width: 75rem;
+}
