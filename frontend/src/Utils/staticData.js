@@ -18,6 +18,10 @@ import FacebookIcon from "../Assets/General/FooterIcons/Facebook.svg";
 import UpperImage from "../Assets/LandingPage/UpperImage.svg";
 import CircleDesignBlue from "../Assets/LandingPage/CircleDesignBlue.svg";
 import CircleDesignYellow from "../Assets/LandingPage/CircleDesignYellow.svg";
+import MiddleImage from "../Assets/LandingPage/MiddleImage.svg";
+import EllipseImage from "../Assets/LandingPage/EllipseImage.svg";
+import MiddleDots from "../Assets/LandingPage/MiddleDots.svg";
+import FooterPost from "../Assets/LandingPage/FooterPost.svg";
 
 export const LOGO_ICON = Logo;
 export const BACK_ARROW_ICON = BackArrow;
@@ -177,5 +181,11 @@ export const LANDING_PAGE_DATA = {
     title:
       "All in one platform, that assists in sending, managing and analyzing bulk emails and SMS.",
     button: "Get Started",
+  },
+  middleContainer: {
+    MiddleImage,
+    EllipseImage,
+    MiddleDots,
+    title: "Send Customized emails to your contacts.",
   },
 };
