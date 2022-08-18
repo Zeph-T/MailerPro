@@ -1,4 +1,5 @@
 import React from "react";
+import LandingPageFooter from "../../Components/LandingPage/LandingPageFooter/LandingPageFooter";
 import MiddleContainer from "../../Components/LandingPage/MiddleContainer";
 import Navbar from "../../Components/LandingPage/Navbar";
 import UpperContainer from "../../Components/LandingPage/UpperContainer";
@@ -10,6 +11,7 @@ const LandingPage = () => {
       <Navbar />
       <UpperContainer />
       <MiddleContainer />
+      <LandingPageFooter />
     </div>
   );
 };

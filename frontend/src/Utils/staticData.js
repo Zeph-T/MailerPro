@@ -24,6 +24,12 @@ import MiddleImage from "../Assets/LandingPage/MiddleImage.svg";
 import EllipseImage from "../Assets/LandingPage/EllipseImage.svg";
 import MiddleDots from "../Assets/LandingPage/MiddleDots.svg";
 import FooterPost from "../Assets/LandingPage/FooterPost.svg";
+import Facebook from "../Assets/LandingPage/Footer/Icons/Facebook.svg";
+import FacebookH from "../Assets/LandingPage/Footer/Icons/FacebookH.svg";
+import Instagram from "../Assets/LandingPage/Footer/Icons/Instagram.svg";
+import InstagramH from "../Assets/LandingPage/Footer/Icons/InstagramH.svg";
+import Linkedin from "../Assets/LandingPage/Footer/Icons/Linkedin.svg";
+import LinkedinH from "../Assets/LandingPage/Footer/Icons/LinkedinH.svg";
 
 export const LOGO_ICON = Logo;
 export const BACK_ARROW_ICON = BackArrow;
@@ -195,5 +201,18 @@ export const LANDING_PAGE_DATA = {
     EllipseImage,
     MiddleDots,
     title: "Send Customized emails to your contacts.",
+  },
+  footer: {
+    Facebook,
+    FacebookH,
+    Instagram,
+    InstagramH,
+    Linkedin,
+    LinkedinH,
+    contactLinks: {
+      Facebook: "https://www.facebook.com/",
+      Linkedin: "https://www.linkedin.com/",
+      Instagram: "https://www.instagram.com/",
+    },
   },
 };
