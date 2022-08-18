@@ -6,6 +6,7 @@ import Home from "./Containers/Home";
 import ManageCampaign from "./Containers/ManageCampaign";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer/index";
+import Dashboard from "./Containers/Dashboard";
 
 import "./App.css";
 
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="*" element={<ManageCampaign />} />
           <Route path="/managecampaign/:id" element={<ManageCampaign />} />
           <Route path="/createcampaign" element={<ManageCampaign isNew />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </>
