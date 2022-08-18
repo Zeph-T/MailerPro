@@ -2,10 +2,12 @@ import Home from "../Assets/General/NavIcons/Home.svg";
 import Settings from "../Assets/General/NavIcons/Settings.svg";
 import Directory from "../Assets/General/NavIcons/Directory.svg";
 import Campaign from "../Assets/General/NavIcons/Campaign.svg";
+import Templates from "../Assets/General/NavIcons/Templates.svg";
 import HomeActive from "../Assets/General/NavIcons/HomeActive.svg";
 import SettingsActive from "../Assets/General/NavIcons/SettingsActive.svg";
 import DirectoryActive from "../Assets/General/NavIcons/DirectoryActive.svg";
 import CampaignActive from "../Assets/General/NavIcons/CampaignActive.svg";
+import TemplatesActive from "../Assets/General/NavIcons/TemplatesActive.svg";
 import MenuIcon from "../Assets/General/Menu.svg";
 import Logo from "../Assets/General/Logo.svg";
 import BackArrow from "../Assets/General/BackArrow.svg";
@@ -41,6 +43,12 @@ export const NAVBAR_DATA = {
       icon: Campaign,
       iconActive: CampaignActive,
       path: "/campaign",
+    },
+    {
+      name: "Templates",
+      icon: Templates,
+      iconActive: TemplatesActive,
+      path: "/templates",
     },
     {
       name: "Settings",
