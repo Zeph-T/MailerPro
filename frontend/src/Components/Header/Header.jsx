@@ -5,20 +5,32 @@ import styles from "./Header.module.css";
 
 import { BACK_ARROW_ICON } from "./../../Utils/staticData";
 
-function Header({ withBackButton = false, link, onClick, title }) {
-  return link ? (
-    <Link className={styles.Wrapper} to={link} onClick={onClick}>
-      {withBackButton && (
-        <img src={BACK_ARROW_ICON} className={styles.LogoIcon} alt="logo" />
+function Header({
+  withBackButton = false,
+  link,
+  onClick,
+  title,
+  subTitle,
+  rightSecContent,
+}) {
+  return ( 
+    <div className={styles.Wrapper}>
+      {link ? (
+        <Link className={styles.TitleWrapper} to={link} onClick={onClick}>
+          {withBackButton && (
+            <img src={BACK_ARROW_ICON} className={styles.LogoIcon} alt="logo" />
+          )}
+          <h1>{title}</h1>
+        </Link>
+      ) : (
+        <div className={styles.TitleWrapper} onClick={onClick}>
+          {withBackButton && (
+            <img src={BACK_ARROW_ICON} className={styles.LogoIcon} alt="logo" />
+          )}
+          <h1>{title}</h1>
+        </div>
       )}
-      <h1>{title}</h1>
-    </Link>
-  ) : (
-    <div className={styles.Wrapper} onClick={onClick}>
-      {withBackButton && (
-        <img src={BACK_ARROW_ICON} className={styles.LogoIcon} alt="logo" />
-      )}
-      <h1>{title}</h1>
+      {subTitle && <h3>{subTitle}</h3>}
     </div>
   );
 }

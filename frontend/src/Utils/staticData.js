@@ -197,3 +197,7 @@ export const LANDING_PAGE_DATA = {
     title: "Send Customized emails to your contacts.",
   },
 };
+
+export const TEMPLATES_PAGE_DATA = {
+  title: "Templates",
+};
