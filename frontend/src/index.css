@@ -76,6 +76,11 @@ input {
   --primary-blue: #0079f1;
   --primary-background: #f2f9ff;
   --blue-light: #d0e9ff;
+  --footer-bg: radial-gradient(
+    92.45% 507.92% at 11.49% 63.74%,
+    rgba(0, 142, 255, 0) 0%,
+    rgba(0, 142, 255, 0.14) 100%
+  );
 }
 
 html::-webkit-scrollbar {
