@@ -1,28 +1,34 @@
 import React from "react";
-
-import { Routes, Route, Outlet } from "react-router-dom";
-
+import { Routes, Route, Outlet, useLocation, Navigate } from "react-router-dom";
 import LandingPage from "./Containers/LandingPage";
 import ManageCampaign from "./Containers/ManageCampaign";
 import Templates from "./Containers/Templates";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer/index";
-import SignIn from "./Containers/SignInUp/SignIn";
 
 import "./App.css";
 import "swiper/css";
 
 import { LOGO_ICON } from "./Utils/staticData";
-import SignUp from "./Containers/SignInUp/SignUp";
 
 const App = () => {
+  const location = useLocation();
+
   return (
     <>
       <Routes>
         {/* If not logged in */}
-        <Route exact path="/" element={<LandingPage />} />
-        <Route exact path="/signin" element={<SignIn />} />
-        <Route exact path="/signup" element={<SignUp />} />
+        <>
+          {["/signin", "/signup", "/"].map((path) => (
+            <Route key={path} path={path} element={<LandingPage />} />
+          ))}
+
+          {location.pathname !== "/signin" &&
+          location.pathname !== "/signup" &&
+          location.pathname !== "/" ? (
+            <Navigate to="/" />
+          ) : null}
+        </>
 
         {/* If logged in */}
         <Route

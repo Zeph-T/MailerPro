@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { LANDING_PAGE_DATA } from "../../../Utils/staticData";
 import { StyledMUIButton } from "../../General/Helpers";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import styles from "./UpperContainer.module.css";
 
 const UpperContainer = () => {
+  const navigate = useNavigate();
   return (
     <div className={styles.Wrapper}>
       <div className={styles.UpperWrapper}>
@@ -18,6 +20,9 @@ const UpperContainer = () => {
               maxWidth: "17.5rem",
               fontWeight: "500",
               padding: "1rem 2.5rem",
+            }}
+            onClick={() => {
+              navigate("/signup");
             }}
           >
             {LANDING_PAGE_DATA.upperContainer.button}
