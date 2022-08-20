@@ -255,4 +255,14 @@ export const SIGN_UP_DATA = {
 
 export const TEMPLATES_PAGE_DATA = {
   title: "Templates",
+  tabs: [
+    {
+      label: "Email",
+      value: "email",
+    },
+    {
+      label: "SMS",
+      value: "sms",
+    },
+  ],
 };
