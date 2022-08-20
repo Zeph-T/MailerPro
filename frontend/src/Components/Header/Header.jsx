@@ -13,24 +13,37 @@ function Header({
   subTitle,
   rightSecContent,
 }) {
-  return ( 
+  return (
     <div className={styles.Wrapper}>
-      {link ? (
-        <Link className={styles.TitleWrapper} to={link} onClick={onClick}>
-          {withBackButton && (
-            <img src={BACK_ARROW_ICON} className={styles.LogoIcon} alt="logo" />
-          )}
-          <h1>{title}</h1>
-        </Link>
-      ) : (
-        <div className={styles.TitleWrapper} onClick={onClick}>
-          {withBackButton && (
-            <img src={BACK_ARROW_ICON} className={styles.LogoIcon} alt="logo" />
-          )}
-          <h1>{title}</h1>
-        </div>
+      <div className={styles.Leftwrapper}>
+        {link ? (
+          <Link className={styles.TitleWrapper} to={link} onClick={onClick}>
+            {withBackButton && (
+              <img
+                src={BACK_ARROW_ICON}
+                className={styles.LogoIcon}
+                alt="logo"
+              />
+            )}
+            <h1>{title}</h1>
+          </Link>
+        ) : (
+          <div className={styles.TitleWrapper} onClick={onClick}>
+            {withBackButton && (
+              <img
+                src={BACK_ARROW_ICON}
+                className={styles.LogoIcon}
+                alt="logo"
+              />
+            )}
+            <h1>{title}</h1>
+          </div>
+        )}
+        {subTitle && <h4>{subTitle}</h4>}
+      </div>
+      {rightSecContent && (
+        <div className={styles.Rightwrapper}>{rightSecContent}</div>
       )}
-      {subTitle && <h3>{subTitle}</h3>}
     </div>
   );
 }

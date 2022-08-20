@@ -7,7 +7,10 @@ import { TEMPLATES_PAGE_DATA } from "./../../Utils/staticData";
 function Templates() {
   return (
     <div className={styles.container}>
-      <Header title={TEMPLATES_PAGE_DATA.title} subTitle={"hehe"} />
+      <Header
+        title={TEMPLATES_PAGE_DATA.title}
+        subTitle={"Schedule one-time newsletters, updates and invites"}
+      />
     </div>
   );
 }

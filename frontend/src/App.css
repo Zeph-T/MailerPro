@@ -38,6 +38,13 @@ h2 {
   color: var(--primary-text-color);
 }
 
+h4 {
+  font-size: var(--font-14);
+  font-weight: 400;
+  color: var(--ter-black);
+  line-height: 2.1rem;
+}
+
 .swiper-wrapper {
   width: calc(100vw - 16rem) !important;
 }
