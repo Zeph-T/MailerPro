@@ -22,12 +22,6 @@ const App = () => {
           {["/signin", "/signup", "/"].map((path) => (
             <Route key={path} path={path} element={<LandingPage />} />
           ))}
-
-          {location.pathname !== "/signin" &&
-          location.pathname !== "/signup" &&
-          location.pathname !== "/" ? (
-            <Navigate to="/" />
-          ) : null}
         </>
 
         {/* If logged in */}
