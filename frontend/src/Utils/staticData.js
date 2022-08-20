@@ -265,4 +265,8 @@ export const TEMPLATES_PAGE_DATA = {
       value: "sms",
     },
   ],
+  navButtons: {
+    createSMSTemplate: "Create SMS Template",
+    createEmailTemplate: "Create Email Template",
+  },
 };
