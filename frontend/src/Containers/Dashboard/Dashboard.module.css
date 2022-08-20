@@ -1,0 +1,17 @@
+.bottomText{
+    display: flex ;
+    font-weight: 400 !important;
+    margin: 1rem !important;
+}
+.total{
+    color: #03A000;
+    padding-left: 1rem;
+}
+.unsubscribed{
+    color: #FF0000;
+    padding-left: 1rem;
+}
+.inactive{
+    color:#FFC908;
+    padding-left: 1rem;
+}
