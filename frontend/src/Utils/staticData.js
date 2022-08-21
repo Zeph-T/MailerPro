@@ -11,6 +11,7 @@ import TemplatesActive from "../Assets/General/NavIcons/TemplatesActive.svg";
 import MenuIcon from "../Assets/General/Menu.svg";
 import Logo from "../Assets/General/Logo.svg";
 import BackArrow from "../Assets/General/BackArrow.svg";
+import CrossIcon from "../Assets/General/Cross.svg";
 
 import MailIcon from "../Assets/General/FooterIcons/Mail.svg";
 import LinkedinIcon from "../Assets/General/FooterIcons/Linkedin.svg";
@@ -23,7 +24,6 @@ import CircleDesignYellow from "../Assets/LandingPage/CircleDesignYellow.svg";
 import MiddleImage from "../Assets/LandingPage/MiddleImage.svg";
 import EllipseImage from "../Assets/LandingPage/EllipseImage.svg";
 import MiddleDots from "../Assets/LandingPage/MiddleDots.svg";
-import FooterPost from "../Assets/LandingPage/FooterPost.svg";
 import Facebook from "../Assets/LandingPage/Footer/Icons/Facebook.svg";
 import FacebookH from "../Assets/LandingPage/Footer/Icons/FacebookH.svg";
 import Instagram from "../Assets/LandingPage/Footer/Icons/Instagram.svg";
@@ -33,6 +33,7 @@ import LinkedinH from "../Assets/LandingPage/Footer/Icons/LinkedinH.svg";
 
 export const LOGO_ICON = Logo;
 export const BACK_ARROW_ICON = BackArrow;
+export const CROSS_ICON = CrossIcon;
 export const NAVBAR_DATA = {
   menuIcon: MenuIcon,
   navLinks: [
@@ -255,4 +256,10 @@ export const SIGN_UP_DATA = {
 
 export const TEMPLATES_PAGE_DATA = {
   title: "Templates",
+};
+
+export const MANAGE_TAGS_POPUP_DATA = {
+  title: "Tags",
+  header: ["Name", "Contacts"],
+  buttons: ["Add New", "Save", "Discard"],
 };
