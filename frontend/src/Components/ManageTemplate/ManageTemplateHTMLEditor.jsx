@@ -14,21 +14,17 @@ function ManageTemplateHTMLEditor({ htmlData, setHTMLData }) {
   const [isDragNDropUsable, setIsDragNDropUsable] = useState(false);
 
   useEffect(() => {
-    // set the state value using the package available method
     setValue(RichTextEditor.createEmptyValue());
   }, []);
 
-  useEffect(() => {}, [value]);
-
   const saveTemplate = () => {
     if (htmlData.type === "textEditor") {
-      setHTMLData("textEditor", val.toString("html"));
+      setHTMLData("textEditor", value.toString("html"));
     }
     if (htmlData.type === "dragDrop" && isDragNDropUsable === true) {
       emailEditorRef.current?.editor.exportHtml((data) => {
         const { design, html } = data;
-        setHTMLData("dragDrop", html);
-        setHTMLData("dragDropDesign", design);
+        setHTMLData("dragDrop", { design, html });
       });
     }
   };
@@ -58,9 +54,6 @@ function ManageTemplateHTMLEditor({ htmlData, setHTMLData }) {
             value={value}
             onChange={(val) => {
               setValue(val);
-            }}
-            editorStyle={{
-              minHeight: "30rem",
             }}
           />
         </>

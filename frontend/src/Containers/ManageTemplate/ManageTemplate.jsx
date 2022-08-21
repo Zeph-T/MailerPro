@@ -11,8 +11,10 @@ const ManageTemplate = ({ isNew }) => {
     name: "",
     html: {
       textEditor: "",
-      dragDrop: "",
-      dragDropDesign: "",
+      dragDrop: {
+        html: "",
+        design: {},
+      },
       type: "textEditor",
     },
   });
