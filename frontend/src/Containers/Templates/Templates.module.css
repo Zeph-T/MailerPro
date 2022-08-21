@@ -1,3 +1,9 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
 .HeaderSec {
   display: flex;
   flex-direction: column;
