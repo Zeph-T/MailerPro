@@ -304,3 +304,15 @@ export const MANAGE_TAGS_POPUP_DATA = {
   header: ["Name", "Contacts"],
   buttons: ["Add New", "Save", "Discard"],
 };
+
+export const CAMPAIGN_INSIGHTS_POPUP_DATA = {
+  title: "Campaign Insights",
+  header: ["Name", "Contacts"],
+  buttons: ["Add New", "Save", "Discard"],
+  filterOptions: [
+    { label: "Opens", value: "opens" },
+    { label: "Clicks", value: "clicks" },
+    { label: "Bounces", value: "bounces" },
+    { label: "Unsubscribes", value: "unsubscribes" },
+  ],
+};
