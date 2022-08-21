@@ -10,7 +10,8 @@ function CustomTabs({ tabsData, handleClick, currentTab }) {
         return (
           <StyledMUIButton
             style={{
-              padding: "0.7rem 2.5rem",
+              padding: "0.7rem 2rem",
+              boxShadow: "none",
             }}
             onClick={() => {
               handleClick && handleClick(tab.value, index);
