@@ -14,9 +14,11 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const TEMP_TABLE_CONTACTS_DATA = {
-  email: new Array(50).fill({}).map((item, index) => {
+  email: new Array(45).fill({}).map((item, index) => {
     return {
       _id: index,
       name: "Email Template " + index,
@@ -38,6 +40,9 @@ function Templates() {
     TEMP_TABLE_CONTACTS_DATA.email.slice(0, 10)
   );
   const [currentPage, setCurrentPage] = React.useState(0);
+  const [totalItemsCount, setTotalItemsCount] = React.useState(
+    TEMP_TABLE_CONTACTS_DATA.email.length
+  );
 
   React.useEffect(() => {
     setCurrentData(
@@ -47,6 +52,10 @@ function Templates() {
       )
     );
   }, [currentPage, currentTab]);
+
+  React.useEffect(() => {
+    setTotalItemsCount(TEMP_TABLE_CONTACTS_DATA[currentTab]?.length);
+  }, [currentTab]);
 
   return (
     <div className={styles.container}>
@@ -92,8 +101,29 @@ function Templates() {
                   <TableCell component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell style={{ width: 160 }} align="right">
-                    {"10"}
+                  <TableCell
+                    style={{ width: 160 }}
+                    align="right"
+                    padding="none"
+                  >
+                    <div className={styles.IconsOptions}>
+                      <div
+                        className={styles.IconButtonWrapper}
+                        style={{
+                          "--bg-color": "#FFF9D8",
+                        }}
+                      >
+                        <EditIcon color="buttonYellow" fontSize="small" />
+                      </div>
+                      <div
+                        className={styles.IconButtonWrapper}
+                        style={{
+                          "--bg-color": "#FFE5E4",
+                        }}
+                      >
+                        <DeleteIcon color="buttonRed" fontSize="small" />
+                      </div>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -101,7 +131,7 @@ function Templates() {
             <TableFooter>
               <TablePagination
                 colSpan={3}
-                count={50}
+                count={totalItemsCount}
                 rowsPerPage={10}
                 page={currentPage}
                 SelectProps={{
