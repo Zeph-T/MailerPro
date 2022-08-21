@@ -15,9 +15,12 @@ const App = () => {
     <>
       <Routes>
         {/* If not logged in */}
-        {["/signin", "/signup", "/"].map((path) => (
-          <Route key={path} path={path} element={<LandingPage />} />
-        ))}
+        <>
+          {["/signin", "/signup", "/"].map((path) => (
+            <Route key={path} path={path} element={<LandingPage />} />
+          ))}
+        </>
+
         {/* If logged in */}
         <Route
           path="/popup"

@@ -256,6 +256,20 @@ export const SIGN_UP_DATA = {
 
 export const TEMPLATES_PAGE_DATA = {
   title: "Templates",
+  tabs: [
+    {
+      label: "Email",
+      value: "email",
+    },
+    {
+      label: "SMS",
+      value: "sms",
+    },
+  ],
+  navButtons: {
+    createSMSTemplate: "Create SMS Template",
+    createEmailTemplate: "Create Email Template",
+  },
 };
 
 export const MANAGE_TAGS_POPUP_DATA = {
