@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Header from "../../Components/Header";
 import styles from "./ManageTemplate.module.css";
@@ -12,6 +12,7 @@ const ManageTemplate = ({ isNew }) => {
     html: {
       textEditor: "",
       dragDrop: "",
+      dragDropDesign: "",
       type: "textEditor",
     },
   });
@@ -25,6 +26,10 @@ const ManageTemplate = ({ isNew }) => {
       },
     });
   };
+
+  useEffect(() => {
+    console.log(currentDataState);
+  }, [currentDataState]);
 
   return (
     <div className={styles.container}>

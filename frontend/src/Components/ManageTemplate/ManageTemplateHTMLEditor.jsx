@@ -1,18 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RichTextEditor from "react-rte";
+import EmailEditor from "react-email-editor";
 
 import { MANAGE_TEMPLATE_DATA } from "../../Utils/staticData";
 import CustomTabs from "../General";
 
 import styles from "./ManageTemplateHTMLEditor.module.css";
+import { StyledMUIButton } from "../General/Helpers";
 
 function ManageTemplateHTMLEditor({ htmlData, setHTMLData }) {
   const [value, setValue] = useState();
+  const emailEditorRef = useRef(null);
+  const [isDragNDropUsable, setIsDragNDropUsable] = useState(false);
 
   useEffect(() => {
     // set the state value using the package available method
     setValue(RichTextEditor.createEmptyValue());
   }, []);
+
+  useEffect(() => {}, [value]);
+
+  const saveTemplate = () => {
+    if (htmlData.type === "textEditor") {
+      setHTMLData("textEditor", val.toString("html"));
+    }
+    if (htmlData.type === "dragDrop" && isDragNDropUsable === true) {
+      emailEditorRef.current?.editor.exportHtml((data) => {
+        const { design, html } = data;
+        setHTMLData("dragDrop", html);
+        setHTMLData("dragDropDesign", design);
+      });
+    }
+  };
+
+  const onLoad = () => {
+    setIsDragNDropUsable(true);
+  };
 
   return (
     <div className={styles.Wrapper}>
@@ -23,6 +46,9 @@ function ManageTemplateHTMLEditor({ htmlData, setHTMLData }) {
           currentTab={htmlData?.type}
           handleClick={(val) => {
             setHTMLData("type", val);
+            if (val !== "dragDrop") {
+              setIsDragNDropUsable(false);
+            }
           }}
         />
       </div>
@@ -32,12 +58,29 @@ function ManageTemplateHTMLEditor({ htmlData, setHTMLData }) {
             value={value}
             onChange={(val) => {
               setValue(val);
-              setHTMLData("textEditor", val.toString("html"));
+            }}
+            editorStyle={{
+              minHeight: "30rem",
             }}
           />
         </>
       )}
-      {htmlData.type === "dragDrop" && <></>}
+      {htmlData.type === "dragDrop" && (
+        <>
+          <EmailEditor ref={emailEditorRef} onLoad={onLoad} />
+        </>
+      )}
+      <div>
+        <StyledMUIButton
+          onClick={saveTemplate}
+          color="buttonGreen"
+          style={{
+            minWidth: "16rem",
+          }}
+        >
+          {MANAGE_TEMPLATE_DATA.save}
+        </StyledMUIButton>
+      </div>
     </div>
   );
 }

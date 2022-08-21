@@ -9,6 +9,7 @@ function CustomTabs({ tabsData, handleClick, currentTab }) {
       {tabsData?.map((tab, index) => {
         return (
           <StyledMUIButton
+            key={index}
             style={{
               padding: "0.7rem 2rem",
               boxShadow: "none",
