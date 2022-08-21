@@ -17,6 +17,7 @@ const store = ConfigureStore();
 const globalMUITheme = createTheme({
   typography: {
     fontFamily: ["Poppins", "Roboto", "sans-serif"].join(","),
+    htmlFontSize: 10,
   },
   palette: {
     primary: {
@@ -27,6 +28,12 @@ const globalMUITheme = createTheme({
     },
     buttonGrey: {
       main: "#8c8c8c",
+    },
+    buttonBlack: {
+      main: "#001030",
+    },
+    buttonRed: {
+      main: "#FF002E",
     },
   },
 });

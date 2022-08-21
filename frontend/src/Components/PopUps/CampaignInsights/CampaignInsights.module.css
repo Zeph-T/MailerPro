@@ -1,0 +1,58 @@
+.Wrapper {
+  width: 100%;
+  max-width: 63rem;
+  background-color: var(--pure-white);
+  border-radius: 1rem;
+  padding: 4rem 4.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.HeaderLeft {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.IDLabel {
+  padding: 0.5rem 1.2rem;
+  font-size: 1.4rem;
+  color: var(--sec-black);
+  background-color: var(--border-grey);
+  border-radius: 999px;
+  font-weight: 400;
+  height: fit-content;
+}
+
+.BottomWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.FilterSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ExportButton {
+  padding: 1rem !important;
+  width: 15rem;
+  border-radius: 1rem !important;
+  border: 0.1rem solid var(--primary-blue) !important;
+}
+
+.ListItemCell {
+  border: none !important;
+  padding: 0.5rem 0 !important;
+  font-size: var(--font-16) !important;
+}

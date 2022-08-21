@@ -1,4 +1,16 @@
 .Wrapper {
   display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.TitleWrapper {
+  display: flex;
   gap: 2rem;
+}
+
+.Leftwrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

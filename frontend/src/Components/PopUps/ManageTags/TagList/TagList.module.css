@@ -1,0 +1,12 @@
+.Wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.UpperWrapper {
+  display: flex;
+  gap: 1rem;
+}
+.LowerWrapper {
+  font-size: var(--font-16);
+}

@@ -31,3 +31,20 @@ h1 {
   font-weight: 600;
   color: var(--primary-text-color);
 }
+
+h2 {
+  font-size: var(--font-20);
+  font-weight: 500;
+  color: var(--primary-text-color);
+}
+
+h4 {
+  font-size: var(--font-14);
+  font-weight: 400;
+  color: var(--ter-black);
+  line-height: 2.1rem;
+}
+
+.swiper-wrapper {
+  width: calc(100vw - 16rem) !important;
+}
