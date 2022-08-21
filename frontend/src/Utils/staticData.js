@@ -270,3 +270,30 @@ export const TEMPLATES_PAGE_DATA = {
     createEmailTemplate: "Create Email Template",
   },
 };
+
+export const MANAGE_TEMPLATE_DATA = {
+  createTemplate: "Create Email Template",
+  manageTemplate: "Edit Email Template",
+  design: "Design",
+  save: "Save",
+  tabs: [
+    {
+      label: "Text Editor",
+      value: "textEditor",
+    },
+    {
+      label: "Drag & Drop",
+      value: "dragDrop",
+    },
+  ],
+  inputs: {
+    name: {
+      name: "templateName",
+      type: "text",
+      placeholder: "Enter Template Name",
+      required: true,
+      label: "Template Name",
+      fullWidth: true,
+    },
+  },
+};

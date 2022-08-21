@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Outlet, useLocation, Navigate } from "react-router-dom";
 import LandingPage from "./Containers/LandingPage";
 import ManageCampaign from "./Containers/ManageCampaign";
+import ManageTemplate from "./Containers/ManageTemplate";
 import Templates from "./Containers/Templates";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer/index";
@@ -43,6 +44,8 @@ const App = () => {
           <Route path="/managecampaign/:id" element={<ManageCampaign />} />
           <Route path="/createcampaign" element={<ManageCampaign isNew />} />
           <Route path="/templates" element={<Templates />} />
+          <Route path="/managetemplate/:id" element={<ManageTemplate />} />
+          <Route path="/createtemplate" element={<ManageTemplate isNew />} />
         </Route>
       </Routes>
     </>
