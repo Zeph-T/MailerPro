@@ -3,10 +3,10 @@
   max-width: 58rem;
   background-color: var(--pure-white);
   border-radius: 1rem;
-  padding: 4rem 4.5rem;
+  padding: 3.5rem 4.5rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 .Header {
   display: flex;
@@ -14,4 +14,8 @@
   align-items: center;
   font-weight: 600;
   font-size: var(--font-20);
+}
+.ButtonWrapper {
+  display: flex;
+  gap: 1rem;
 }

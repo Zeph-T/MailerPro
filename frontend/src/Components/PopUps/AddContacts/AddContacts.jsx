@@ -9,7 +9,7 @@ import { MenuItem } from "@mui/material";
 import StyledMUISelectWithChip from "./../../General/Helpers/StyledMUISelectWithChip";
 import StyledMUITextField from "./../../General/Helpers/StyledMUITextField";
 
-const AddContacts = () => {
+const AddContacts = ({ isContactDetails = true }) => {
   const inputTextList = ADD_CONTACTS_POPUP_DATA.inputType[0].map(
     (input, index) => {
       return (
@@ -18,6 +18,7 @@ const AddContacts = () => {
           name={input.name}
           label={input.label}
           type={input.type}
+          disabled={isContactDetails}
         />
       );
     }
@@ -33,11 +34,13 @@ const AddContacts = () => {
         name={ADD_CONTACTS_POPUP_DATA.inputType[1][0].name}
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][0].label}
         renderInput={(params) => <StyledMUITextField {...params} />}
+        disabled={isContactDetails}
       />
       <StyledMUITextField
         select
         name={ADD_CONTACTS_POPUP_DATA.inputType[1][1].name}
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][1].label}
+        disabled={isContactDetails}
       >
         {ADD_CONTACTS_POPUP_DATA.inputType[1][1].options.map((option) => (
           <MenuItem
@@ -55,10 +58,27 @@ const AddContacts = () => {
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][2].label}
         options={ADD_CONTACTS_POPUP_DATA.inputType[1][2].options}
         getOptionLabel={(option) => option.label}
+        disabled={isContactDetails}
       />
-      <StyledMUIButton color="buttonGreen" fullWidth>
-        {ADD_CONTACTS_POPUP_DATA.button}
-      </StyledMUIButton>
+      {isContactDetails ? (
+        <>
+          <StyledMUIButton color="buttonBlue" fullWidth>
+            {ADD_CONTACTS_POPUP_DATA.buttonDetails[0]}
+          </StyledMUIButton>
+          <div className={styles.ButtonWrapper}>
+            <StyledMUIButton color="buttonGreen" fullWidth>
+              {ADD_CONTACTS_POPUP_DATA.buttonDetails[1]}
+            </StyledMUIButton>
+            <StyledMUIButton color="buttonRed" fullWidth>
+              {ADD_CONTACTS_POPUP_DATA.buttonDetails[2]}
+            </StyledMUIButton>
+          </div>
+        </>
+      ) : (
+        <StyledMUIButton color="buttonGreen" fullWidth>
+          {ADD_CONTACTS_POPUP_DATA.button}
+        </StyledMUIButton>
+      )}
     </div>
   );
 };

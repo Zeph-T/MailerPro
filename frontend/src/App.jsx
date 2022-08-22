@@ -2,11 +2,9 @@ import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import LandingPage from "./Containers/LandingPage";
 import ManageCampaign from "./Containers/ManageCampaign";
-import ManageTemplate from "./Containers/ManageTemplate";
 import Templates from "./Containers/Templates";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer/index";
-import ManageTags from "./Components/PopUps/ManageTags";
 import { LOGO_ICON } from "./Utils/staticData";
 import "./App.css";
 import "swiper/css";
@@ -23,22 +21,7 @@ const App = () => {
         </>
 
         {/* If logged in */}
-        <Route
-          path="/popup"
-          element={
-            <div
-              style={{
-                backgroundColor: "black",
-                height: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <ManageTags />
-            </div>
-          }
-        />
+
         <Route
           element={
             <div className="Container">
@@ -57,8 +40,6 @@ const App = () => {
           <Route path="/managecampaign/:id" element={<ManageCampaign />} />
           <Route path="/createcampaign" element={<ManageCampaign isNew />} />
           <Route path="/templates" element={<Templates />} />
-          <Route path="/managetemplate/:id" element={<ManageTemplate />} />
-          <Route path="/createtemplate" element={<ManageTemplate isNew />} />
         </Route>
       </Routes>
     </>

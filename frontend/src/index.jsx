@@ -35,6 +35,9 @@ const globalMUITheme = createTheme({
     buttonRed: {
       main: "#FF002E",
     },
+    buttonBlue: {
+      main: "#0468FF",
+    },
   },
 });
 

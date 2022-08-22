@@ -385,4 +385,5 @@ export const ADD_CONTACTS_POPUP_DATA = {
     ],
   ],
   button: "Create",
+  buttonDetails: ["Add Field", "Save", "Cancel"],
 };
