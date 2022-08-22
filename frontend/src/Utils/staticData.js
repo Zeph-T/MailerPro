@@ -272,10 +272,49 @@ export const TEMPLATES_PAGE_DATA = {
   },
 };
 
+export const MANAGE_TEMPLATE_DATA = {
+  createTemplate: "Create Email Template",
+  manageTemplate: "Edit Email Template",
+  design: "Design",
+  save: "Save",
+  tabs: [
+    {
+      label: "Text Editor",
+      value: "textEditor",
+    },
+    {
+      label: "Drag & Drop",
+      value: "dragDrop",
+    },
+  ],
+  inputs: {
+    name: {
+      name: "templateName",
+      type: "text",
+      placeholder: "Enter Template Name",
+      required: true,
+      label: "Template Name",
+      fullWidth: true,
+    },
+  },
+};
+
 export const MANAGE_TAGS_POPUP_DATA = {
   title: "Tags",
   header: ["Name", "Contacts"],
   buttons: ["Add New", "Save", "Discard"],
+};
+
+export const CAMPAIGN_INSIGHTS_POPUP_DATA = {
+  title: "Campaign Insights",
+  header: ["Name", "Contacts"],
+  buttons: ["Add New", "Save", "Discard"],
+  filterOptions: [
+    { label: "Opens", value: "opens" },
+    { label: "Clicks", value: "clicks" },
+    { label: "Bounces", value: "bounces" },
+    { label: "Unsubscribes", value: "unsubscribes" },
+  ],
 };
 
 export const ADD_CONTACTS_POPUP_DATA = {
