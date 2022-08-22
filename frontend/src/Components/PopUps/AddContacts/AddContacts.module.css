@@ -1,0 +1,17 @@
+.Wrapper {
+  width: 100%;
+  max-width: 58rem;
+  background-color: var(--pure-white);
+  border-radius: 1rem;
+  padding: 4rem 4.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: var(--font-20);
+}

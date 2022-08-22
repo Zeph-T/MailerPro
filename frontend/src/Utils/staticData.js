@@ -277,3 +277,73 @@ export const MANAGE_TAGS_POPUP_DATA = {
   header: ["Name", "Contacts"],
   buttons: ["Add New", "Save", "Discard"],
 };
+
+export const ADD_CONTACTS_POPUP_DATA = {
+  title: "Add Contact",
+  inputType: [
+    [
+      {
+        name: "email",
+        label: "Email",
+        type: "email",
+      },
+      {
+        name: "firstName",
+        label: "First Name",
+        type: "text",
+      },
+      {
+        name: "middleName",
+        label: "Middle Name",
+        type: "text",
+      },
+      {
+        name: "lastName",
+        label: "Last Name",
+        type: "text",
+      },
+    ],
+    [
+      {
+        name: "dob",
+        label: "Date Of Birth",
+        type: "date",
+      },
+      {
+        name: "status",
+        label: "Status",
+        options: [
+          {
+            value: "subscribed",
+            label: "Subscribed",
+            color: "var(--subscribed-green)",
+          },
+          {
+            value: "unsubscribed",
+            label: "Unsubscribed",
+            color: "var(--unsubscribed-red)",
+          },
+        ],
+      },
+      {
+        name: "tags",
+        label: "Tags",
+        options: [
+          {
+            value: "coffeeLover",
+            label: "Coffee Lover",
+          },
+          {
+            value: "teaLover",
+            label: "Tea Lover",
+          },
+          {
+            value: "milkLover",
+            label: "Milk Lover",
+          },
+        ],
+      },
+    ],
+  ],
+  button: "Create",
+};

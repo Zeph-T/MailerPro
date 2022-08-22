@@ -1,9 +1,8 @@
 import React from "react";
 import { MANAGE_TAGS_POPUP_DATA, CROSS_ICON } from "../../../Utils/staticData";
 import { StyledMUIButton } from "../../General/Helpers";
-
-import styles from "./ManageTags.module.css";
 import TagList from "./TagList";
+import styles from "./ManageTags.module.css";
 
 const ManageTags = () => {
   return (
