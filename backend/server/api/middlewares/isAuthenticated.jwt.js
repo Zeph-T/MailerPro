@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-
+import env from '../../conig/env';              
 // eslint-disable-next-line no-unused-vars, no-shadow
 export default async function isAuthenticated(req, res, next) {
   let token = req.headers.authorization;
@@ -7,7 +7,7 @@ export default async function isAuthenticated(req, res, next) {
   else {
     try {
       token = token.split(" ")[1];
-      const userId = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = jwt.verify(token, env.JWT_SECRET);
       req.user = userId;
       next();
     } catch (err) {
