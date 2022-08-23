@@ -17,7 +17,9 @@ export class Controller {
                 hash: hash
             });
             user.save()
-                .then(r => res.json({ "data": r }),
+                .then(r => res.json({
+                    "data": r, token: AuthenticationService.generateToken(user._id),
+                }),
                     error => res.json({ "data": { error: error } }));
         }
     }
