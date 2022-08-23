@@ -271,7 +271,6 @@ export const TEMPLATES_PAGE_DATA = {
     createEmailTemplate: "Create Email Template",
   },
 };
-Directory;
 
 export const DIRECTORY_PAGE_DATA = {
   title: "Directory",
