@@ -92,9 +92,9 @@ function Directory() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentData.map((row) => (
-                <TableRow key={row.name}>
-                  {DIRECTORY_PAGE_DATA.tableData.map((item, index) => {
+              {currentData.map((row, index) => (
+                <TableRow key={index}>
+                  {DIRECTORY_PAGE_DATA.tableData.map((columnInfo, index) => {
                     return (
                       <TableCell
                         align={
@@ -103,7 +103,7 @@ function Directory() {
                             : "left"
                         }
                       >
-                        {item.renderer(row)}
+                        {columnInfo.renderer(row)}
                       </TableCell>
                     );
                   })}
