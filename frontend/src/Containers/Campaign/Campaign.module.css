@@ -1,0 +1,10 @@
+.container{
+    display:flex;
+    align-items:flex-end;
+}
+
+.NavRightwrapper {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }

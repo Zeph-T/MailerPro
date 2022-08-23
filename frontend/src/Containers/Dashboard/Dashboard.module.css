@@ -1,17 +1,18 @@
-.bottomText{
-    display: flex ;
-    font-weight: 400 !important;
-    margin: 1rem !important;
+.bottomText {
+  display: flex;
+  font-weight: 500 !important;
+  margin: 0.5rem !important;
+  font-size: var(--font-16) !important;
 }
-.total{
-    color: #03A000;
-    padding-left: 1rem;
+.total {
+  color: #03a000;
+  padding-left: 1rem;
 }
-.unsubscribed{
-    color: #FF0000;
-    padding-left: 1rem;
+.unsubscribed {
+  color: #ff0000;
+  padding-left: 1rem;
 }
-.inactive{
-    color:#FFC908;
-    padding-left: 1rem;
+.inactive {
+  color: #ffc908;
+  padding-left: 1rem;
 }
