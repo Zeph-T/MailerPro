@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./Directory.module.css";
 import Header from "../../Components/Header/index";
-import { TEMPLATES_PAGE_DATA } from "../../Utils/staticData";
+import { DIRECTORY_PAGE_DATA } from "../../Utils/staticData";
 import CustomTabs from "../../Components/General";
 import StyledMUIButton from "../../Components/General/Helpers/StyledMUIButton";
 import {
@@ -11,57 +11,44 @@ import {
   TableCell,
   TableContainer,
   TableFooter,
+  TableHead,
   TablePagination,
   TableRow,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const TEMP_TABLE_CONTACTS_DATA = {
-  email: new Array(45).fill({}).map((item, index) => {
-    return {
-      _id: index,
-      name: "Email Template " + index,
-    };
-  }),
-  sms: new Array(50).fill({}).map((item, index) => {
-    return {
-      _id: index,
-      name: "SMS Template " + index,
-    };
-  }),
-};
+const TEMP_TABLE_DIRECTORY_DATA = new Array(45).fill({}).map((_, index) => {
+  return {
+    _id: index,
+    mail: `mail${index}@gmail.com`,
+    tags: ["coffee", "tea"],
+    status: Math.random() > 0.5 ? "success" : "faiure",
+    added: Date.now(),
+    updated: Date.now(),
+  };
+});
 
 function Directory() {
-  const [currentTab, setCurrentTab] = React.useState(
-    TEMPLATES_PAGE_DATA.tabs[0].value
-  );
   const [currentData, setCurrentData] = React.useState(
-    TEMP_TABLE_CONTACTS_DATA.email.slice(0, 10)
+    TEMP_TABLE_DIRECTORY_DATA.slice(0, 10)
   );
   const [currentPage, setCurrentPage] = React.useState(0);
   const [totalItemsCount, setTotalItemsCount] = React.useState(
-    TEMP_TABLE_CONTACTS_DATA.email.length
+    TEMP_TABLE_DIRECTORY_DATA.length
   );
 
   React.useEffect(() => {
     setCurrentData(
-      TEMP_TABLE_CONTACTS_DATA[currentTab].slice(
-        currentPage * 10,
-        (currentPage + 1) * 10
-      )
+      TEMP_TABLE_DIRECTORY_DATA.slice(currentPage * 10, (currentPage + 1) * 10)
     );
-  }, [currentPage, currentTab]);
-
-  React.useEffect(() => {
-    setTotalItemsCount(TEMP_TABLE_CONTACTS_DATA[currentTab]?.length);
-  }, [currentTab]);
+  }, [currentPage]);
 
   return (
     <div className={styles.container}>
       <div className={styles.HeaderSec}>
         <Header
-          title={TEMPLATES_PAGE_DATA.title}
+          title={DIRECTORY_PAGE_DATA.title}
           subTitle={"Create reusable templates"}
           rightSecContent={
             <div className={styles.NavRightwrapper}>
@@ -71,60 +58,61 @@ function Directory() {
                 }}
                 color="buttonOrange"
               >
-                {TEMPLATES_PAGE_DATA.navButtons.createSMSTemplate}
+                {DIRECTORY_PAGE_DATA.navButtons.manageTags}
               </StyledMUIButton>
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
                 }}
               >
-                {TEMPLATES_PAGE_DATA.navButtons.createEmailTemplate}
+                {DIRECTORY_PAGE_DATA.navButtons.importContacts}
               </StyledMUIButton>
             </div>
           }
-        />
-        <CustomTabs
-          tabsData={TEMPLATES_PAGE_DATA.tabs}
-          currentTab={currentTab}
-          handleClick={(val) => {
-            setCurrentTab(val);
-            setCurrentPage(0);
-          }}
         />
       </div>
       <div className={styles.ContentWrapper}>
         <TableContainer>
           <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+            <TableHead>
+              <TableRow>
+                {DIRECTORY_PAGE_DATA.tableData.map((columnInfo, index) => {
+                  return (
+                    <TableCell
+                      align={
+                        index === DIRECTORY_PAGE_DATA.tableData.length - 1
+                          ? "right"
+                          : index === 0
+                          ? "left"
+                          : "center"
+                      }
+                      width={columnInfo.width}
+                    >
+                      {columnInfo.label}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
             <TableBody>
-              {currentData.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell
-                    style={{ width: 160 }}
-                    align="right"
-                    padding="none"
-                  >
-                    <div className={styles.IconsOptions}>
-                      <div
-                        className={styles.IconButtonWrapper}
-                        style={{
-                          "--bg-color": "#FFF9D8",
-                        }}
+              {currentData.map((row, index) => (
+                <TableRow key={index}>
+                  {DIRECTORY_PAGE_DATA.tableData.map((columnInfo, index) => {
+                    return (
+                      <TableCell
+                        align={
+                          index === DIRECTORY_PAGE_DATA.tableData.length - 1
+                            ? "right"
+                            : index === 0
+                            ? "left"
+                            : "center"
+                        }
+                        width={columnInfo.width}
                       >
-                        <EditIcon color="buttonYellow" fontSize="small" />
-                      </div>
-                      <div
-                        className={styles.IconButtonWrapper}
-                        style={{
-                          "--bg-color": "#FFE5E4",
-                        }}
-                      >
-                        <DeleteIcon color="buttonRed" fontSize="small" />
-                      </div>
-                    </div>
-                  </TableCell>
+                        {columnInfo.renderer(row)}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))}
             </TableBody>
