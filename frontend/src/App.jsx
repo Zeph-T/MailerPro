@@ -2,7 +2,6 @@ import React from "react";
 
 import { Routes, Route, Outlet } from "react-router-dom";
 
-import Home from "./Containers/Home";
 import ManageCampaign from "./Containers/ManageCampaign";
 import Templates from "./Containers/Templates";
 import Navbar from "./Components/Navbar";
@@ -12,6 +11,7 @@ import ManageTags from "./Components/PopUps/ManageTags";
 import { LOGO_ICON } from "./Utils/staticData";
 import "./App.css";
 import "swiper/css";
+import LandingPage from './Containers/LandingPage/index';
 
 const App = () => {
   return (
