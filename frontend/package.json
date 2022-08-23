@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "date-fns": "^2.29.1",
     "react": "^17.0.1",
+    "react-chartjs-2": "^4.3.1",
     "react-dom": "^17.0.1",
     "react-email-editor": "^1.6.1",
     "react-imask": "^6.4.2",

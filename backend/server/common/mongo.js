@@ -1,12 +1,18 @@
 import mongoose from "mongoose";
+import env from '../config/env';
 
 export default async () => {
-  const connection = await mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  });
+  try{
+    const connection = await mongoose.connect(env.DB_STRING, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+    });
+  }catch(err){
+    console.log(err);
+    return err;
+  }
 
   return connection.connection.db;
 };

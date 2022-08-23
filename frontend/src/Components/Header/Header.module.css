@@ -6,7 +6,15 @@
 
 .TitleWrapper {
   display: flex;
+  /* flex-direction: column; */
   gap: 2rem;
+}
+.textWrapper{
+  display: flex;
+  flex-direction: column;
+}
+.subtitle {
+  color: #888888 !important;
 }
 
 .Leftwrapper {
