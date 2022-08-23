@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 
 const ContactFieldSchema = new mongoose.Schema({
   fieldName: {
@@ -9,6 +10,10 @@ const ContactFieldSchema = new mongoose.Schema({
     type : String,
     enum : ["Text" , "Number" , "Date"],
     required : [true, "Field Type missing"]
+  },
+  isValid : {
+    type : Boolean,
+    default : true
   }
 });
 

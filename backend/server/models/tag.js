@@ -4,6 +4,10 @@ const TagSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Name missing!"]
+  },
+  isValid : {
+    type : Boolean,
+    default : true
   }
 });
 

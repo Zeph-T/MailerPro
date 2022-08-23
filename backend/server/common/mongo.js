@@ -9,10 +9,9 @@ export default async () => {
       useUnifiedTopology: true,
       useFindAndModify: false,
     });
+    return connection.connection.db;
   }catch(err){
     console.log(err);
     return err;
   }
-
-  return connection.connection.db;
 };

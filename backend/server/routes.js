@@ -1,14 +1,17 @@
 import examplesRouter from './api/controllers/examples/router';
 import campaignsRouter from './api/controllers/campaigns/router';
 import usersRouter from './api/controllers/users/router';
-import addContactFieldsRouter  from './api/controllers/contactFields/addContactFields';
-
+import tagRouter from './api/controllers/tag/router'
+import contactRouter from './api/controllers/contact/router';
+import contactFieldRouter from './api/controllers/contactFields/router'
 
 export default function routes(app) {
   app.use('/Y/examples', examplesRouter);
   app.use('/campaigns', campaignsRouter);
   app.use('/users', usersRouter);
-  app.use('/',addContactFieldsRouter)
+  app.use('/tags',tagRouter);
+  app.use('/contact',contactRouter);
+  app.use('/contactFields',contactFieldRouter)
 }
 
 
