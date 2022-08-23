@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import env from '../config/env';
 
 export default async () => {
-  try{
+  try {
     const connection = await mongoose.connect(env.DB_STRING, {
       useNewUrlParser: true,
       useCreateIndex: true,
@@ -10,7 +10,7 @@ export default async () => {
       useFindAndModify: false,
     });
     return connection.connection.db;
-  }catch(err){
+  } catch (err) {
     console.log(err);
     return err;
   }
