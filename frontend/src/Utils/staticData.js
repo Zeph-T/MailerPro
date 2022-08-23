@@ -302,12 +302,12 @@ export const DIRECTORY_PAGE_DATA = {
     {
       label: "Mail",
       renderer: (val) => val.mail,
-      width: "30%",
+      width: "25%",
     },
     {
       label: "Tags",
       renderer: (val) => val.tags.join(", "),
-      width: "30%",
+      width: "25%",
     },
     {
       label: "Status",
