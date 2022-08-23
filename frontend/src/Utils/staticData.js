@@ -302,22 +302,27 @@ export const DIRECTORY_PAGE_DATA = {
     {
       label: "Mail",
       renderer: (val) => val.mail,
+      width: "30%",
     },
     {
       label: "Tags",
       renderer: (val) => val.tags.join(", "),
+      width: "30%",
     },
     {
       label: "Status",
       renderer: (val) => val.status,
+      width: "20%",
     },
     {
       label: "Added",
       renderer: (val) => new Date(val.added).toLocaleDateString(),
+      width: "20%",
     },
     {
       label: "Updated",
       renderer: (val) => new Date(val.updated).toLocaleDateString(),
+      width: "20%",
     },
   ],
 };

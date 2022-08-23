@@ -76,16 +76,19 @@ function Directory() {
           <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
             <TableHead>
               <TableRow>
-                {DIRECTORY_PAGE_DATA.tableData.map((item, index) => {
+                {DIRECTORY_PAGE_DATA.tableData.map((columnInfo, index) => {
                   return (
                     <TableCell
                       align={
                         index === DIRECTORY_PAGE_DATA.tableData.length - 1
                           ? "right"
-                          : "left"
+                          : index === 0
+                          ? "left"
+                          : "center"
                       }
+                      width={columnInfo.width}
                     >
-                      {item.label}
+                      {columnInfo.label}
                     </TableCell>
                   );
                 })}
@@ -100,8 +103,11 @@ function Directory() {
                         align={
                           index === DIRECTORY_PAGE_DATA.tableData.length - 1
                             ? "right"
-                            : "left"
+                            : index === 0
+                            ? "left"
+                            : "center"
                         }
+                        width={columnInfo.width}
                       >
                         {columnInfo.renderer(row)}
                       </TableCell>
