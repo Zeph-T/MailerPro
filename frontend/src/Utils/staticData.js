@@ -316,6 +316,48 @@ export const CAMPAIGN_INSIGHTS_POPUP_DATA = {
     { label: "Unsubscribes", value: "unsubscribes" },
   ],
 };
+export const DASHBOARD_DATA = {
+  RecentActivities: "Recent Activities",
+  RecentActivitiesSubText: "Subscriber additions in the period",
+  subscriberData: [
+    {
+      date: "21 August,2022",
+      subscribers: "13000",
+    },
+    {
+      date: "22 August,2022",
+      subscribers: "11000",
+    },
+    {
+      date: "23 August,2022",
+      subscribers: "15000",
+    },
+    {
+      date: "24 August,2022",
+      subscribers: "12000",
+    },
+    {
+      date: "25 August,2022",
+      subscribers: "13000",
+    },
+    {
+      date: "26 August,2022",
+      subscribers: "9000",
+    },
+    {
+      date: "27 August,2022",
+      subscribers: "17000",
+    },
+    {
+      date: "28 August,2022",
+      subscribers: "8000",
+    },
+    {
+      date: "29 August,2022",
+      subscribers: "12500",
+    },
+  ],
+};
 
 export const ADD_CONTACTS_POPUP_DATA = {
   title: "Add Contact",
