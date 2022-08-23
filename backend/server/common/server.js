@@ -10,7 +10,7 @@ import * as os from 'os';
 import l from './logger';
 import * as OpenApiValidator from 'express-openapi-validator';
 import errorHandler from '../api/middlewares/error.handler'
-
+import env from '../config/env';
 
 import mongo from "./mongo";
 
@@ -23,17 +23,17 @@ export default class ExpressServer {
 
     const apiSpec = path.join(__dirname, 'api.yml');
     const validateResponses = !!(
-      process.env.OPENAPI_ENABLE_RESPONSE_VALIDATION &&
-      process.env.OPENAPI_ENABLE_RESPONSE_VALIDATION.toLowerCase() === 'true'
+      env.OPENAPI_ENABLE_RESPONSE_VALIDATION &&
+      env.OPENAPI_ENABLE_RESPONSE_VALIDATION.toLowerCase() === 'true'
     );
 
-    app.use(bodyParser.json({ limit: process.env.REQUEST_LIMIT || '100kb' }));
-    app.use(bodyParser.urlencoded({ extended: true, limit: process.env.REQUEST_LIMIT || '100kb' }));
-    app.use(bodyParser.text({ limit: process.env.REQUEST_LIMIT || '100kb'}));
+    app.use(bodyParser.json({ limit: env.REQUEST_LIMIT || '100kb' }));
+    app.use(bodyParser.urlencoded({ extended: true, limit: env.REQUEST_LIMIT || '100kb' }));
+    app.use(bodyParser.text({ limit: env.REQUEST_LIMIT || '100kb'}));
 
     app.use(Express.static(`${root}/public`));
 
-    app.use(process.env.OPENAPI_SPEC || '/spec', Express.static(apiSpec));
+    app.use(env.OPENAPI_SPEC || '/spec', Express.static(apiSpec));
     app.use(
       OpenApiValidator.middleware({
         apiSpec,
@@ -55,10 +55,10 @@ export default class ExpressServer {
 
   }
 
-  listen(port = process.env.PORT) {
+  listen(port = env.PORT) {
     const welcome = p => () =>
       l.info(
-        `up and running in ${process.env.NODE_ENV ||
+        `up and running in ${env.NODE_ENV ||
           'development'} @: ${os.hostname()} on port: ${p}}`
       );
 

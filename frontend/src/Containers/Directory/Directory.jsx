@@ -29,14 +29,25 @@ const TEMP_TABLE_DIRECTORY_DATA = new Array(45).fill({}).map((_, index) => {
   };
 });
 
+const TEMP_DIR_HIGHLIGHTS_DATA = {
+  total: 59874,
+  inactive: 9522,
+  unsubscribed: 950,
+};
+
 function Directory() {
   const [currentData, setCurrentData] = React.useState(
     TEMP_TABLE_DIRECTORY_DATA.slice(0, 10)
   );
+  const [highlightData, setHighlightData] = React.useState({});
   const [currentPage, setCurrentPage] = React.useState(0);
   const [totalItemsCount, setTotalItemsCount] = React.useState(
     TEMP_TABLE_DIRECTORY_DATA.length
   );
+
+  React.useEffect(() => {
+    setHighlightData(TEMP_DIR_HIGHLIGHTS_DATA);
+  }, []);
 
   React.useEffect(() => {
     setCurrentData(
@@ -70,6 +81,24 @@ function Directory() {
             </div>
           }
         />
+      </div>
+      <div className={styles.HighlightsList}>
+        {DIRECTORY_PAGE_DATA.highlightsData.map((highlight, index) => {
+          return (
+            <>
+              <div className={styles.HighlightItem}>
+                {`${highlight.label}: `}
+                <span
+                  style={{
+                    color: highlight.resultColor,
+                  }}
+                >
+                  {highlightData[highlight.accessor]}
+                </span>
+              </div>
+            </>
+          );
+        })}
       </div>
       <div className={styles.ContentWrapper}>
         <TableContainer>

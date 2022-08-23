@@ -1,81 +1,140 @@
 import React from "react";
-import { CAMPAIGN_DATA, TEMPLATES_PAGE_DATA } from "./../../Utils/staticData";
-import Header from "../../Components/Header";
-import StyledMUIButton from "../../Components/General/Helpers/StyledMUIButton";
+
 import styles from "./Campaign.module.css";
+import Header from "../../Components/Header/index";
+import { CAMPAIGN_DATA } from "../../Utils/staticData";
 import CustomTabs from "../../Components/General";
+import StyledMUIButton from "../../Components/General/Helpers/StyledMUIButton";
 import {
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableFooter,
+  TableHead,
   TablePagination,
   TableRow,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+const TEMP_TABLE_CONTACTS_DATA = {
+  email: new Array(45).fill({}).map((_, index) => {
+    return {
+      _id: index,
+      mail: `MAILtempmail${index}@gmail.com`,
+      totalSent: Math.floor(Math.random() * 1000) + 10,
+      fail: Math.floor(Math.random() * 1000) + 10,
+      opens: Math.floor(Math.random() * 1000) + 10,
+      clicks: Math.floor(Math.random() * 1000) + 10,
+      bounces: Math.floor(Math.random() * 1000) + 10,
+      unsubscribes: Math.floor(Math.random() * 1000) + 10,
+    };
+  }),
+  sms: new Array(45).fill({}).map((_, index) => {
+    return {
+      _id: index,
+      mail: `SMStempmail${index}@gmail.com`,
+      totalSent: Math.floor(Math.random() * 1000) + 10,
+      fail: Math.floor(Math.random() * 1000) + 10,
+      opens: Math.floor(Math.random() * 1000) + 10,
+      clicks: Math.floor(Math.random() * 1000) + 10,
+      bounces: Math.floor(Math.random() * 1000) + 10,
+      unsubscribes: Math.floor(Math.random() * 1000) + 10,
+    };
+  }),
+};
 
 function Campaign() {
-  const [campaignData, setCampaignData] = React.useState([]);
   const [currentTab, setCurrentTab] = React.useState(
-    TEMPLATES_PAGE_DATA.tabs[0].value
+    CAMPAIGN_DATA.tabs[0].value
+  );
+  const [currentData, setCurrentData] = React.useState(
+    TEMP_TABLE_CONTACTS_DATA.email.slice(0, 10)
   );
   const [currentPage, setCurrentPage] = React.useState(0);
-  const [currentData, setCurrentData] = React.useState(
-    TEMPLATES_PAGE_DATA.TableData.slice(0, 10)
+  const [totalItemsCount, setTotalItemsCount] = React.useState(
+    TEMP_TABLE_CONTACTS_DATA.email.length
   );
 
-  useEffect(() => {
-    const fetchData = () => {
-      //fetch campaign data from backend
-      //for now um using local data imported from utils
-      setCampaignData(CAMPAIGN_DATA.TableData);
-      console.log(CAMPAIGN_DATA.TableData); 
-    };
-    fetchData();
-  }, [campaignData]);
+  React.useEffect(() => {
+    setCurrentData(
+      TEMP_TABLE_CONTACTS_DATA[currentTab].slice(
+        currentPage * 10,
+        (currentPage + 1) * 10
+      )
+    );
+  }, [currentPage, currentTab]);
+
+  React.useEffect(() => {
+    setTotalItemsCount(TEMP_TABLE_CONTACTS_DATA[currentTab]?.length);
+  }, [currentTab]);
 
   return (
-    <div>
-      <Header
-        title={CAMPAIGN_DATA.CampaignTitle}
-        subTitle={CAMPAIGN_DATA.CampaignSubTitle}
-        rightSecContent={
-          <div className={styles.NavRightwrapper}>
-            <StyledMUIButton color="buttonOrange">
-              {" "}
-              {CAMPAIGN_DATA.CreateEmailCampaign}{" "}
-            </StyledMUIButton>
-            <StyledMUIButton>
-              {" "}
-              {CAMPAIGN_DATA.CreateSMSCampaign}{" "}
-            </StyledMUIButton>
-          </div>
-        }
-      />
-      <CustomTabs
-        tabsData={TEMPLATES_PAGE_DATA.tabs}
-        currentTab={currentTab}
-        handleClick={(val) => {
-          setCurrentTab(val);
-          setCurrentPage(0);
-        }}
-      />
-      <div>
+    <div className={styles.container}>
+      <div className={styles.HeaderSec}>
+        <Header
+          title={CAMPAIGN_DATA.title}
+          subTitle={"Create reusable templates"}
+          rightSecContent={
+            <div className={styles.NavRightwrapper}>
+              <StyledMUIButton
+                style={{
+                  padding: "0.8rem 1.5rem",
+                }}
+                color="buttonOrange"
+              >
+                {CAMPAIGN_DATA.createSMSCampaign}
+              </StyledMUIButton>
+              <StyledMUIButton
+                style={{
+                  padding: "0.8rem 1.5rem",
+                }}
+              >
+                {CAMPAIGN_DATA.createEmailCampaign}
+              </StyledMUIButton>
+            </div>
+          }
+        />
+        <CustomTabs
+          tabsData={CAMPAIGN_DATA.tabs}
+          currentTab={currentTab}
+          handleClick={(val) => {
+            setCurrentTab(val);
+            setCurrentPage(0);
+          }}
+        />
+      </div>
+      <div className={styles.ContentWrapper}>
         <TableContainer>
           <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+            <TableHead>
+              <TableRow>
+                {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
+                  return (
+                    <TableCell
+                      align={columnInfo.align}
+                      width={columnInfo.width}
+                    >
+                      {columnInfo.label}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
             <TableBody>
-              {campaignData.length>0 && campaignData.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell
-                    style={{ width: 160 }}
-                    align="right"
-                    padding="none"
-                  >
-                
-                  </TableCell>
+              {currentData.map((row, index) => (
+                <TableRow key={index}>
+                  {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
+                    return (
+                      <TableCell
+                        align={columnInfo.align}
+                        width={columnInfo.width}
+                      >
+                        {columnInfo.renderer(row)}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))}
             </TableBody>

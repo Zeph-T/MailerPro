@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-
+import env from '../../config/env'
 class AuthenticationService {
   /**
    * Generate the JWT Token for the user
@@ -15,7 +15,7 @@ class AuthenticationService {
         id,
         exp: exp.getTime() / 1000,
       },
-      process.env.JWT_SECRET
+      env.JWT_SECRET
     );
   }
 }

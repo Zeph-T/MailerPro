@@ -271,7 +271,6 @@ export const TEMPLATES_PAGE_DATA = {
     createEmailTemplate: "Create Email Template",
   },
 };
-Directory;
 
 export const DIRECTORY_PAGE_DATA = {
   title: "Directory",
@@ -492,52 +491,60 @@ export const ADD_CONTACTS_POPUP_DATA = {
 export const CAMPAIGN_DATA = {
   CampaignTitle: "Campaign",
   CampaignSubTitle: "Schedule one-time newsletters, updates and invites",
-  CreateSMSCampaign: "Create SMS Campaign",
-  CreateEmailCampaign: "Create Email Campaign",
-  TableData: [
+  createSMSCampaign: "Create SMS Campaign",
+  createEmailCampaign: "Create Email Campaign",
+  tabs: [
     {
-      name: "abc",
-      statistics: {
-        Mail: "3567",
-        Fail: "56127",
-        Opens: "456233",
-        Clicks: "3223",
-        Bounces: "2323",
-        Unsubscribes: "323",
-      },
+      label: "Email",
+      value: "email",
     },
     {
-      name: "efg",
-      statistics: {
-        Mail: "3367",
-        Fail: "3127",
-        Opens: "64233",
-        Clicks: "34423",
-        Bounces: "2423",
-        Unsubscribes: "223",
-      },
+      label: "SMS",
+      value: "sms",
+    },
+  ],
+  tableData: [
+    {
+      label: "Name",
+      renderer: (val) => val.mail,
+      width: "25%",
+      align: "left",
     },
     {
-      name: "hij",
-      statistics: {
-        Mail: "38767",
-        Fail: "563327",
-        Opens: "453233",
-        Clicks: "223",
-        Bounces: "12323",
-        Unsubscribes: "5+23",
-      },
+      label: "Sent",
+      renderer: (val) => val.totalSent,
+      width: "7%",
+      align: "left",
     },
     {
-      name: "klm",
-      statistics: {
-        Mail: "35437",
-        Fail: "5637",
-        Opens: "6233",
-        Clicks: "223",
-        Bounces: "23",
-        Unsubscribes: "3",
-      },
+      label: "Fail",
+      renderer: (val) => val.fail,
+      width: "30%",
+      align: "left",
+    },
+    {
+      label: "Opens",
+      renderer: (val) => val.opens,
+      width: "10%",
+      align: "center",
+    },
+    {
+      label: "Clicks",
+      renderer: (val) => val.clicks,
+      width: "10%",
+      align: "center",
+    },
+    {
+      label: "Bounces",
+      renderer: (val) => val.bounces,
+      width: "10%",
+      align: "center",
+    },
+    {
+      label: "Unsubscribes",
+      renderer: (val) => val.unsubscribes,
+      width: "10%",
+      align: "right",
     },
   ],
 };

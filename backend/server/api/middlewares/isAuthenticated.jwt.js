@@ -1,5 +1,6 @@
 import * as jwt from "jsonwebtoken";
 import env from '../../config/env';            
+
 // eslint-disable-next-line no-unused-vars, no-shadow
 export default async function isAuthenticated(req, res, next) {
   let token = req.headers.authorization;

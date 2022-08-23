@@ -1,10 +1,39 @@
-.container{
-    display:flex;
-    align-items:flex-end;
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.HeaderSec {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
 }
 
 .NavRightwrapper {
-    display: flex;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-  }
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.IconButtonWrapper {
+  height: 3.4rem;
+  width: 3.4rem;
+  border-radius: 50%;
+  background-color: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.IconsOptions {
+  display: flex;
+  flex-direction: row;
+  gap: 0.7rem;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  cursor: pointer;
+}
