@@ -36,8 +36,10 @@ function Dashboard() {
   return (
     <div>
       <Header
-        title={DASHBOARD_DATA.RecentActivities}
-        subtitle={DASHBOARD_DATA.RecentActivitiesSubText}
+        title={
+          DASHBOARD_DATA.RecentActivities
+        }
+        subTitle={DASHBOARD_DATA.RecentActivitiesSubText}
       />
       {Object.keys(chartdata).length > 0 && <Chart chartData={chartdata} />}
       <div

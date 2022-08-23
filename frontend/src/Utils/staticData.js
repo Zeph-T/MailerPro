@@ -272,7 +272,7 @@ export const TEMPLATES_PAGE_DATA = {
     createSMSTemplate: "Create SMS Template",
     createEmailTemplate: "Create Email Template",
   },
-};
+};Directory
 
 export const DIRECTORY_PAGE_DATA = {
   title: "Directory",
@@ -370,10 +370,15 @@ export const CAMPAIGN_INSIGHTS_POPUP_DATA = {
     { label: "Bounces", value: "bounces" },
     { label: "Unsubscribes", value: "unsubscribes" },
   ],
+  navButtons: {
+    createSMSTemplate: "Create SMS Template",
+    createEmailTemplate: "Create Email Template",
+  },
 };
+
 export const DASHBOARD_DATA = {
-  RecentActivities: "Recent Activities",
-  RecentActivitiesSubText: "Subscriber additions in the period",
+  RecentActivities : "Recent Activities",
+  RecentActivitiesSubText : "Subscriber additions in the period",
   subscriberData: [
     {
       date: "21 August,2022",
@@ -484,6 +489,62 @@ export const ADD_CONTACTS_POPUP_DATA = {
   button: "Create",
   buttonDetails: ["Add Field", "Save", "Cancel"],
 };
+
+export const CAMPAIGN_DATA = {
+  CampaignTitle: "Campaign",
+  CampaignSubTitle: "Schedule one-time newsletters, updates and invites",
+  CreateSMSCampaign:"Create SMS Campaign",
+  CreateEmailCampaign:"Create Email Campaign",
+  TableData:[
+    {
+      name:"abc",
+      statistics:{
+        Mail:"3567",
+        Fail:"56127",
+        Opens:"456233",
+        Clicks:"3223",
+        Bounces:"2323",
+        Unsubscribes:"323"
+      },
+    },
+    {
+      name:"efg",
+      statistics:{
+        Mail:"3367",
+        Fail:"3127",
+        Opens:"64233",
+        Clicks:"34423",
+        Bounces:"2423",
+        Unsubscribes:"223"
+      },
+    },
+    {
+      name:"hij",
+      statistics:{
+        Mail:"38767",
+        Fail:"563327",
+        Opens:"453233",
+        Clicks:"223",
+        Bounces:"12323",
+        Unsubscribes:"5+23"
+      },
+    },
+    {
+      name:"klm",
+      statistics:{
+        Mail:"35437",
+        Fail:"5637",
+        Opens:"6233",
+        Clicks:"223",
+        Bounces:"23",
+        Unsubscribes:"3"
+      },
+    }
+
+    
+
+  ]
+}
 
 export const SETTINGS_PAGE_DATA = {
   title: "Settings",
