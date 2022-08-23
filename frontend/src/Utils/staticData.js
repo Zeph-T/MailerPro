@@ -1,3 +1,5 @@
+import React from "React";
+
 import Home from "../Assets/General/NavIcons/Home.svg";
 import Settings from "../Assets/General/NavIcons/Settings.svg";
 import Directory from "../Assets/General/NavIcons/Directory.svg";
@@ -270,6 +272,54 @@ export const TEMPLATES_PAGE_DATA = {
     createSMSTemplate: "Create SMS Template",
     createEmailTemplate: "Create Email Template",
   },
+};
+
+export const DIRECTORY_PAGE_DATA = {
+  title: "Directory",
+  subtitle: "All your subscribers in one happy place",
+  navButtons: {
+    manageTags: "Manage tags",
+    importContacts: "Import Contacts",
+  },
+  highlightsData: [
+    {
+      label: "Total Subscribers",
+      accessor: "total",
+      resultColor: "var(--subscribed-green)",
+    },
+    {
+      label: "Inactive Contacts",
+      accessor: "inactive",
+      resultColor: "var(--inactive-yellow)",
+    },
+    {
+      label: "Unsubscribed Contacts:",
+      accessor: "unsubscribed",
+      resultColor: "var(--unsubscribed-red)",
+    },
+  ],
+  tableData: [
+    {
+      label: "Mail",
+      renderer: (val) => val.mail,
+    },
+    {
+      label: "Tags",
+      renderer: (val) => val.tags.join(", "),
+    },
+    {
+      label: "Status",
+      renderer: (val) => val.status,
+    },
+    {
+      label: "Added",
+      renderer: (val) => new Date(val.added).toLocaleDateString(),
+    },
+    {
+      label: "Updated",
+      renderer: (val) => new Date(val.updated).toLocaleDateString(),
+    },
+  ],
 };
 
 export const MANAGE_TEMPLATE_DATA = {
