@@ -11,7 +11,9 @@ import ManageTags from "./Components/PopUps/ManageTags";
 import { LOGO_ICON } from "./Utils/staticData";
 import "./App.css";
 import "swiper/css";
-import LandingPage from './Containers/LandingPage/index';
+import LandingPage from "./Containers/LandingPage";
+import Directory from "./Containers/Directory";
+import ManageTemplate from "./Containers/ManageTemplate/index";
 
 const App = () => {
   return (
@@ -41,10 +43,13 @@ const App = () => {
           }
         >
           {/* <Route path="*" element={<ManageCampaign />} /> */}
+          <Route path="/directory" element={<Directory />} />
           <Route path="/managecampaign/:id" element={<ManageCampaign />} />
           <Route path="/createcampaign" element={<ManageCampaign isNew />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/templates" element={<Templates />} />
+          <Route path="/managetemplate/:id" element={<ManageTemplate />} />
+          <Route path="/createtemplate" element={<ManageTemplate isNew />} />
         </Route>
       </Routes>
     </>
