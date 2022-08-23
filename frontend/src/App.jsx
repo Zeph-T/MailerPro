@@ -6,6 +6,7 @@ import Templates from "./Containers/Templates";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer/index";
 import { LOGO_ICON } from "./Utils/staticData";
+import Settings from "./Containers/Settings";
 import "./App.css";
 import "swiper/css";
 
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/managecampaign/:id" element={<ManageCampaign />} />
           <Route path="/createcampaign" element={<ManageCampaign isNew />} />
           <Route path="/templates" element={<Templates />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>
     </>

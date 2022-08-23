@@ -1,0 +1,26 @@
+.SectionWrapper {
+  margin-top: 3rem;
+  border-bottom: 1px solid #dddddd;
+  padding-bottom: 3rem;
+}
+.InputWrapperHeading {
+  font-size: var(--font-18);
+  margin-bottom: 1.5rem;
+}
+.InputWrapper {
+  display: grid;
+  gap: 1.4rem 1.8rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+.ButtonWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.DiscardButton {
+  font-weight: 400;
+  font-size: var(--font-16);
+  color: var(--ter-black);
+}
