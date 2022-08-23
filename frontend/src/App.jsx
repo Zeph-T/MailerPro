@@ -9,6 +9,7 @@ import Footer from "./Components/Footer/index";
 import Dashboard from "./Containers/Dashboard";
 import ManageTags from "./Components/PopUps/ManageTags";
 import { LOGO_ICON } from "./Utils/staticData";
+import Settings from "./Containers/Settings";
 import "./App.css";
 import "swiper/css";
 import LandingPage from "./Containers/LandingPage";
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="/templates" element={<Templates />} />
           <Route path="/managetemplate/:id" element={<ManageTemplate />} />
           <Route path="/createtemplate" element={<ManageTemplate isNew />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>
     </>

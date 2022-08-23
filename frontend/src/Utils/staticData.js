@@ -479,3 +479,67 @@ export const ADD_CONTACTS_POPUP_DATA = {
   button: "Create",
   buttonDetails: ["Add Field", "Save", "Cancel"],
 };
+
+export const SETTINGS_PAGE_DATA = {
+  title: "Settings",
+  sectionList: [
+    {
+      title: "Personal Details",
+      inputRequired: [
+        {
+          name: "firstName",
+          label: "First Name",
+          type: "text",
+        },
+        {
+          name: "lastName",
+          label: "Last Name",
+          type: "text",
+        },
+        {
+          name: "email",
+          label: "Email",
+          type: "email",
+        },
+      ],
+      buttons: "Save Personal Details",
+    },
+    {
+      title: "Unsubscription Form",
+      inputRequired: [
+        {
+          name: "description",
+          label: "Description",
+          type: "text",
+        },
+        {
+          name: "buttonText",
+          label: "Button Text",
+          type: "text",
+        },
+      ],
+      buttons: "Save Form Info",
+    },
+    {
+      title: "Change Password",
+      inputRequired: [
+        {
+          name: "password",
+          label: "Password",
+          type: "password",
+        },
+        {
+          name: "newPassword",
+          label: "New Password",
+          type: "password",
+        },
+        {
+          name: "confirmPassword",
+          label: "Confirm Password",
+          type: "password",
+        },
+      ],
+      buttons: "Update Password",
+    },
+  ],
+};
