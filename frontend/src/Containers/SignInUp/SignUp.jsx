@@ -2,8 +2,6 @@ import React from "react";
 import StyledMUIInput from "./Helpers/StyledMUIInput";
 import { useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
-
-import Button from "../../Components/Button";
 import BottomText from "./Helpers/BottomText";
 import { SIGN_UP_DATA as signUpData } from "../../Utils/staticData";
 import Styles from "./SignInUp.module.css";
