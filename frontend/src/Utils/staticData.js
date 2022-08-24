@@ -284,17 +284,19 @@ export const DIRECTORY_PAGE_DATA = {
     {
       label: "Total Subscribers",
       accessor: "total",
-      resultColor: "var(--subscribed-green)",
+      resultColor: "var(--primary-blue)",
+      backgroundColor: "var(--primary-background)",
     },
-    {
-      label: "Inactive Contacts",
-      accessor: "inactive",
-      resultColor: "var(--inactive-yellow)",
-    },
+    // {
+    //   label: "Inactive Contacts",
+    //   accessor: "inactive",
+    //   resultColor: "var(--inactive-yellow)",
+    // },
     {
       label: "Unsubscribed Contacts",
       accessor: "unsubscribed",
-      resultColor: "var(--unsubscribed-red)",
+      resultColor: "var(--primary-orange)",
+      backgroundColor: "var(--background-oragne)",
     },
   ],
   tableData: [
@@ -305,7 +307,8 @@ export const DIRECTORY_PAGE_DATA = {
     },
     {
       label: "Tags",
-      renderer: (val) => (val.tags.length > 0 ? val.tags.join(", ") : "-"),
+      renderer: (val) =>
+        val.tags.length > 0 ? val.tags.map((tag) => tag.name).join(", ") : "-",
       width: "25%",
     },
     {
@@ -428,17 +431,17 @@ export const ADD_CONTACTS_POPUP_DATA = {
         type: "email",
       },
       {
-        name: "firstName",
+        name: "fname",
         label: "First Name",
         type: "text",
       },
       {
-        name: "middleName",
+        name: "mname",
         label: "Middle Name",
         type: "text",
       },
       {
-        name: "lastName",
+        name: "lname",
         label: "Last Name",
         type: "text",
       },
@@ -454,12 +457,12 @@ export const ADD_CONTACTS_POPUP_DATA = {
         label: "Status",
         options: [
           {
-            value: "subscribed",
+            value: "Subscribed",
             label: "Subscribed",
             color: "var(--subscribed-green)",
           },
           {
-            value: "unsubscribed",
+            value: "Unsubscribed",
             label: "Unsubscribed",
             color: "var(--unsubscribed-red)",
           },

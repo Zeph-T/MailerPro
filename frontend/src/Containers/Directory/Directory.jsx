@@ -34,13 +34,11 @@ function Directory() {
   const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
   const [currentData, setCurrentData] = React.useState([]);
-  const [highlightData, setHighlightData] = React.useState({});
+  const [highlightData, setHighlightData] = React.useState({
+    total: 0,
+    unsubscribed: 0,
+  });
   const [currentPage, setCurrentPage] = React.useState(0);
-  const [totalItemsCount, setTotalItemsCount] = React.useState(0);
-
-  React.useEffect(() => {
-    setHighlightData(TEMP_DIR_HIGHLIGHTS_DATA);
-  }, []);
 
   React.useEffect(() => {
     fetchCurrentPageData();
@@ -50,8 +48,11 @@ function Directory() {
     try {
       const response = await getContactsList(userData.accessToken, currentPage);
       console.log(response);
-      setTotalItemsCount(response.data.count);
-      setCurrentData(response.data.contcts);
+      setCurrentData(response.data.contacts);
+      setHighlightData({
+        total: response.data.count.total,
+        unsubscribed: response.data.count.totalUnsubscribed,
+      });
     } catch (err) {
       console.log(err);
       notify("Internal Server Error", "error");
@@ -115,7 +116,14 @@ function Directory() {
         {DIRECTORY_PAGE_DATA.highlightsData.map((highlight, index) => {
           return (
             <>
-              <div className={styles.HighlightItem}>
+              <div
+                className={styles.HighlightItem}
+                style={{
+                  backgroundColor: highlight.backgroundColor,
+                  borderColor: highlight.resultColor,
+                  color: highlight.resultColor,
+                }}
+              >
                 {`${highlight.label}: `}
                 <span
                   style={{
@@ -154,7 +162,26 @@ function Directory() {
             </TableHead>
             <TableBody>
               {currentData.map((row, index) => (
-                <TableRow key={index}>
+                <TableRow
+                  key={index}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    dispatch({
+                      type: UPDATE_POPUP_STATE,
+                      payload: {
+                        open: true,
+                        component: (
+                          <AddContacts
+                            isContactDetails={true}
+                            contactData={row}
+                          />
+                        ),
+                      },
+                    });
+                  }}
+                >
                   {DIRECTORY_PAGE_DATA.tableData.map((columnInfo, index) => {
                     return (
                       <TableCell
@@ -176,7 +203,7 @@ function Directory() {
             </TableBody>
             <TableFooter>
               <TablePagination
-                count={totalItemsCount}
+                count={highlightData.total}
                 rowsPerPage={10}
                 page={currentPage}
                 SelectProps={{
