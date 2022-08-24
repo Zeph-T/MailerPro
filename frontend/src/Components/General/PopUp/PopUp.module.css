@@ -16,7 +16,8 @@
 .Container {
   width: fit-content;
   height: fit-content;
-  max-height: 85vh;
+  max-height: 82vh;
+  border-radius: 1rem;
   overflow-y: auto;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
