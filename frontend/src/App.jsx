@@ -79,7 +79,7 @@ const App = () => {
     dispatch({
       type: UPDATE_POPUP_STATE,
       payload: {
-        open: false,  
+        open: false,
       },
     });
   };

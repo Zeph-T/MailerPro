@@ -17,6 +17,9 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useDispatch } from "react-redux";
+import { UPDATE_POPUP_STATE } from "../../Redux/ActionTypes";
+import ManageTags from "../../Components/PopUps/ManageTags";
 
 const TEMP_TABLE_DIRECTORY_DATA = new Array(45).fill({}).map((_, index) => {
   return {
@@ -36,6 +39,7 @@ const TEMP_DIR_HIGHLIGHTS_DATA = {
 };
 
 function Directory() {
+  const dispatch = useDispatch();
   const [currentData, setCurrentData] = React.useState(
     TEMP_TABLE_DIRECTORY_DATA.slice(0, 10)
   );
@@ -68,6 +72,15 @@ function Directory() {
                   padding: "0.8rem 1.5rem",
                 }}
                 color="buttonOrange"
+                onClick={() => {
+                  dispatch({
+                    type: UPDATE_POPUP_STATE,
+                    payload: {
+                      open: true,
+                      component: <ManageTags />,
+                    },
+                  });
+                }}
               >
                 {DIRECTORY_PAGE_DATA.navButtons.manageTags}
               </StyledMUIButton>
@@ -147,7 +160,6 @@ function Directory() {
             </TableBody>
             <TableFooter>
               <TablePagination
-                colSpan={3}
                 count={totalItemsCount}
                 rowsPerPage={10}
                 page={currentPage}
