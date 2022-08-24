@@ -1,14 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const TagSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Name missing!"]
+    unique: true,
+    required: [true, "Name missing!"],
   },
-  isValid : {
-    type : Boolean,
-    default : true
-  }
+  isValid: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-export default mongoose.model('Tag', TagSchema);
+export default mongoose.model("Tag", TagSchema);
