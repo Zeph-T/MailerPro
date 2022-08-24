@@ -25,6 +25,7 @@ import notify from "./Utils/helper/notifyToast";
 import { UPDATE_POPUP_STATE, UPDATE_USER_DATA } from "./Redux/ActionTypes";
 import { getUserData } from "./Services/user.service";
 import PopUp from "./Components/General/PopUp";
+import { getAllTags } from "./Services/tags.service";
 
 const App = () => {
   const userData = useSelector((state) => state.user.userData);
@@ -52,11 +53,18 @@ const App = () => {
   const fetchUserData = async () => {
     if (cookie.token) {
       try {
-        const localeUserData = await getUserData(cookie.token);
+        const [localeUserData, userTags] = await Promise.all([
+          getUserData(cookie.token),
+          getAllTags(cookie.token),
+        ]);
 
         dispatch({
           type: UPDATE_USER_DATA,
-          data: { ...localeUserData.data, accessToken: cookie.token },
+          data: {
+            ...localeUserData.data,
+            accessToken: cookie.token,
+            tags: userTags.data.tags,
+          },
         });
       } catch (err) {
         notify("Internal Server Error", "error");
