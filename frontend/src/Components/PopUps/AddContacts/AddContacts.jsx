@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ADD_CONTACTS_POPUP_DATA, CROSS_ICON } from "../../../Utils/staticData";
 import styles from "./AddContacts.module.css";
 import {
@@ -8,10 +8,37 @@ import {
 import { MenuItem } from "@mui/material";
 import StyledMUISelectWithChip from "./../../General/Helpers/StyledMUISelectWithChip";
 import StyledMUITextField from "./../../General/Helpers/StyledMUITextField";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addContact } from "../../../Services/contact.service";
+import notify from "./../../../Utils/helper/notifyToast";
+import { UPDATE_POPUP_STATE } from "../../../Redux/ActionTypes";
 
 const AddContacts = ({ isContactDetails = true }) => {
-  const userTags = useSelector((state) => state.user.userData.tags);
+  const userData = useSelector((state) => state.user.userData);
+  const dispatch = useDispatch();
+  const [values, setValues] = useState({});
+
+  const handleUpdate = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleAddContact = async (e) => {
+    e.preventDefault();
+    try {
+      await addContact(userData.accessToken, values);
+      notify("Contact added successfully", "success");
+      dispatch({
+        type: UPDATE_POPUP_STATE,
+        payload: {
+          open: false,
+          component: null,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      notify("Error adding contact", "error");
+    }
+  };
 
   const inputTextList = ADD_CONTACTS_POPUP_DATA.inputType[0].map(
     (input, index) => {
@@ -22,12 +49,17 @@ const AddContacts = ({ isContactDetails = true }) => {
           label={input.label}
           type={input.type}
           disabled={isContactDetails}
+          onChange={handleUpdate}
         />
       );
     }
   );
+
+  // useEffect(() => {
+  //   console.log(values);
+  // }, [values]);
   return (
-    <div className={styles.Wrapper}>
+    <form className={styles.Wrapper} onSubmit={handleAddContact}>
       <div className={styles.Header}>
         <p>{ADD_CONTACTS_POPUP_DATA.title}</p>
         <img src={CROSS_ICON} alt="cross" />
@@ -44,6 +76,7 @@ const AddContacts = ({ isContactDetails = true }) => {
         name={ADD_CONTACTS_POPUP_DATA.inputType[1][1].name}
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][1].label}
         disabled={isContactDetails}
+        onChange={handleUpdate}
       >
         {ADD_CONTACTS_POPUP_DATA.inputType[1][1].options.map((option) => (
           <MenuItem
@@ -59,10 +92,15 @@ const AddContacts = ({ isContactDetails = true }) => {
       </StyledMUITextField>
       <StyledMUISelectWithChip
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][2].label}
-        options={userTags}
-        // options={ADD_CONTACTS_POPUP_DATA.inputType[1][2].options}
+        options={userData.tags}
         getOptionLabel={(option) => option.name}
         disabled={isContactDetails}
+        onChange={(e, val) => {
+          setValues({
+            ...values,
+            tags: val,
+          });
+        }}
       />
       {isContactDetails ? (
         <>
@@ -79,11 +117,11 @@ const AddContacts = ({ isContactDetails = true }) => {
           </div>
         </>
       ) : (
-        <StyledMUIButton color="buttonGreen" fullWidth>
+        <StyledMUIButton type="submit" color="buttonGreen" fullWidth>
           {ADD_CONTACTS_POPUP_DATA.button}
         </StyledMUIButton>
       )}
-    </div>
+    </form>
   );
 };
 

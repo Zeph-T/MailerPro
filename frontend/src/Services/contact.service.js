@@ -16,3 +16,16 @@ export const getContactsList = async (accessToken, skip) => {
     throw err;
   }
 };
+
+export const addContact = async (accessToken, contact) => {
+  try {
+    const { data } = await axios.post(uri.ADD_CONTACT_URL, contact, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
