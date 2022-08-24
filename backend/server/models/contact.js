@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const ContactSchema = new mongoose.Schema(
   {
@@ -23,7 +23,7 @@ const ContactSchema = new mongoose.Schema(
     },
     dob: {
       type: String,
-      default: '',
+      default: "",
     },
     isValid: {
       type: Boolean,
@@ -31,8 +31,8 @@ const ContactSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'Subscribed',
-      enum: ['Subscribed', 'Unsubscribed'],
+      default: "Subscribed",
+      enum: ["Subscribed", "Unsubscribed"],
     },
     createdOn: {
       type: Date,
@@ -44,7 +44,7 @@ const ContactSchema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
     tags: [],
   },
@@ -53,4 +53,4 @@ const ContactSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model('Contact', ContactSchema);
+export default mongoose.model("Contact", ContactSchema);
