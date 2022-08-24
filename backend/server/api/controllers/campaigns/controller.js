@@ -1,6 +1,7 @@
 import Campaign from '../../../models/campaign'
 import isAuthenticated from '../../middlewares/isAuthenticated.jwt.js'
 import mongoose from "mongoose";
+const { MongoCron } = require("mongodb-cron");
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
