@@ -9,14 +9,37 @@ import { MenuItem } from "@mui/material";
 import StyledMUISelectWithChip from "./../../General/Helpers/StyledMUISelectWithChip";
 import StyledMUITextField from "./../../General/Helpers/StyledMUITextField";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact } from "../../../Services/contact.service";
+import { addContact, updateContact } from "../../../Services/contact.service";
 import notify from "./../../../Utils/helper/notifyToast";
 import { UPDATE_POPUP_STATE } from "../../../Redux/ActionTypes";
 
-const AddContacts = ({ isContactDetails = true }) => {
+const AddContacts = ({
+  isContactDetails = true,
+  contactData,
+  fetchCurrentPageData,
+}) => {
   const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({
+    tags: [],
+  });
+
+  useEffect(() => {
+    if (contactData) {
+      setValues(contactData);
+    }
+  }, [contactData]);
+
+  const closePopup = () => {
+    fetchCurrentPageData();
+    dispatch({
+      type: UPDATE_POPUP_STATE,
+      payload: {
+        open: false,
+        component: null,
+      },
+    });
+  };
 
   const handleUpdate = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -25,15 +48,14 @@ const AddContacts = ({ isContactDetails = true }) => {
   const handleAddContact = async (e) => {
     e.preventDefault();
     try {
-      await addContact(userData.accessToken, values);
-      notify("Contact added successfully", "success");
-      dispatch({
-        type: UPDATE_POPUP_STATE,
-        payload: {
-          open: false,
-          component: null,
-        },
-      });
+      if (isContactDetails) {
+        await updateContact(userData.accessToken, values);
+        notify("Contact added successfully", "success");
+      } else {
+        await addContact(userData.accessToken, values);
+        notify("Contact updated successfully", "success");
+      }
+      closePopup();
     } catch (err) {
       console.log(err);
       notify("Error adding contact", "error");
@@ -48,8 +70,8 @@ const AddContacts = ({ isContactDetails = true }) => {
           name={input.name}
           label={input.label}
           type={input.type}
-          disabled={isContactDetails}
           onChange={handleUpdate}
+          value={values[input.name]}
         />
       );
     }
@@ -62,21 +84,22 @@ const AddContacts = ({ isContactDetails = true }) => {
     <form className={styles.Wrapper} onSubmit={handleAddContact}>
       <div className={styles.Header}>
         <p>{ADD_CONTACTS_POPUP_DATA.title}</p>
-        <img src={CROSS_ICON} alt="cross" />
+        <img src={CROSS_ICON} alt="cross" onClick={closePopup} />
       </div>
       {inputTextList}
       <StyledMUIDateTimePicker
         name={ADD_CONTACTS_POPUP_DATA.inputType[1][0].name}
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][0].label}
         renderInput={(params) => <StyledMUITextField {...params} />}
-        disabled={isContactDetails}
+        onChange={handleUpdate}
+        value={values[ADD_CONTACTS_POPUP_DATA.inputType[1][0].name]}
       />
       <StyledMUITextField
         select
         name={ADD_CONTACTS_POPUP_DATA.inputType[1][1].name}
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][1].label}
-        disabled={isContactDetails}
         onChange={handleUpdate}
+        value={values[ADD_CONTACTS_POPUP_DATA.inputType[1][1].name]}
       >
         {ADD_CONTACTS_POPUP_DATA.inputType[1][1].options.map((option) => (
           <MenuItem
@@ -94,21 +117,21 @@ const AddContacts = ({ isContactDetails = true }) => {
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][2].label}
         options={userData.tags}
         getOptionLabel={(option) => option.name}
-        disabled={isContactDetails}
         onChange={(e, val) => {
           setValues({
             ...values,
             tags: val,
           });
         }}
+        value={values.tags}
       />
       {isContactDetails ? (
         <>
-          <StyledMUIButton color="buttonBlue" fullWidth>
+          {/* <StyledMUIButton color="buttonBlue" fullWidth>
             {ADD_CONTACTS_POPUP_DATA.buttonDetails[0]}
-          </StyledMUIButton>
+          </StyledMUIButton> */}
           <div className={styles.ButtonWrapper}>
-            <StyledMUIButton color="buttonGreen" fullWidth>
+            <StyledMUIButton color="buttonGreen" fullWidth type="submit">
               {ADD_CONTACTS_POPUP_DATA.buttonDetails[1]}
             </StyledMUIButton>
             <StyledMUIButton color="buttonRed" fullWidth>

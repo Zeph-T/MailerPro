@@ -77,7 +77,12 @@ function Directory() {
                     type: UPDATE_POPUP_STATE,
                     payload: {
                       open: true,
-                      component: <AddContacts isContactDetails={false} />,
+                      component: (
+                        <AddContacts
+                          fetchCurrentPageData={fetchCurrentPageData}
+                          isContactDetails={false}
+                        />
+                      ),
                     },
                   });
                 }}
@@ -174,6 +179,7 @@ function Directory() {
                         open: true,
                         component: (
                           <AddContacts
+                            fetchCurrentPageData={fetchCurrentPageData}
                             isContactDetails={true}
                             contactData={row}
                           />
