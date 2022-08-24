@@ -291,7 +291,7 @@ export const DIRECTORY_PAGE_DATA = {
       resultColor: "var(--inactive-yellow)",
     },
     {
-      label: "Unsubscribed Contacts:",
+      label: "Unsubscribed Contacts",
       accessor: "unsubscribed",
       resultColor: "var(--unsubscribed-red)",
     },
