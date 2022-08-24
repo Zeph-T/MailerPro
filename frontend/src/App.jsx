@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 
 // import Home from "./Containers/Home";
 import ManageCampaign from "./Containers/ManageCampaign";
@@ -19,47 +19,109 @@ import { ToastContainer } from "react-toastify";
 import Campaign from "./Containers/Campaign";
 import Directory from "./Containers/Directory";
 import ManageTemplate from "./Containers/ManageTemplate/index";
+import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
+import notify from "./Utils/helper/notifyToast";
+import { UPDATE_USER_DATA } from "./Redux/ActionTypes";
+import { getUserData } from "./Services/user.service";
 
 const App = () => {
+  const userData = useSelector((state) => state.user.userData);
+  const dispatch = useDispatch();
+  const [cookie, setCookie] = useCookies(["token"]);
+
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(async () => {
+    fetchUserData();
+  }, [cookie]);
+
+  useEffect(() => {
+    console.log("userData", userData);
+    if (userData) {
+      setInitialized(true);
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    console.log(cookie.token);
+  }, [cookie.token]);
+
+  const fetchUserData = async () => {
+    if (cookie.token) {
+      try {
+        const localeUserData = await getUserData(cookie.token);
+
+        dispatch({
+          type: UPDATE_USER_DATA,
+          data: { ...localeUserData.data, accessToken: cookie.token },
+        });
+      } catch (err) {
+        notify("Internal Server Error", "error");
+        dispatch({
+          type: UPDATE_USER_DATA,
+          data: null,
+        });
+        setInitialized(true);
+      }
+    } else {
+      dispatch({
+        type: UPDATE_USER_DATA,
+        data: null,
+      });
+      setInitialized(true);
+    }
+  };
+
   return (
     <>
       <ToastContainer bodyClassName={"ToastBody"} />
-      <Routes>
-        {/* If not logged in */}
-        <>
-          {["/signin", "/signup", "/"].map((path) => (
-            <Route key={path} path={path} element={<LandingPage />} />
-          ))}
-        </>
-
-        {/* If logged in */}
-
-        <Route
-          element={
-            <div className="Container">
-              <Navbar />
-              <div className="RightSection">
-                <div className="PrimaryComponentWrapper">
-                  <img src={LOGO_ICON} className="LogoIcon" alt="logo" />
-                  <Outlet />
+      {initialized && (
+        <Routes>
+          {/* If not logged in */}
+          {!userData ? (
+            <>
+              {["/signin", "/signup", "/"].map((path) => (
+                <Route key={path} path={path} element={<LandingPage />} />
+              ))}
+              <Route path="*" element={<Navigate to="/" />} />
+            </>
+          ) : (
+            <Route
+              element={
+                <div className="Container">
+                  <Navbar />
+                  <div className="RightSection">
+                    <div className="PrimaryComponentWrapper">
+                      <img src={LOGO_ICON} className="LogoIcon" alt="logo" />
+                      <Outlet />
+                    </div>
+                    <Footer />
+                  </div>
                 </div>
-                <Footer />
-              </div>
-            </div>
-          }
-        >
-          {/* <Route path="*" element={<ManageCampaign />} /> */}
-          <Route path="/directory" element={<Directory />} />
-          <Route path="/managecampaign/:id" element={<ManageCampaign />} />
-          <Route path="/campaign" element={<Campaign />} />
-          <Route path="/createcampaign" element={<ManageCampaign isNew />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/templates" element={<Templates />} />
-          <Route path="/managetemplate/:id" element={<ManageTemplate />} />
-          <Route path="/createtemplate" element={<ManageTemplate isNew />} />
-          <Route path="/settings" element={<Settings />} />
-        </Route>
-      </Routes>
+              }
+            >
+              {/* <Route path="*" element={<ManageCampaign />} /> */}
+              <Route path="/directory" element={<Directory />} />
+              <Route path="/managecampaign/:id" element={<ManageCampaign />} />
+              <Route path="/campaign" element={<Campaign />} />
+              <Route
+                path="/createcampaign"
+                element={<ManageCampaign isNew />}
+              />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/templates" element={<Templates />} />
+              <Route path="/managetemplate/:id" element={<ManageTemplate />} />
+              <Route
+                path="/createtemplate"
+                element={<ManageTemplate isNew />}
+              />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="*" element={<Navigate to="/dashboard" />} />
+            </Route>
+          )}
+        </Routes>
+      )}
     </>
   );
 };
