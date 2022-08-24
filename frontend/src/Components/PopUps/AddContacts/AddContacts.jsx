@@ -88,7 +88,14 @@ const AddContacts = ({
             ? ADD_CONTACTS_POPUP_DATA.titleUpdate
             : ADD_CONTACTS_POPUP_DATA.title}
         </p>
-        <img src={CROSS_ICON} alt="cross" onClick={closePopup} />
+        <img
+          src={CROSS_ICON}
+          alt="cross"
+          onClick={closePopup}
+          style={{
+            cursor: "pointer",
+          }}
+        />
       </div>
       {inputTextList}
       <StyledMUIDateTimePicker
@@ -138,7 +145,7 @@ const AddContacts = ({
             <StyledMUIButton color="buttonGreen" fullWidth type="submit">
               {ADD_CONTACTS_POPUP_DATA.buttonDetails[1]}
             </StyledMUIButton>
-            <StyledMUIButton color="buttonRed" fullWidth>
+            <StyledMUIButton color="buttonRed" fullWidth onClick={closePopup}>
               {ADD_CONTACTS_POPUP_DATA.buttonDetails[2]}
             </StyledMUIButton>
           </div>
