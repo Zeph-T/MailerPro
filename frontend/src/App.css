@@ -3,6 +3,11 @@
   display: flex;
 }
 
+.ToastBody {
+  font-family: "Manrope", sans-serif;
+  font-size: var(--font-15);
+}
+
 .RightSection {
   width: 100%;
   display: flex;
