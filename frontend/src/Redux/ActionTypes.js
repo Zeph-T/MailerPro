@@ -1,1 +1,3 @@
 export const UPDATE_USER_DATA = "UPDATE_USER_DATA";
+
+export const UPDATE_POPUP_STATE = "UPDATE_POPUP_STATE";

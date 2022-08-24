@@ -22,11 +22,13 @@ import ManageTemplate from "./Containers/ManageTemplate/index";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import notify from "./Utils/helper/notifyToast";
-import { UPDATE_USER_DATA } from "./Redux/ActionTypes";
+import { UPDATE_POPUP_STATE, UPDATE_USER_DATA } from "./Redux/ActionTypes";
 import { getUserData } from "./Services/user.service";
+import PopUp from "./Components/General/PopUp";
 
 const App = () => {
   const userData = useSelector((state) => state.user.userData);
+  const popupStates = useSelector((state) => state.popup);
   const dispatch = useDispatch();
   const [cookie, setCookie] = useCookies(["token"]);
 
@@ -71,6 +73,15 @@ const App = () => {
       });
       setInitialized(true);
     }
+  };
+
+  const closeBookingPopup = () => {
+    dispatch({
+      type: UPDATE_POPUP_STATE,
+      payload: {
+        open: false,  
+      },
+    });
   };
 
   return (
@@ -121,6 +132,16 @@ const App = () => {
             </Route>
           )}
         </Routes>
+      )}
+      {userData && (
+        <>
+          <PopUp
+            isOpen={popupStates.open}
+            ContentComp={popupStates.component}
+            closeFun={closeBookingPopup}
+            withBorder={false}
+          />
+        </>
       )}
     </>
   );
