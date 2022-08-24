@@ -1,32 +1,57 @@
 import React from "react";
 import StyledMUIInput from "./Helpers/StyledMUIInput";
 import { useLocation } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import Button from "../../Components/Button";
 import BottomText from "./Helpers/BottomText";
 import { SIGN_UP_DATA as signUpData } from "../../Utils/staticData";
 import Styles from "./SignInUp.module.css";
+import StyledMUIButton from "./../../Components/General/Helpers/StyledMUIButton";
+import { register } from "../../Services/user.service";
+import notify from "./../../Utils/helper/notifyToast";
 
 function SignUp() {
+  const [, setCookie] = useCookies();
   const location = useLocation();
   const formRef = React.useRef(123);
   const [isDisabled, setIsDisabled] = React.useState(false);
-  const [values, setValues] = React.useState({
-    textmask: "",
-    numberformat: "",
-    Mobile: "",
-  });
-
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
 
   const signUp = async (e) => {
     e.preventDefault();
-    setIsDisabled(false);
+    setIsDisabled(true);
+
+    const userData = {
+      name: formRef.current.elements.Name.value,
+      email: formRef.current.elements.SignUpEmail.value,
+      password: formRef.current.elements.SignUpPassword.value,
+      confirmPassword: formRef.current.elements.ConfirmPassword.value,
+    };
+
+    if (userData.password !== userData.confirmPassword) {
+      console.log("Password confirm password should be same");
+      setIsDisabled(false);
+      return notify("Password confirm password should be same", "error");
+    }
+
+    if (userData.password.length < 6) {
+      console.log("Password should be of minimum length 6");
+      setIsDisabled(false);
+      return notify("Password should be of minimum length 6", "error");
+    }
+    try {
+      delete userData.confirmPassword;
+      const response = await register(userData);
+      console.log(response);
+      setCookie("token", response.token, {
+        sameSite: "strict",
+        path: "/",
+      });
+    } catch (e) {
+      console.log(e);
+      setIsDisabled(false);
+      notify("Internal Server Error", "error");
+    }
   };
 
   return (
@@ -44,19 +69,11 @@ function SignUp() {
         <form ref={formRef} className={Styles.Form} onSubmit={signUp}>
           <StyledMUIInput
             fullWidth
-            id="firstName"
-            label="First Name"
+            id="Name"
+            label="Name"
             variant="standard"
             disabled={isDisabled}
-          />
-          <StyledMUIInput
-            fullWidth
-            id="lastName"
-            label="Last Name"
-            variant="standard"
-            margin="dense"
-            autoComplete="last name"
-            disabled={isDisabled}
+            required
           />
           <StyledMUIInput
             fullWidth
@@ -67,6 +84,7 @@ function SignUp() {
             margin="dense"
             autoComplete="username"
             disabled={isDisabled}
+            required
           />
 
           <StyledMUIInput
@@ -78,6 +96,7 @@ function SignUp() {
             margin="dense"
             autoComplete="current-password"
             disabled={isDisabled}
+            required
           />
           <StyledMUIInput
             fullWidth
@@ -88,13 +107,20 @@ function SignUp() {
             margin="dense"
             autoComplete="current-password"
             disabled={isDisabled}
+            required
           />
-          <Button
-            content="Continue"
-            mainColor="#0079F1"
-            fontSize="var(--font-16)"
-            wrapperClass={Styles.SignInUpButton}
-          />
+          <StyledMUIButton
+            fullWidth
+            variant="contained"
+            style={{
+              boxShadow: "none",
+              marginTop: "2rem",
+            }}
+            type="submit"
+            disabled={isDisabled}
+          >
+            Continue
+          </StyledMUIButton>
         </form>
       </div>
       <div className={Styles.BottomSecWrapper}>
