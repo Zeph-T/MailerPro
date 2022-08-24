@@ -75,7 +75,7 @@ function Campaign() {
       <div className={styles.HeaderSec}>
         <Header
           title={CAMPAIGN_DATA.title}
-          subTitle={"Create reusable templates"}
+          subTitle={CAMPAIGN_DATA.subTitle}
           rightSecContent={
             <div className={styles.NavRightwrapper}>
               <StyledMUIButton

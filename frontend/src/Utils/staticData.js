@@ -489,8 +489,8 @@ export const ADD_CONTACTS_POPUP_DATA = {
 };
 
 export const CAMPAIGN_DATA = {
-  CampaignTitle: "Campaign",
-  CampaignSubTitle: "Schedule one-time newsletters, updates and invites",
+  title: "Campaign",
+  subTitle: "Schedule one-time newsletters, updates and invites",
   createSMSCampaign: "Create SMS Campaign",
   createEmailCampaign: "Create Email Campaign",
   tabs: [
