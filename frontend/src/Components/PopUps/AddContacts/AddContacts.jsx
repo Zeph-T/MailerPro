@@ -83,7 +83,11 @@ const AddContacts = ({
   return (
     <form className={styles.Wrapper} onSubmit={handleAddContact}>
       <div className={styles.Header}>
-        <p>{ADD_CONTACTS_POPUP_DATA.title}</p>
+        <p>
+          {isContactDetails
+            ? ADD_CONTACTS_POPUP_DATA.titleUpdate
+            : ADD_CONTACTS_POPUP_DATA.title}
+        </p>
         <img src={CROSS_ICON} alt="cross" onClick={closePopup} />
       </div>
       {inputTextList}
