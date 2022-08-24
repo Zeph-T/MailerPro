@@ -284,17 +284,19 @@ export const DIRECTORY_PAGE_DATA = {
     {
       label: "Total Subscribers",
       accessor: "total",
-      resultColor: "var(--subscribed-green)",
+      resultColor: "var(--primary-blue)",
+      backgroundColor: "var(--primary-background)",
     },
-    {
-      label: "Inactive Contacts",
-      accessor: "inactive",
-      resultColor: "var(--inactive-yellow)",
-    },
+    // {
+    //   label: "Inactive Contacts",
+    //   accessor: "inactive",
+    //   resultColor: "var(--inactive-yellow)",
+    // },
     {
       label: "Unsubscribed Contacts",
       accessor: "unsubscribed",
-      resultColor: "var(--unsubscribed-red)",
+      resultColor: "var(--primary-orange)",
+      backgroundColor: "var(--background-oragne)",
     },
   ],
   tableData: [

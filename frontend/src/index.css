@@ -75,8 +75,12 @@ input {
   --subscribed-green: #03a000;
   --flag-orange: #ff9933;
   --inactive-yellow: #ffc908;
+  --background-yellow: #fffbe9;
+  --primary-orange: #ff8a00;
+  --background-oragne: #fff6ec;
   --unsubscribed-red: #ff0000;
   --required-red: #ff0000;
+  --background-red: #ffe9e9;
   --primary-blue: #0079f1;
   --primary-background: #f2f9ff;
   --blue-light: #d0e9ff;
