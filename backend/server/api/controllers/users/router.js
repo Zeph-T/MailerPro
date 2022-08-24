@@ -1,8 +1,10 @@
-import * as express from 'express';
-import controller from './controller';
+import * as express from "express";
+import controller from "./controller";
 
 export default express
   .Router()
-  .get('/', controller.getUser)
-  .post('/register', controller.register)
-  .post('/login', controller.login);
+  .get("/", controller.getUser)
+  .post("/register", controller.register)
+  .post("/login", controller.login)
+  .post("/changePassword", controller.changePassword)
+  .post("/updateUser", controller.updateUser);
