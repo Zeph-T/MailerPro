@@ -423,6 +423,7 @@ export const DASHBOARD_DATA = {
 
 export const ADD_CONTACTS_POPUP_DATA = {
   title: "Add Contact",
+  titleUpdate: "Update Contact",
   inputType: [
     [
       {

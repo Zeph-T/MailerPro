@@ -29,3 +29,16 @@ export const addContact = async (accessToken, contact) => {
     throw err;
   }
 };
+
+export const updateContact = async (accessToken, contact) => {
+  try {
+    const { data } = await axios.post(uri.UPDATE_CONTACT_URL, contact, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};

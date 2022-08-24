@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./Campaign.module.css";
 import Header from "../../Components/Header/index";
@@ -46,6 +47,7 @@ const TEMP_TABLE_CONTACTS_DATA = {
 };
 
 function Campaign() {
+  let navigate = useNavigate()
   const [currentTab, setCurrentTab] = React.useState(
     CAMPAIGN_DATA.tabs[0].value
   );
@@ -90,6 +92,7 @@ function Campaign() {
                 style={{
                   padding: "0.8rem 1.5rem",
                 }}
+                onClick={()=>navigate("/createcampaign")}
               >
                 {CAMPAIGN_DATA.createEmailCampaign}
               </StyledMUIButton>
