@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import env from '../../config/env'
+import env from '../../config/env';
 class AuthenticationService {
   /**
    * Generate the JWT Token for the user

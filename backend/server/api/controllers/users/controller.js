@@ -1,7 +1,7 @@
-import Users from "../../../models/UserModel";
-import isAuthenticated from "../../middlewares/isAuthenticated.jwt";
-import AuthenticationService from "../../services/authentication.service";
-import PasswordService from "../../services/password.service";
+import Users from '../../../models/UserModel';
+import isAuthenticated from '../../middlewares/isAuthenticated.jwt';
+import AuthenticationService from '../../services/authentication.service';
+import PasswordService from '../../services/password.service';
 
 export class Controller {
   async getUser(req, res) {
@@ -12,7 +12,7 @@ export class Controller {
             if (!user) {
               return res
                 .status(401)
-                .json({ data: { error: "User does not exist" } });
+                .json({ data: { error: 'User does not exist' } });
             }
             user = JSON.parse(JSON.stringify(user));
             delete user.hash;
@@ -34,7 +34,7 @@ export class Controller {
   async register(req, res) {
     let duplicateUser = await Users.findOne({ email: req.body.email });
     if (duplicateUser) {
-      res.status(409).json({ data: { error: "Email Already Exists" } });
+      res.status(409).json({ data: { error: 'Email Already Exists' } });
     } else {
       let { salt, hash } = PasswordService.createPassword(req.body.password);
       let user = new Users({
@@ -60,7 +60,7 @@ export class Controller {
         if (!user) {
           res
             .status(401)
-            .json({ data: { error: "Invalid Email or Password" } });
+            .json({ data: { error: 'Invalid Email or Password' } });
         } else if (
           !PasswordService.checkPassword(
             req.body.password,
@@ -70,7 +70,7 @@ export class Controller {
         ) {
           res
             .status(401)
-            .json({ data: { error: "Invalid Email or Password" } });
+            .json({ data: { error: 'Invalid Email or Password' } });
         } else {
           res.status(200).json({
             data: {
