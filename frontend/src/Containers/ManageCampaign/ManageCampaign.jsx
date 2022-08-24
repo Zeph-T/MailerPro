@@ -1,9 +1,11 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import Header from "../../Components/Header";
 import ManageCampaignState from "./../../Components/ManageCampaign/ManageCampaignState";
 import styles from "./ManageCampaign.module.css";
 import { MANAGE_CAMPAIGN_DATA } from "./../../Utils/staticData";
+import { createCampaign } from "../../Services/campaign.service";
+import notify from "./../../Utils/helper/notifyToast";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ManageCampaignStepsWrapper,
   ManageCampaignStepsPagination,
@@ -33,6 +35,8 @@ const tempTemplates = [IMG1, IMG2, IMG3, IMG4, IMG5, IMG6, IMG7, IMG8].map(
 );
 
 const ManageCampaign = ({ isNew }) => {
+  const userData = useSelector((state) => state.user.userData);
+
   const [currentState, setCurrentState] = React.useState(0);
   const [currentDataState, setCurrentDataState] = React.useState({
     template: 0,
@@ -57,6 +61,9 @@ const ManageCampaign = ({ isNew }) => {
   console.log(currentDataState.schedule);
 
   const handleNext = () => {
+    if(currentState==0){
+      createNewCampaign(currentDataState.info)
+    }
     setCurrentState(currentState + 1);
   };
   const handleBack = () => {
@@ -112,6 +119,18 @@ const ManageCampaign = ({ isNew }) => {
       },
     });
   };
+
+  const createNewCampaign = async (data) => {
+    try {
+      console.log("create campaign started with data",data)
+      const response = await createCampaign(userData.accessToken,data);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+      notify("Internal Server Error", "error");
+    }
+  };
+
 
   return (
     <div className={styles.container}>

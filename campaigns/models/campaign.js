@@ -26,7 +26,6 @@ const CampaignSchema = new mongoose.Schema({
     },
     mailContent : {
         type : String,
-        required:  ["true","Email Content Missing"]
     },
     status : {
         type : String,

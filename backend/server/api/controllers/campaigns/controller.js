@@ -42,19 +42,23 @@ export class Controller {
     });
   }
 
-  create(req, res) {
-    isAuthenticated(req, res, () => {
-      let createdCampaignData = {
-        name: req.body.name,
-        note: req.body.note,
-        Subject: req.body.Subject,
-        ReplyMail: req.body.ReplyMail,
-        SenderName: req.body.SenderName,
-        senderMailAddress: req.body.senderMailAddress,
-        mailContent: req.body.mailContent,
-        status: "Draft",
-        targetAudience: req.body.targetAudience,
-      };
+    create(req, res) {
+        console.log("create api in progress")
+        isAuthenticated(req, res, () => {
+            let createdCampaignData = {
+                name: req.body.campaignName,
+                note: req.body.notes,
+                Subject: req.body.subject,
+                ReplyMail: req.body.replyTo,
+                SenderName: req.body.fromName,
+                senderMailAddress: req.body.fromEmail,
+                mailContent: "This is default mail content",
+                status: "Draft",
+                targetAudience: {
+                    audienceType: "ALL",
+                    tags:[]
+                }
+            };
 
       let createdCampaign = new Campaign(createdCampaignData);
       createdCampaign.save().then(
