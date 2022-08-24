@@ -8,8 +8,11 @@ import {
 import { MenuItem } from "@mui/material";
 import StyledMUISelectWithChip from "./../../General/Helpers/StyledMUISelectWithChip";
 import StyledMUITextField from "./../../General/Helpers/StyledMUITextField";
+import { useSelector } from "react-redux";
 
 const AddContacts = ({ isContactDetails = true }) => {
+  const userTags = useSelector((state) => state.user.userData.tags);
+
   const inputTextList = ADD_CONTACTS_POPUP_DATA.inputType[0].map(
     (input, index) => {
       return (
@@ -56,8 +59,9 @@ const AddContacts = ({ isContactDetails = true }) => {
       </StyledMUITextField>
       <StyledMUISelectWithChip
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][2].label}
-        options={ADD_CONTACTS_POPUP_DATA.inputType[1][2].options}
-        getOptionLabel={(option) => option.label}
+        options={userTags}
+        // options={ADD_CONTACTS_POPUP_DATA.inputType[1][2].options}
+        getOptionLabel={(option) => option.name}
         disabled={isContactDetails}
       />
       {isContactDetails ? (

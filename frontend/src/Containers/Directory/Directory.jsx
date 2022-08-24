@@ -76,7 +76,7 @@ function Directory() {
                     type: UPDATE_POPUP_STATE,
                     payload: {
                       open: true,
-                      component: <AddContacts />,
+                      component: <AddContacts isContactDetails={false} />,
                     },
                   });
                 }}
