@@ -277,7 +277,8 @@ export const DIRECTORY_PAGE_DATA = {
   subtitle: "All your subscribers in one happy place",
   navButtons: {
     manageTags: "Manage tags",
-    importContacts: "Import Contacts",
+    importContacts: "Import Contacts from File",
+    addContact: "Add Contact",
   },
   highlightsData: [
     {
@@ -298,13 +299,13 @@ export const DIRECTORY_PAGE_DATA = {
   ],
   tableData: [
     {
-      label: "Mail",
-      renderer: (val) => val.mail,
+      label: "Contact",
+      renderer: (val) => val.email || val.phone,
       width: "25%",
     },
     {
       label: "Tags",
-      renderer: (val) => val.tags.join(", "),
+      renderer: (val) => (val.tags.length > 0 ? val.tags.join(", ") : "-"),
       width: "25%",
     },
     {
@@ -314,12 +315,12 @@ export const DIRECTORY_PAGE_DATA = {
     },
     {
       label: "Added",
-      renderer: (val) => new Date(val.added).toLocaleDateString(),
+      renderer: (val) => new Date(val.createdOn).toLocaleDateString(),
       width: "20%",
     },
     {
       label: "Updated",
-      renderer: (val) => new Date(val.updated).toLocaleDateString(),
+      renderer: (val) => new Date(val.updatedOn).toLocaleDateString(),
       width: "20%",
     },
   ],

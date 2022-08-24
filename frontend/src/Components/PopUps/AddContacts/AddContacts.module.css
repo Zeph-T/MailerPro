@@ -1,6 +1,5 @@
 .Wrapper {
-  width: 100%;
-  max-width: 58rem;
+  width: 50rem;
   background-color: var(--pure-white);
   border-radius: 1rem;
   padding: 3.5rem 4.5rem;

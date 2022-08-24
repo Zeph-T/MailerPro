@@ -17,20 +17,12 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UPDATE_POPUP_STATE } from "../../Redux/ActionTypes";
 import ManageTags from "../../Components/PopUps/ManageTags";
-
-const TEMP_TABLE_DIRECTORY_DATA = new Array(45).fill({}).map((_, index) => {
-  return {
-    _id: index,
-    mail: `mail${index}@gmail.com`,
-    tags: ["coffee", "tea"],
-    status: Math.random() > 0.5 ? "success" : "faiure",
-    added: Date.now(),
-    updated: Date.now(),
-  };
-});
+import { getContactsList } from "../../Services/contact.service";
+import notify from "./../../Utils/helper/notifyToast";
+import AddContacts from "./../../Components/PopUps/AddContacts/AddContacts";
 
 const TEMP_DIR_HIGHLIGHTS_DATA = {
   total: 59874,
@@ -39,25 +31,32 @@ const TEMP_DIR_HIGHLIGHTS_DATA = {
 };
 
 function Directory() {
+  const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
-  const [currentData, setCurrentData] = React.useState(
-    TEMP_TABLE_DIRECTORY_DATA.slice(0, 10)
-  );
+  const [currentData, setCurrentData] = React.useState([]);
   const [highlightData, setHighlightData] = React.useState({});
   const [currentPage, setCurrentPage] = React.useState(0);
-  const [totalItemsCount, setTotalItemsCount] = React.useState(
-    TEMP_TABLE_DIRECTORY_DATA.length
-  );
+  const [totalItemsCount, setTotalItemsCount] = React.useState(0);
 
   React.useEffect(() => {
     setHighlightData(TEMP_DIR_HIGHLIGHTS_DATA);
   }, []);
 
   React.useEffect(() => {
-    setCurrentData(
-      TEMP_TABLE_DIRECTORY_DATA.slice(currentPage * 10, (currentPage + 1) * 10)
-    );
+    fetchCurrentPageData();
   }, [currentPage]);
+
+  const fetchCurrentPageData = async () => {
+    try {
+      const response = await getContactsList(userData.accessToken, currentPage);
+      console.log(response);
+      setTotalItemsCount(response.data.count);
+      setCurrentData(response.data.contcts);
+    } catch (err) {
+      console.log(err);
+      notify("Internal Server Error", "error");
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -67,6 +66,23 @@ function Directory() {
           subTitle={"Create reusable templates"}
           rightSecContent={
             <div className={styles.NavRightwrapper}>
+              <StyledMUIButton
+                style={{
+                  padding: "0.8rem 1.5rem",
+                }}
+                color="buttonGreen"
+                onClick={() => {
+                  dispatch({
+                    type: UPDATE_POPUP_STATE,
+                    payload: {
+                      open: true,
+                      component: <AddContacts />,
+                    },
+                  });
+                }}
+              >
+                {DIRECTORY_PAGE_DATA.navButtons.addContact}
+              </StyledMUIButton>
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",

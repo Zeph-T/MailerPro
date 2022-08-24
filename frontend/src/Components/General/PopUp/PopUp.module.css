@@ -16,8 +16,16 @@
 .Container {
   width: fit-content;
   height: fit-content;
+  max-height: 85vh;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   transition: opacity 0.15s ease-out, transform 0.15s ease-out;
   pointer-events: all;
   border: 1px solid var(--ter-black);
   box-shadow: 10px 13px 42px rgba(0, 0, 0, 0.15);
+}
+
+.Container::-webkit-scrollbar {
+  display: none;
 }
