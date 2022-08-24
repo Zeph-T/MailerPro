@@ -1,9 +1,9 @@
 import examplesRouter from './api/controllers/examples/router';
 import campaignsRouter from './api/controllers/campaigns/router';
 import usersRouter from './api/controllers/users/router';
-import tagRouter from './api/controllers/tag/router'
+import tagRouter from './api/controllers/tag/router';
 import contactRouter from './api/controllers/contact/router';
-import contactFieldRouter from './api/controllers/contactFields/router'
+import contactFieldRouter from './api/controllers/contactFields/router';
 import dashboardRouter from './api/controllers/dashboard/router';
 
 export default function routes(app) {
@@ -11,11 +11,10 @@ export default function routes(app) {
   app.use('/campaigns', campaignsRouter);
   app.use('/dashboard', dashboardRouter);
   app.use('/users', usersRouter);
-  app.use('/tags',tagRouter);
-  app.use('/contact',contactRouter);
-  app.use('/contactFields',contactFieldRouter)
+  app.use('/tags', tagRouter);
+  app.use('/contact', contactRouter);
+  app.use('/contactFields', contactFieldRouter);
 }
-
 
 /*
 Endpoint : "/users/register",

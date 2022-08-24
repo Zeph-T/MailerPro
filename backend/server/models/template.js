@@ -3,33 +3,33 @@ import mongoose from 'mongoose';
 const TemplateSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Name missing!"]
+    required: [true, 'Name missing!'],
   },
-  content : {
-    type : String,
-    required : [true , "Template Content Missing"]
+  content: {
+    type: String,
+    required: [true, 'Template Content Missing'],
   },
-  editorType : {
-    type : String,
-    default : "TextEditor",
-    enum  : ["Drag&Drop" , "TextEditor"]    
+  editorType: {
+    type: String,
+    default: 'TextEditor',
+    enum: ['Drag&Drop', 'TextEditor'],
   },
-  isValid : {
+  isValid: {
     type: Boolean,
-    default : true
+    default: true,
   },
-  createdOn : {
-    type : Date,
-    default : Date.now
+  createdOn: {
+    type: Date,
+    default: Date.now,
   },
-  updatedOn : {
-    type : Date,
-    default : Date.now
+  updatedOn: {
+    type: Date,
+    default: Date.now,
   },
-  description : {
-    type : String,
-    default : ""
-  }
+  description: {
+    type: String,
+    default: '',
+  },
 });
 
 export default mongoose.model('Template', TemplateSchema);

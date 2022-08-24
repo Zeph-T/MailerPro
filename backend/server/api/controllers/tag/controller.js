@@ -1,7 +1,7 @@
-import Tag from "../../../models/tag";
-import isAuthenticated from "../../middlewares/isAuthenticated.jwt.js";
-import Contact from "../../../models/contact";
-import mongoose from "mongoose";
+import Tag from '../../../models/tag';
+import isAuthenticated from '../../middlewares/isAuthenticated.jwt.js';
+import Contact from '../../../models/contact';
+import mongoose from 'mongoose';
 
 export class Controller {
   all(req, res) {
