@@ -25,18 +25,21 @@ export class Controller {
 
     create(req, res) {
         isAuthenticated(req, res, () => {
-            let newContactField = {
-                fieldName: req.body.name,
-                fieldType: req.body.type
-            };
-
-      let createdContactField = new ContactField(newContactField);
-      createdContactField.save().then(
-        (r) => res.json({ data: r }),
-        (error) => res.json({ data: { error: error } })
-      );
-    });
-  }
+            try {
+                if (req.body && req.body.fieldName && req.body.fieldType) {
+                    let createdContactField = new ContactField(req.body);
+                    createdContactField.save().then(
+                        (r) => res.json({ data: r }),
+                        (error) => res.json({ data: { error: error } })
+                    );
+                } else {
+                    throw "Required Fields Missing"
+                }
+            } catch (err) {
+                res.json({ data: { error: err } })
+            }
+        });
+    }
 
 
     remove(req, res) {
