@@ -34,9 +34,11 @@ function Directory() {
   const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
   const [currentData, setCurrentData] = React.useState([]);
-  const [highlightData, setHighlightData] = React.useState({});
+  const [highlightData, setHighlightData] = React.useState({
+    total: 0,
+    unsubscribed: 0,
+  });
   const [currentPage, setCurrentPage] = React.useState(0);
-  const [totalItemsCount, setTotalItemsCount] = React.useState(0);
 
   React.useEffect(() => {
     fetchCurrentPageData();
@@ -46,7 +48,6 @@ function Directory() {
     try {
       const response = await getContactsList(userData.accessToken, currentPage);
       console.log(response);
-      setTotalItemsCount(response.data.count);
       setCurrentData(response.data.contacts);
       setHighlightData({
         total: response.data.count.total,
@@ -163,6 +164,9 @@ function Directory() {
               {currentData.map((row, index) => (
                 <TableRow
                   key={index}
+                  style={{
+                    cursor: "pointer",
+                  }}
                   onClick={() => {
                     dispatch({
                       type: UPDATE_POPUP_STATE,
@@ -199,7 +203,7 @@ function Directory() {
             </TableBody>
             <TableFooter>
               <TablePagination
-                count={totalItemsCount}
+                count={highlightData.total}
                 rowsPerPage={10}
                 page={currentPage}
                 SelectProps={{
