@@ -560,13 +560,8 @@ export const SETTINGS_PAGE_DATA = {
       title: "Personal Details",
       inputRequired: [
         {
-          name: "firstName",
-          label: "First Name",
-          type: "text",
-        },
-        {
-          name: "lastName",
-          label: "Last Name",
+          name: "name",
+          label: "Name",
           type: "text",
         },
         {
@@ -578,16 +573,11 @@ export const SETTINGS_PAGE_DATA = {
       buttons: "Save Personal Details",
     },
     {
-      title: "Unsubscription Form",
+      title: "Unsubscription Message",
       inputRequired: [
         {
-          name: "description",
+          name: "unSubscriptionForm",
           label: "Description",
-          type: "text",
-        },
-        {
-          name: "buttonText",
-          label: "Button Text",
           type: "text",
         },
       ],
@@ -607,7 +597,7 @@ export const SETTINGS_PAGE_DATA = {
           type: "password",
         },
         {
-          name: "confirmPassword",
+          name: "newConfirmPassword",
           label: "Confirm Password",
           type: "password",
         },

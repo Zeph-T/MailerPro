@@ -34,7 +34,7 @@ export class Controller {
   async updateUser(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let { email, name } = req.body;
+        let { email, name, unSubscriptionForm } = req.body;
         Users.findById(req.user.id)
           .then((user) => {
             if (!user) {
@@ -42,8 +42,15 @@ export class Controller {
                 .status(401)
                 .json({ data: { error: "User does not exist" } });
             }
+            if (!email && !name && !unSubscriptionForm) {
+              return res
+                .status(401)
+                .json({ data: { error: "Nothing to update" } });
+            }
             if (email) user.email = email;
             if (name) user.name = name;
+            if (unSubscriptionForm)
+              user.unSubscriptionForm = unSubscriptionForm;
             user.save().then(
               () =>
                 res.json({

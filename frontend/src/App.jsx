@@ -28,7 +28,7 @@ import PopUp from "./Components/General/PopUp";
 import { getAllTags } from "./Services/tags.service";
 
 const App = () => {
-  const userData = useSelector((state) => state.user.userData);
+  const userData = useSelector((state) => state.user?.userData);
   const popupStates = useSelector((state) => state.popup);
   const dispatch = useDispatch();
   const [cookie, setCookie] = useCookies(["token"]);
@@ -45,10 +45,6 @@ const App = () => {
       setInitialized(true);
     }
   }, [userData]);
-
-  useEffect(() => {
-    console.log(cookie.token);
-  }, [cookie.token]);
 
   const fetchUserData = async () => {
     if (cookie.token) {

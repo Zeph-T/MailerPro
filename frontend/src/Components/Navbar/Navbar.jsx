@@ -5,7 +5,6 @@ import { NAVBAR_DATA } from "../../Utils/staticData";
 
 function Navbar() {
   const [activeLink, setActiveLink] = React.useState(null);
-  console.log(activeLink);
 
   return (
     <div className={styles.Wrapper}>

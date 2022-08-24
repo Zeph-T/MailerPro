@@ -23,4 +23,5 @@
   font-weight: 400;
   font-size: var(--font-16);
   color: var(--ter-black);
+  cursor: pointer;
 }
