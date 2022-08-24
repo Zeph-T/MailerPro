@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import env from '../config/env';
+import mongoose from "mongoose";
+import env from "../config/env";
 
 export default async () => {
   try {

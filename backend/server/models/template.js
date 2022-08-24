@@ -1,18 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const TemplateSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Name missing!'],
+    required: [true, "Name missing!"],
   },
   content: {
     type: String,
-    required: [true, 'Template Content Missing'],
+    required: [true, "Template Content Missing"],
   },
   editorType: {
     type: String,
-    default: 'TextEditor',
-    enum: ['Drag&Drop', 'TextEditor'],
+    default: "TextEditor",
+    enum: ["Drag&Drop", "TextEditor"],
   },
   isValid: {
     type: Boolean,
@@ -28,8 +28,8 @@ const TemplateSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 
-export default mongoose.model('Template', TemplateSchema);
+export default mongoose.model("Template", TemplateSchema);

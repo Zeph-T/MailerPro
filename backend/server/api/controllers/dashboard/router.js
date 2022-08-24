@@ -1,4 +1,4 @@
-import * as express from 'express';
-import controller from './controller';
+import * as express from "express";
+import controller from "./controller";
 
-export default express.Router().post('/create', controller.create);
+export default express.Router().post("/create", controller.create);

@@ -1,6 +1,6 @@
-import Contact from '../../../models/contact';
-import isAuthenticated from '../../middlewares/isAuthenticated.jwt.js';
-import DashboardService from '../../services/dashboard.service';
+import Contact from "../../../models/contact";
+import isAuthenticated from "../../middlewares/isAuthenticated.jwt.js";
+import DashboardService from "../../services/dashboard.service";
 
 export class Controller {
   create(req, res) {
@@ -23,7 +23,7 @@ export class Controller {
           let index = DashboardService.getIndex(subscribedOn, dateRange);
           if (index != -1) subscribers[index]++;
 
-          if (allContacts[i].status == 'Unsubscribed') {
+          if (allContacts[i].status == "Unsubscribed") {
             index = DashboardService.getIndex(unsubscribedOn, dateRange);
             if (index != -1) subscribers[index]--;
           }
