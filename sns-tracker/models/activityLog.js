@@ -10,7 +10,7 @@ const ActivityLogSchema = new mongoose.Schema({
     },
     activityKey: { 
         type: String ,
-        enum : ["SENT","CLICKED_LINK","FAILED","COMPLAIN","OPENED","BOUNCED"],
+        enum : ["SENT","CLICKED_LINK","FAILED","COMPLAIN","OPENED","BOUNCED","UNSUBSCRIBED"],
         required:  true
     },
     data: {},

@@ -158,7 +158,7 @@ let runEmailCampaign = async function(campaign,contactList){
         let senderMailAddress = campaign.senderMailAddress
         let templateSubject = campaign.Subject;
 
-        let sendEmail = function(ses,template,senderEmail,subject,replyMails){
+        let sendEmail = function(template,senderEmail,subject,replyMails){
             // send email
             let contact = list.pop_front();
             let bodyTemplate = Handlebars.compile(template,{noEscape: true});
@@ -182,6 +182,7 @@ let runEmailCampaign = async function(campaign,contactList){
                         }
                     }
                 },
+                configurationSetName : "mailerpro",
                 ReplyToAddresses: replyMails
             },function(err){
                 if(err.code == 'Throttling'){
@@ -199,7 +200,7 @@ let runEmailCampaign = async function(campaign,contactList){
 
         let intervalId = setInterval(function(){
             if(list.length() != 0){
-                sendEmail(ses,templateText,senderMailAddress,templateSubject);
+                sendEmail(templateText,senderMailAddress,templateSubject);
             }else{
                 clearInterval(intervalId);
             }
