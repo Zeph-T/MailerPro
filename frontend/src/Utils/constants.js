@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
 
 export const uri = {
   SIGNUP_URL: BASE_URL + "/users/register",
@@ -19,4 +19,6 @@ export const uri = {
   CREATE_CAMPAIGN_URL: BASE_URL + "/campaigns/create",
   UPDATE_CAMPAIGN_URL: BASE_URL + "/campaigns/update",
   GET_ALL_CAMPAIGNS_URL: BASE_URL + "/campaigns",
+  UPDATE_USER_URL: BASE_URL + "/users/updateUser",
+  CHANGE_PASSWORD_URL: BASE_URL + "/users/changePassword",
 };

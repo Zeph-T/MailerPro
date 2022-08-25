@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   StyledMUIButton,
   StyledMUITextField,
@@ -8,6 +9,73 @@ import { SETTINGS_PAGE_DATA } from "../../Utils/staticData";
 import styles from "./Settings.module.css";
 
 const Settings = () => {
+  const userData = useSelector((state) => state.user?.userData);
+  const [settings, setSettings] = useState({
+    email: "",
+    name: "",
+    unSubscriptionForm: "",
+    password: "",
+    newPassword: "",
+    newConfirmPassword: "",
+  });
+
+  useEffect(() => {
+    if (userData) {
+      setSettings({
+        ...settings,
+        email: userData.email,
+        name: userData.name,
+        unSubscriptionForm: userData.unSubscriptionForm,
+      });
+    }
+  }, [userData]);
+
+  const handleInputChange = (e) => {
+    setSettings({
+      ...settings,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleButtonDisable = (button) => {
+    if (button === "Save Personal Details") {
+      return (
+        settings.email === userData.email && settings.name === userData.name
+      );
+    } else if (button === "Save Form Info") {
+      return settings.unSubscriptionForm === userData.unSubscriptionForm;
+    } else if (button === "Update Password") {
+      return (
+        settings.password === "" ||
+        settings.newPassword === "" ||
+        settings.newConfirmPassword === ""
+      );
+    }
+    return true;
+  };
+
+  const handleDiscardClick = (button) => {
+    if (button === "Save Personal Details") {
+      setSettings({
+        ...settings,
+        email: userData.email,
+        name: userData.name,
+      });
+    } else if (button === "Save Form Info") {
+      setSettings({
+        ...settings,
+        unSubscriptionForm: userData.unSubscriptionForm,
+      });
+    } else if (button === "Update Password") {
+      setSettings({
+        ...settings,
+        password: "",
+        newPassword: "",
+        newConfirmPassword: "",
+      });
+    }
+  };
+
   const sectionMapList = SETTINGS_PAGE_DATA.sectionList.map(
     (section, index) => {
       return (
@@ -21,6 +89,8 @@ const Settings = () => {
                   name={input.name}
                   label={input.label}
                   type={input.type}
+                  value={settings[input.name]}
+                  onChange={handleInputChange}
                 />
               );
             })}
@@ -31,10 +101,18 @@ const Settings = () => {
               style={{
                 padding: "1.2rem 2rem",
               }}
+              disabled={handleButtonDisable(section.buttons)}
             >
               {section.buttons}
             </StyledMUIButton>
-            <div className={styles.DiscardButton}>Discard</div>
+            <div
+              className={styles.DiscardButton}
+              onClick={() => {
+                handleDiscardClick(section.buttons);
+              }}
+            >
+              Discard
+            </div>
           </div>
         </div>
       );

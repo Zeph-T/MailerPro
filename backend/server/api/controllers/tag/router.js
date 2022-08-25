@@ -6,4 +6,5 @@ export default express
   .get("/all", controller.all)
   .post("/create", controller.create)
   .post("/addTagToContact", controller.addTagToContact)
-  .post("/remove", controller.deleteTag);
+  .post("/remove", controller.deleteTag)
+  .post("/update",controller.update);
