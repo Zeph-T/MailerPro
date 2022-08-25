@@ -33,4 +33,7 @@ export const uri = {
   ADD_CUSTOM_FIELD_URL: BASE_URL + "/contactFields/create",
   REMOVE_CUSTOM_FIELDS_URL: BASE_URL + "/contactFields/remove",
   GET_TEMPLATE_URL: BASE_URL + "/template/getTemplate",
+  CREATE_SMS_CAMPAIGN_URL: BASE_URL + "/smsCampaigns/create",
+  UPDATE_SMS_CAMPAIGN_URL: BASE_URL + "/smsCampaigns/update",
+  GET_ALL_SMS_CAMPAIGNS_URL: BASE_URL + "/smsCampaigns",
 };

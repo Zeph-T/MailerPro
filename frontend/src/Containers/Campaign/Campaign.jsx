@@ -18,35 +18,11 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAllCampaigns } from "../../Services/campaign.service";
+import {
+  getAllCampaigns,
+  getAllSMSCampaigns,
+} from "../../Services/campaign.service";
 import { useSelector } from "react-redux";
-
-const TEMP_TABLE_CONTACTS_DATA = {
-  email: new Array(45).fill({}).map((_, index) => {
-    return {
-      _id: index,
-      mail: `MAILtempmail${index}@gmail.com`,
-      totalSent: Math.floor(Math.random() * 1000) + 10,
-      fail: Math.floor(Math.random() * 1000) + 10,
-      opens: Math.floor(Math.random() * 1000) + 10,
-      clicks: Math.floor(Math.random() * 1000) + 10,
-      bounces: Math.floor(Math.random() * 1000) + 10,
-      unsubscribes: Math.floor(Math.random() * 1000) + 10,
-    };
-  }),
-  sms: new Array(45).fill({}).map((_, index) => {
-    return {
-      _id: index,
-      mail: `SMStempmail${index}@gmail.com`,
-      totalSent: Math.floor(Math.random() * 1000) + 10,
-      fail: Math.floor(Math.random() * 1000) + 10,
-      opens: Math.floor(Math.random() * 1000) + 10,
-      clicks: Math.floor(Math.random() * 1000) + 10,
-      bounces: Math.floor(Math.random() * 1000) + 10,
-      unsubscribes: Math.floor(Math.random() * 1000) + 10,
-    };
-  }),
-};
 
 function Campaign() {
   const userData = useSelector((state) => state.user.userData);
@@ -55,35 +31,33 @@ function Campaign() {
   const [currentTab, setCurrentTab] = React.useState(
     CAMPAIGN_DATA.tabs[0].value
   );
-  const [currentData, setCurrentData] = React.useState(
-    TEMP_TABLE_CONTACTS_DATA.email.slice(0, 10)
-  );
+  const [currentData, setCurrentData] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(0);
-  const [totalItemsCount, setTotalItemsCount] = React.useState(
-    TEMP_TABLE_CONTACTS_DATA.email.length
-  );
-
-  React.useEffect(() => {
-    setCurrentData(
-      TEMP_TABLE_CONTACTS_DATA[currentTab].slice(
-        currentPage * 10,
-        (currentPage + 1) * 10
-      )
-    );
-  }, [currentPage, currentTab]);
+  const [totalItemsCount, setTotalItemsCount] = React.useState(0);
 
   React.useEffect(() => {
     fetchCurrentData();
-    // setTotalItemsCount(TEMP_TABLE_CONTACTS_DATA[currentTab]?.length);
-  }, [currentTab]);
+  }, [currentPage, currentTab]);
 
   const fetchCurrentData = async () => {
     try {
-      const response = await getAllCampaigns(
-        userData.accessToken,
-        setCurrentPage
-      );
-      setCurrentData(response.data.campaigns);
+      if (currentTab === "email") {
+        const response = await getAllCampaigns(
+          userData.accessToken,
+          setCurrentPage
+        );
+
+        setCurrentData(response.data.campaigns);
+        setTotalItemsCount(response.data.total);
+      } else {
+        const response = await getAllSMSCampaigns(
+          userData.accessToken,
+          setCurrentPage
+        );
+
+        setCurrentData(response.data.campaigns);
+        setTotalItemsCount(response.data.total);
+      }
     } catch (error) {
       console.log(error);
       notify("Error fetching data", "error");

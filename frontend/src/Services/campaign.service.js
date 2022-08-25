@@ -52,3 +52,20 @@ export const getAllCampaigns = async (accessToken, skip) => {
     throw err;
   }
 };
+
+export const getAllSMSCampaigns = async (accessToken, skip) => {
+  try {
+    console.log("inside controller getAllCampaigns");
+    const { data } = await axios.get(uri.GET_ALL_SMS_CAMPAIGNS_URL, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        skip,
+      },
+    });
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
