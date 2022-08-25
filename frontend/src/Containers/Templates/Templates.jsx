@@ -96,6 +96,9 @@ function Templates() {
                   padding: "0.8rem 1.5rem",
                 }}
                 color="buttonOrange"
+                onClick={() => {
+                  navigate("/createsmstemplate");
+                }}
               >
                 {TEMPLATES_PAGE_DATA.navButtons.createSMSTemplate}
               </StyledMUIButton>
@@ -142,7 +145,11 @@ function Templates() {
                           "--bg-color": "#FFF9D8",
                         }}
                         onClick={() => {
-                          navigate(`/managetemplate/${row._id}`);
+                          navigate(
+                            currentTab === "EMAIL"
+                              ? `/managetemplate/${row._id}`
+                              : `/managesmstemplate/${row._id}`
+                          );
                         }}
                       >
                         <EditIcon color="buttonYellow" fontSize="small" />

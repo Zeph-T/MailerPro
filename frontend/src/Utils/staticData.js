@@ -334,6 +334,8 @@ export const DIRECTORY_PAGE_DATA = {
 export const MANAGE_TEMPLATE_DATA = {
   createTemplate: "Create Email Template",
   manageTemplate: "Edit Email Template",
+  createSMSTemplate: "Create SMS Template",
+  manageSMSTemplate: "Edit SMS Template",
   design: "Design",
   save: "Save",
   tabs: [
@@ -356,6 +358,8 @@ export const MANAGE_TEMPLATE_DATA = {
       fullWidth: true,
     },
   },
+  content: "Content",
+  addContent: "Add Content",
 };
 
 export const MANAGE_TAGS_POPUP_DATA = {
