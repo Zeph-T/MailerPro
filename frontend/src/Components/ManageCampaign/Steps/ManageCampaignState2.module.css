@@ -51,3 +51,9 @@
 .TemplatePreview {
   width: 100%;
 }
+
+.SMS {
+  padding: 2rem;
+  max-width: 30rem;
+  font-size: var(--font-16);
+}

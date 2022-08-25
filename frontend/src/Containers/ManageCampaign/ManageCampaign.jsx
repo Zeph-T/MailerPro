@@ -153,7 +153,11 @@ const ManageCampaign = ({ isNew, isSMS }) => {
       // console.log("create campaign started with data",data)
       const response = await createCampaign(userData.accessToken, data);
       console.log("create campaign response from api", response);
-      navigate(`/managecampaign/${response.data._id}`);
+      navigate(
+        isSMS
+          ? `/managesmscampaign/${response.data._id}`
+          : `/managecampaign/${response.data._id}`
+      );
     } catch (err) {
       console.log(err);
       notify("Internal Server Error", "error");
