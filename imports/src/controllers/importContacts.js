@@ -80,35 +80,6 @@ function findRemainingHeaders(headers) {
   return arr;
 }
 
-// function removeCsvHeader(Path) {
-//   fs.readFile(Path, "utf8", (err, data) => {
-//     if (err) {
-//       console.log(err);
-//       res.status(400).send(err);
-//     }
-//     let lines = data.split("\n").slice(1);
-//     newdata = lines.join("\n");
-//     fs.writeFileSync("new.csv", newdata);
-//   });
-//   return ;
-// }
-
-// async function addTags(randomString, tags , token) {
-//   try {
-//     await axios.post(env.BACKEND_URL + env.ADD_TAGS_TO_IMPORT_CONTACT_URL,
-//       {
-//         hash: randomString,
-//         tags: tags
-//       },
-//       {
-//         headers: {
-//           Authorization: token,
-//       }
-//       })
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 
 function deleteCsv(Path) {
   fs.unlink(Path, (err) => {
@@ -135,11 +106,11 @@ function makeid(length) {
 
 async function addTags(hash,tags){
   try {
-      contact.updateMany({hash:hash},{$set : {tags:tags, isValid:true } }, {$unset : { hash : 1} },(err,doc)=>{
+      contact.updateMany({hash:hash},{$set : {tags:tags, isValid:true , createdOn : new Date() , updatedOn : new Date() }}, {$unset : { hash : 1} },(err,doc)=>{
           if(err){
             console.log(err);
           }
-          res.send({message:"Successfully added tags"})
+          console.log({message:"Successfully added tags"})
       })
   } catch (error) {
     console.log(error);
