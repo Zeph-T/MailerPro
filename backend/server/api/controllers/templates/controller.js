@@ -6,7 +6,10 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let templatesCount = await Template.countDocuments();
+        let templatesCount = await Template.countDocuments({
+          isValid: true,
+          templateType: req.params.type,
+        });
         let limit = 10,
           skip = req.query.skip;
         Template.find({ isValid: true, templateType: req.params.type })
