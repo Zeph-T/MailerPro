@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import React from "react";
 import styles from "./CustomTabs.module.css";
 import { StyledMUIButton } from "./Helpers";

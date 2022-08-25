@@ -24,4 +24,8 @@ export const uri = {
   UPDATE_USER_URL: BASE_URL + "/users/updateUser",
   CHANGE_PASSWORD_URL: BASE_URL + "/users/changePassword",
   UPLOAD_CONTACTS_URL: BASE_IMPORTS_URL + "/importContacts",
+  GET_ALL_TEMPLATES_URL: BASE_URL + "/template/all",
+  CREATE_TEMPLATE_URL: BASE_URL + "/template/create",
+  UPDATE_TEMPLATE_URL: BASE_URL + "/template/update",
+  REMOVE_TEMPLATE_URL: BASE_URL + "/template/remove",
 };

@@ -7,6 +7,7 @@ import styles from "./Dashboard.module.css";
 
 function Dashboard() {
   const [subscriberData, setSubscriberData] = useState([]);
+  const [unSubscriberData, setunSubscriberData] = useState([]);
   const [chartdata, setChartData] = useState({});
   const [totalSubscribers, setTotalSubscribers] = useState(23000);
   const [unsubscribed, setUnsubscribed] = useState(1544);
@@ -16,6 +17,7 @@ function Dashboard() {
       //fetch subscriber data from backend
       //for now um using local data imported from utils
       setSubscriberData(DASHBOARD_DATA.subscriberData);
+      setunSubscriberData(DASHBOARD_DATA.unSubscriberData);
       console.log(DASHBOARD_DATA.subscriberData);
       setChartData({
         labels: subscriberData.map((item) => item.date),
@@ -28,6 +30,13 @@ function Dashboard() {
             backgroundColor: "rgba(56, 120, 255, 0.2) ",
             tension: 0.1,
           },
+          {
+            label : "Unsubscriber count",
+            data : unSubscriberData.map(item=>item.subscribers),
+            fill : true,
+            borderColor : "#ff0000",
+            tension : 0.1
+          }
         ],
       });
     };

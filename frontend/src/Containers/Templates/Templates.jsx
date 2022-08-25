@@ -1,5 +1,4 @@
 import React from "react";
-
 import styles from "./Templates.module.css";
 import Header from "./../../Components/Header/index";
 import { TEMPLATES_PAGE_DATA } from "./../../Utils/staticData";
@@ -16,6 +15,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
 const TEMP_TABLE_CONTACTS_DATA = {
   email: new Array(45).fill({}).map((item, index) => {
@@ -33,6 +33,8 @@ const TEMP_TABLE_CONTACTS_DATA = {
 };
 
 function Templates() {
+  const navigate = useNavigate();
+
   const [currentTab, setCurrentTab] = React.useState(
     TEMPLATES_PAGE_DATA.tabs[0].value
   );
@@ -76,6 +78,9 @@ function Templates() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
+                }}
+                onClick={() => {
+                  navigate("/createtemplate");
                 }}
               >
                 {TEMPLATES_PAGE_DATA.navButtons.createEmailTemplate}

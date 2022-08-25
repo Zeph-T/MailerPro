@@ -24,8 +24,9 @@ const CampaignSchema = new mongoose.Schema({
         type : String,
         required : [true,"Sender Email Missing"]
     },
-    mailContent : {
-        type : String,
+    template : {
+        type : mongoose.Types.ObjectId,
+        ref : 'Template'
     },
     status : {
         type : String,
