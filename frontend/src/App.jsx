@@ -130,10 +130,18 @@ const App = () => {
                   path="/managecampaign/:id"
                   element={<ManageCampaign />}
                 />
+                <Route
+                  path="/managesmscampaign/:id"
+                  element={<ManageCampaign isSMS />}
+                />
                 <Route path="/campaign" element={<Campaign />} />
                 <Route
                   path="/createcampaign"
                   element={<ManageCampaign isNew />}
+                />
+                <Route
+                  path="/createsmscampaign"
+                  element={<ManageCampaign isSMS isNew />}
                 />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/templates" element={<Templates />} />

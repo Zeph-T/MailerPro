@@ -188,6 +188,7 @@ const ManageCampaign = ({ isNew, isSMS }) => {
           <ManageCampaignState1
             campaignInfo={currentDataState.info}
             handleCampaignInfoChange={handleCampaignInfoChange}
+            isSMS={isSMS}
           />
         )}
         {currentState === 1 && (
@@ -198,6 +199,7 @@ const ManageCampaign = ({ isNew, isSMS }) => {
               console.log(template);
               setCurrentDataState({ ...currentDataState, template });
             }}
+            isSMS={isSMS}
           />
         )}
         {currentState === 2 && (
@@ -206,6 +208,7 @@ const ManageCampaign = ({ isNew, isSMS }) => {
             handleAudienceChange={handleAudienceChange}
             handleTagsChange={handleTagsChange}
             userData={userData}
+            isSMS={isSMS}
           />
         )}
         {currentState === 3 && (
@@ -214,6 +217,7 @@ const ManageCampaign = ({ isNew, isSMS }) => {
             handleScheduleChange={handleScheduleChange}
             handleScheduleTimeChange={handleScheduleTimeChange}
             handleCampaignStatusChange={handleCampaignStatusChange}
+            isSMS={isSMS}
           />
         )}
         <ManageCampaignStepsPagination

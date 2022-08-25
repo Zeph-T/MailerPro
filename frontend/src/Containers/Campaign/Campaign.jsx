@@ -77,6 +77,7 @@ function Campaign() {
                   padding: "0.8rem 1.5rem",
                 }}
                 color="buttonOrange"
+                onClick={() => navigate("/createsmscampaign")}
               >
                 {CAMPAIGN_DATA.createSMSCampaign}
               </StyledMUIButton>
