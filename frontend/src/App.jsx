@@ -131,6 +131,10 @@ const App = () => {
                 path="/createtemplate"
                 element={<ManageTemplate isNew />}
               />
+              <Route
+                path="/createsmstemplate"
+                element={<ManageTemplate isNew isSMS />}
+              />
               <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<Navigate to="/dashboard" />} />
             </Route>

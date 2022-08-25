@@ -3,9 +3,11 @@ import Header from "../../Components/Header";
 import ManageCampaignState from "./../../Components/ManageCampaign/ManageCampaignState";
 import styles from "./ManageCampaign.module.css";
 import { MANAGE_CAMPAIGN_DATA } from "./../../Utils/staticData";
-import { createCampaign } from "../../Services/campaign.service";
+import { createCampaign,updateCampaign } from "../../Services/campaign.service";
+import {fetchAllTemplates} from "../../Services/template.service";
 import notify from "./../../Utils/helper/notifyToast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, } from "react-redux";
+import { useNavigate,useParams } from "react-router-dom";
 import {
   ManageCampaignStepsWrapper,
   ManageCampaignStepsPagination,
@@ -34,12 +36,30 @@ const tempTemplates = [IMG1, IMG2, IMG3, IMG4, IMG5, IMG6, IMG7, IMG8].map(
   }
 );
 
-const ManageCampaign = ({ isNew }) => {
-  const userData = useSelector((state) => state.user.userData);
+const ManageCampaign = ({ isNew,isSMS }) => {
 
+  useEffect( ()=>{
+    async function fetchTemplates() {
+      try {
+        const templates = await fetchAllTemplates(isSMS?"SMS":"EMAIL",userData.accessToken)
+        console.log("templates",templates.data.data.templates)
+        setCurrentDataState({...currentDataState, allTemplates:templates.data.data.templates})
+      } catch (err) {
+        console.log(err);
+        notify("Internal Server Error while fetching templates", "error");
+      }
+    }
+
+    fetchTemplates();
+    console.log("useEffect ran...");
+  },[])
+   
+  const params = useParams();
+  let navigate = useNavigate()
+  const userData = useSelector((state) => state.user.userData);
   const [currentState, setCurrentState] = React.useState(0);
   const [currentDataState, setCurrentDataState] = React.useState({
-    template: 0,
+    template: "63072778c3220d060871e274",
     info: {
       campaignName: "",
       notes: "",
@@ -48,27 +68,38 @@ const ManageCampaign = ({ isNew }) => {
       fromName: "",
       replyTo: "",
     },
+    status:"Draft",
     audience: {
-      value: MANAGE_CAMPAIGN_DATA.steps[2].options[0].name,
+      audienceType: MANAGE_CAMPAIGN_DATA.steps[2].options[0].name,
       tags: [],
     },
     schedule: {
-      value: MANAGE_CAMPAIGN_DATA.steps[3].options[0].name,
+      value: MANAGE_CAMPAIGN_DATA.steps[3].options[1].name,
       time: null,
     },
+    allTemplates:[]
   });
 
-  console.log(currentDataState.schedule);
+  // console.log(currentDataState.schedule);
 
   const handleNext = () => {
     if(currentState==0){
       createNewCampaign(currentDataState.info)
+    }else{
+      updateExistingCampaign(currentDataState,params.id)
     }
     setCurrentState(currentState + 1);
   };
   const handleBack = () => {
     setCurrentState(currentState - 1);
   };
+
+  const handleCampaignStatusChange = (e) =>{
+    setCurrentDataState({
+      ...currentDataState,
+      status: e.target.value
+    });
+  }
 
   const handleCampaignInfoChange = (e) => {
     setCurrentDataState({
@@ -122,14 +153,26 @@ const ManageCampaign = ({ isNew }) => {
 
   const createNewCampaign = async (data) => {
     try {
-      console.log("create campaign started with data",data)
+      // console.log("create campaign started with data",data)
       const response = await createCampaign(userData.accessToken,data);
-      console.log(response);
+      console.log("create campaign response from api",response);
+      navigate(`/managecampaign/${response.data._id}`)
     } catch (err) {
       console.log(err);
       notify("Internal Server Error", "error");
     }
   };
+
+  const updateExistingCampaign = async (data,id) => {
+    try {
+      console.log("update campaign started with data",data)
+      const response = await updateCampaign(userData.accessToken,data,id);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+      notify("Internal Server Error", "error");
+    }
+  }
 
 
   return (
@@ -153,7 +196,7 @@ const ManageCampaign = ({ isNew }) => {
         )}
         {currentState === 1 && (
           <ManageCampaignState2
-            templates={tempTemplates}
+            templates={currentDataState.allTemplates}
             activeTemplate={currentDataState.template}
             setActiveTemplate={(template) => {
               console.log(template);
