@@ -4,16 +4,25 @@ import { StyledMUIButton } from "../../General/Helpers";
 import TagList from "./TagList";
 import styles from "./ManageTags.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { UPDATE_POPUP_STATE } from "../../../Redux/ActionTypes";
+import {
+  UPDATE_POPUP_STATE,
+  UPDATE_USER_DATA,
+} from "../../../Redux/ActionTypes";
+import {
+  updateTag,
+  createTag,
+  removeTag,
+} from "../../../Services/tags.service";
+import notify from "../../../Utils/helper/notifyToast";
 
 const ManageTags = () => {
-  const tags = useSelector((state) => state.user.userData.tags);
+  const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
 
-  const [tagsLocale, setTagsLocale] = useState(tags);
+  const [tagsLocale, setTagsLocale] = useState(userData.tags);
   useEffect(() => {
-    setTagsLocale(JSON.parse(JSON.stringify(tags)));
-  }, [tags]);
+    setTagsLocale(JSON.parse(JSON.stringify(userData.tags)));
+  }, [userData.tags]);
 
   const closePopup = () => {
     dispatch({
@@ -40,10 +49,47 @@ const ManageTags = () => {
 
   const handleSave = async () => {
     const changedTags = tagsLocale.filter(
-      (tag, index) => tag._id && tag.name !== tags[index]?.name
+      (tag, index) => tag._id && tag.name !== userData.tags[index]?.name
     );
     const newTags = tagsLocale.filter((tag) => tag._id === undefined);
     console.log(changedTags, newTags);
+    const deleteTags = userData.tags.filter(
+      (tag, index) => tagsLocale.findIndex((t) => t._id === tag._id) === -1
+    );
+
+    const changeMap = changedTags.map(async (tag) => {
+      try {
+        await updateTag(userData.accessToken, tag);
+      } catch (err) {
+        notify("Error in updating tag" + tag.name, "error");
+      }
+    });
+
+    const createMap = newTags.map(async (tag) => {
+      try {
+        await createTag(userData.accessToken, tag);
+      } catch (err) {
+        notify("Error in adding tag" + tag.name, "error");
+      }
+    });
+
+    const deleteMap = deleteTags.map(async (tag) => {
+      try {
+        await removeTag(userData.accessToken, tag);
+      } catch (err) {
+        notify("Error in deleting tag" + tag.name, "error");
+      }
+    });
+    await Promise.all([...changeMap, ...createMap, ...deleteMap]);
+    notify("Tags updated successfully", "success");
+    dispatch({
+      type: UPDATE_USER_DATA,
+      data: {
+        ...userData,
+        tags: JSON.parse(JSON.stringify(tagsLocale)),
+      },
+    });
+    closePopup();
   };
 
   return (
@@ -104,7 +150,7 @@ const ManageTags = () => {
             padding: "1rem 2.5rem",
           }}
           onClick={() => {
-            setTagsLocale(tags);
+            setTagsLocale(userData.tags);
           }}
         >
           {MANAGE_TAGS_POPUP_DATA.buttons[2]}

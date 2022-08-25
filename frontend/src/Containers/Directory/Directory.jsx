@@ -48,7 +48,19 @@ function Directory() {
     try {
       const response = await getContactsList(userData.accessToken, currentPage);
       console.log(response);
-      setCurrentData(response.data.contacts);
+      const currentDataLocale = response.data.contacts.map((contact) => {
+        return {
+          ...contact,
+          tags: contact.tags.map((tag) => {
+            return {
+              _id: tag,
+              name: userData.tags.find((t) => t._id === tag)?.name,
+            };
+          }),
+        };
+      });
+
+      setCurrentData(currentDataLocale);
       setHighlightData({
         total: response.data.count.total,
         unsubscribed: response.data.count.totalUnsubscribed,

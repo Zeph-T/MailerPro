@@ -22,11 +22,14 @@ const AddContacts = ({
   const dispatch = useDispatch();
   const [values, setValues] = useState({
     tags: [],
+    status: "Subscribed",
   });
 
   useEffect(() => {
     if (contactData) {
-      setValues(contactData);
+      setValues({
+        ...contactData,
+      });
     }
   }, [contactData]);
 
@@ -47,12 +50,16 @@ const AddContacts = ({
 
   const handleAddContact = async (e) => {
     e.preventDefault();
+    const valuesToSend = {
+      ...values,
+      tags: values.tags.map((tag) => tag._id),
+    };
     try {
       if (isContactDetails) {
-        await updateContact(userData.accessToken, values);
+        await updateContact(userData.accessToken, valuesToSend);
         notify("Contact added successfully", "success");
       } else {
-        await addContact(userData.accessToken, values);
+        await addContact(userData.accessToken, valuesToSend);
         notify("Contact updated successfully", "success");
       }
       closePopup();
@@ -77,9 +84,9 @@ const AddContacts = ({
     }
   );
 
-  // useEffect(() => {
-  //   console.log(values);
-  // }, [values]);
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
   return (
     <form className={styles.Wrapper} onSubmit={handleAddContact}>
       <div className={styles.Header}>
@@ -110,7 +117,7 @@ const AddContacts = ({
         name={ADD_CONTACTS_POPUP_DATA.inputType[1][1].name}
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][1].label}
         onChange={handleUpdate}
-        value={values[ADD_CONTACTS_POPUP_DATA.inputType[1][1].name]}
+        value={values.status}
       >
         {ADD_CONTACTS_POPUP_DATA.inputType[1][1].options.map((option) => (
           <MenuItem
