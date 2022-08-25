@@ -98,6 +98,7 @@ export const MANAGE_CAMPAIGN_DATA = {
   manageCampaign: "Manage Campaign",
   back: "Back",
   next: "Next",
+  save:"Save",
   steps: [
     {
       name: "Campaign Info",
@@ -259,11 +260,11 @@ export const TEMPLATES_PAGE_DATA = {
   tabs: [
     {
       label: "Email",
-      value: "email",
+      value: "EMAIL",
     },
     {
       label: "SMS",
-      value: "sms",
+      value: "SMS",
     },
   ],
   navButtons: {

@@ -94,10 +94,17 @@ const ManageCampaign = ({ isNew,isSMS }) => {
     setCurrentState(currentState - 1);
   };
 
+  const handleSave = () => {
+    notify("Campaign Updated Successfully!")
+    updateExistingCampaign(currentDataState,params.id)
+    navigate("/campaigns")
+  }
+
   const handleCampaignStatusChange = (e) =>{
+    console.log("handleCampaignStatusChange Running",e.target.value)
     setCurrentDataState({
       ...currentDataState,
-      status: e.target.value
+      status: e.target.value==='later'?'Scheduled':'Running'
     });
   }
 
@@ -116,7 +123,7 @@ const ManageCampaign = ({ isNew,isSMS }) => {
       ...currentDataState,
       audience: {
         ...currentDataState.audience,
-        value: e.target.value,
+        audienceType: e.target.value,
       },
     });
   };
@@ -132,6 +139,7 @@ const ManageCampaign = ({ isNew,isSMS }) => {
   };
 
   const handleScheduleChange = (e) => {
+    handleCampaignStatusChange(e)
     setCurrentDataState({
       ...currentDataState,
       schedule: {
@@ -209,13 +217,15 @@ const ManageCampaign = ({ isNew,isSMS }) => {
             audience={currentDataState.audience}
             handleAudienceChange={handleAudienceChange}
             handleTagsChange={handleTagsChange}
+            userData={userData}
           />
         )}
         {currentState === 3 && (
           <ManageCampaignState4
             schedule={currentDataState.schedule}
-            hnadleScheduleChange={handleScheduleChange}
+            handleScheduleChange={handleScheduleChange}
             handleScheduleTimeChange={handleScheduleTimeChange}
+            handleCampaignStatusChange={handleCampaignStatusChange}
           />
         )}
         <ManageCampaignStepsPagination
@@ -223,6 +233,7 @@ const ManageCampaign = ({ isNew,isSMS }) => {
           totalStates={4}
           handleNext={handleNext}
           handleBack={handleBack}
+          handleSave ={handleSave}
         />
       </ManageCampaignStepsWrapper>
     </div>

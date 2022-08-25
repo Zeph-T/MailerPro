@@ -17,7 +17,7 @@ export const createCampaign = async (accessToken,campaignData) => {
 
 export const updateCampaign = async (accessToken,campaignData,id) => {
   try {
-    console.log("inside controller updateCampaign")
+    console.log("inside controller updateCampaign with campaign Data",campaignData)
     const { data } = await axios.post(uri.UPDATE_CAMPAIGN_URL,{...campaignData,_id:id}, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

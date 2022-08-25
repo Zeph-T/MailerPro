@@ -4,12 +4,11 @@ const csv = require("csv-parser");
 const { parse } = require("json2csv");
 let exec = require("child_process").exec;
 const { array } = require("./multerStorage");
+const contact = require("../models/contact");
 const constants = require("../../constants");
 const env = require("../../env");
-const { Http2ServerRequest } = require("http2");
 var dataArray = [];
 var temp_headers = [];
-var randomString = makeid(5);
 
 global.__basedir = __dirname;
 
@@ -20,8 +19,10 @@ module.exports = (req, res) => {
         message: "Please upload a CSV File",
       });
     }
-    let tags = req.body.tags;
-    let Path = __basedir + "\\uploads\\" + req.file.filename;
+    let randomString = makeid(5);
+    req.body.tags = JSON.parse(req.body.tags);
+    let tags = req.body.tags.map(oTag=>oTag._id);
+    let Path = __basedir + "/uploads/" + req.file.filename;
     fs.createReadStream(Path)
       .pipe(csv())
       .on("data", (data) => {
@@ -37,11 +38,11 @@ module.exports = (req, res) => {
           header: false,
         });
         fs.writeFileSync("new.csv", result);
-        let newPath = __basedir + "\\new.csv";
+        let newPath = __basedir + "/new.csv";
         let command =
           "mongoimport --uri " +
           env.DB_STRING +
-          " -c collection --type=csv --fields=" +
+          " -c contacts --type=csv --fields=" +
           temp_headers.toString() +
           " --file " +
           `"${newPath}"` +
@@ -55,7 +56,7 @@ module.exports = (req, res) => {
             console.log("Success");
 
             //API call to add tags to Backend
-            addTags();
+            addTags(randomString, tags);
 
             res.send("Successfully uploaded the CSV into Database");
           }
@@ -79,35 +80,6 @@ function findRemainingHeaders(headers) {
   return arr;
 }
 
-// function removeCsvHeader(Path) {
-//   fs.readFile(Path, "utf8", (err, data) => {
-//     if (err) {
-//       console.log(err);
-//       res.status(400).send(err);
-//     }
-//     let lines = data.split("\n").slice(1);
-//     newdata = lines.join("\n");
-//     fs.writeFileSync("new.csv", newdata);
-//   });
-//   return ;
-// }
-
-function addTags() {
-  var options = {
-    host: "",
-    port: "",
-    path: "/addTags",
-    method: "POST",
-    body: {
-      tags: temp_headers,
-      hash: randomString,
-    },
-  };
-
-  http.request(options, (res) => {
-    console.log(res.statusCode);
-  });
-}
 
 function deleteCsv(Path) {
   fs.unlink(Path, (err) => {
@@ -128,4 +100,20 @@ function makeid(length) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+
+
+async function addTags(hash,tags){
+  try {
+      contact.updateMany({hash:hash},{$set : {tags:tags, isValid:true , createdOn : new Date() , updatedOn : new Date() }}, {$unset : { hash : 1} },(err,doc)=>{
+          if(err){
+            console.log(err);
+          }
+          console.log({message:"Successfully added tags"})
+      })
+  } catch (error) {
+    console.log(error);
+  }
+  
 }

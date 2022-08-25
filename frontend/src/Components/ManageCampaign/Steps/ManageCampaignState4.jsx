@@ -21,7 +21,7 @@ const TMPTagsOptions = [
 
 function ManageCampaignState4({
   schedule,
-  hnadleScheduleChange,
+  handleScheduleChange,
   handleScheduleTimeChange,
 }) {
   return (
@@ -29,7 +29,7 @@ function ManageCampaignState4({
       <RadioGroup
         name="schedule"
         value={schedule.value}
-        onChange={hnadleScheduleChange}
+        onChange={handleScheduleChange}
       >
         {MANAGE_CAMPAIGN_DATA.steps[3].options.map((option, index) => (
           <StyledMUIFormControlLabel

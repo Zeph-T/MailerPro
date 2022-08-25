@@ -42,3 +42,14 @@ export const updateContact = async (accessToken, contact) => {
     throw err;
   }
 };
+
+export const unsubscribeForm = async (contactId) => {
+  try {
+    const { data } = await axios.get(
+      uri.UNSUBSCRIBE_FROM_LINK + "/" + contactId
+    );
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};

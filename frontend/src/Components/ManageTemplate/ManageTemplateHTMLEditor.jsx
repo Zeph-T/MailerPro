@@ -8,14 +8,24 @@ import CustomTabs from "../General";
 import styles from "./ManageTemplateHTMLEditor.module.css";
 import { StyledMUIButton } from "../General/Helpers";
 
-function ManageTemplateHTMLEditor({ htmlData, setHTMLData }) {
+function ManageTemplateHTMLEditor({
+  htmlData,
+  setHTMLData,
+  setIsSavedButtonClicked,
+}) {
   const [value, setValue] = useState();
   const emailEditorRef = useRef(null);
   const [isDragNDropUsable, setIsDragNDropUsable] = useState(false);
 
   useEffect(() => {
-    setValue(RichTextEditor.createEmptyValue());
-  }, []);
+    if (!htmlData) {
+      setValue(RichTextEditor.createEmptyValue());
+    } else {
+      setValue(
+        RichTextEditor.createValueFromString(htmlData.textEditor, "html")
+      );
+    }
+  }, [htmlData]);
 
   const saveTemplate = () => {
     if (htmlData.type === "textEditor") {
@@ -27,10 +37,15 @@ function ManageTemplateHTMLEditor({ htmlData, setHTMLData }) {
         setHTMLData("dragDrop", { design, html });
       });
     }
+    setIsSavedButtonClicked(true);
   };
 
   const onLoad = () => {
     setIsDragNDropUsable(true);
+    console.log(htmlData?.dragDrop?.html);
+    if (htmlData?.dragDrop?.html) {
+      emailEditorRef.current?.editor.loadDesign(htmlData.dragDrop.design || {});
+    }
   };
 
   return (

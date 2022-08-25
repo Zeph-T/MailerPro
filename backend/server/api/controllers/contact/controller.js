@@ -100,5 +100,29 @@ export class Controller {
       }
     });
   }
+  
+  async unSubscribeFromLink(req,res){
+    try{
+      if (req.params && req.params.contactId) {
+        Contact.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.params.contactId) },
+          {status : "Unsubscribed" },
+          { upsert: true, setDefaultsOnInsert: true }
+        )
+          .then((contact) => {
+            res.status(200).send({success : true});
+          })
+          .catch((err) => {
+            console.log(err);
+            return res.status(400).send({ data: { error: err } });
+          });
+      } else {
+        throw "Contact ID not found!";
+      }
+    }catch(err){
+      return res.status(400).send({ data: { error: err } });
+    }
+  }
+
 }
 export default new Controller();

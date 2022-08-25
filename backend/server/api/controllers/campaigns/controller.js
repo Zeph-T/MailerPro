@@ -100,12 +100,13 @@ export class Controller {
           ? { isMarkedForImmediateSend: false }
           : { isMarkedForImmediateSend: true },
         req.body.schedule.time
-          ? { scheduledTime: req.body.schedule.time }
+          ? { scheduledTime: new Date(req.body.schedule.time) }
           : { scheduledTime: "" },
       );
-      console.log(req.body._id)
-      Campaign.findByIdAndUpdate(req.body._id, updateData, { new: true })
+      console.log(updateData)
+      Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true })
         .then(async (r) => {
+          console.log(r);
           if (r.isMarkedForImmediateSend) {
             try {
               await collection.deleteOne({

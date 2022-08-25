@@ -27,6 +27,7 @@ import { getUserData } from "./Services/user.service";
 import PopUp from "./Components/General/PopUp";
 import { getAllTags } from "./Services/tags.service";
 import { getAllCustomFields } from "./Services/customField.service";
+import UnsubscribePage from "./Containers/UnsubscribePage/index";
 
 const App = () => {
   const userData = useSelector((state) => state.user?.userData);
@@ -107,42 +108,54 @@ const App = () => {
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (
-            <Route
-              element={
-                <div className="Container">
-                  <Navbar />
-                  <div className="RightSection">
-                    <div className="PrimaryComponentWrapper">
-                      <img src={LOGO_ICON} className="LogoIcon" alt="logo" />
-                      <Outlet />
+            <>
+              <Route
+                element={
+                  <div className="Container">
+                    <Navbar />
+                    <div className="RightSection">
+                      <div className="PrimaryComponentWrapper">
+                        <img src={LOGO_ICON} className="LogoIcon" alt="logo" />
+                        <Outlet />
+                      </div>
+                      <Footer />
                     </div>
-                    <Footer />
                   </div>
-                </div>
-              }
-            >
-              {/* <Route path="*" element={<ManageCampaign />} /> */}
-              <Route path="/directory" element={<Directory />} />
-              <Route path="/managecampaign/:id" element={<ManageCampaign />} />
-              <Route path="/campaign" element={<Campaign />} />
+                }
+              >
+                {/* <Route path="*" element={<ManageCampaign />} /> */}
+                <Route path="/directory" element={<Directory />} />
+                <Route
+                  path="/managecampaign/:id"
+                  element={<ManageCampaign />}
+                />
+                <Route path="/campaign" element={<Campaign />} />
+                <Route
+                  path="/createcampaign"
+                  element={<ManageCampaign isNew />}
+                />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/templates" element={<Templates />} />
+                <Route
+                  path="/managetemplate/:templateId"
+                  element={<ManageTemplate />}
+                />
+                <Route
+                  path="/createtemplate"
+                  element={<ManageTemplate isNew />}
+                />
+                <Route
+                  path="/createsmstemplate"
+                  element={<ManageTemplate isNew isSMS />}
+                />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="*" element={<Navigate to="/dashboard" />} />
+              </Route>
               <Route
-                path="/createcampaign"
-                element={<ManageCampaign isNew />}
+                path="/unsubscribe/:contactId"
+                element={<UnsubscribePage />}
               />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/templates" element={<Templates />} />
-              <Route path="/managetemplate/:id" element={<ManageTemplate />} />
-              <Route
-                path="/createtemplate"
-                element={<ManageTemplate isNew />}
-              />
-              <Route
-                path="/createsmstemplate"
-                element={<ManageTemplate isNew isSMS />}
-              />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="*" element={<Navigate to="/dashboard" />} />
-            </Route>
+            </>
           )}
         </Routes>
       )}

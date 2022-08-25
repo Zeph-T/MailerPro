@@ -3,35 +3,39 @@ import mongoose from "mongoose";
 import Template from "../../../models/template";
 
 export class Controller {
-    all(req, res) {
-        isAuthenticated(req, res, async () => {
-            try {
-                let templatesCount = await Template.countDocuments();
-                let limit = 10 , skip = req.query.skip;
-                Template.find({ isValid: true, templateType: req.params.type }).skip(skip*10).limit(limit).then(
-                    (r) =>
-                        res.json({
-                            data: {
-                                total: templatesCount,
-                                templates: r,
-                            },
-                        }),
-                    (error) => res.json({ error: error })
-                );
-            } catch (err) {
-                res.json({ error: err });
-            }
-        });
-    }
+  all(req, res) {
+    isAuthenticated(req, res, async () => {
+      try {
+        let templatesCount = await Template.countDocuments();
+        let limit = 10,
+          skip = req.query.skip;
+        Template.find({ isValid: true, templateType: req.params.type })
+          .skip(skip * 10)
+          .limit(limit)
+          .then(
+            (r) =>
+              res.json({
+                data: {
+                  total: templatesCount,
+                  templates: r,
+                },
+              }),
+            (error) => res.json({ error: error })
+          );
+      } catch (err) {
+        res.json({ error: err });
+      }
+    });
+  }
 
-    createTemplate(req, res) {
-        isAuthenticated(req, res, () => {
-            Template.create(req.body).then(
-                (r) => res.json({ data: r }),
-                (error) => res.status(404).json({ data: { error: error } })
-            );
-        });
-    }
+  createTemplate(req, res) {
+    isAuthenticated(req, res, () => {
+      Template.create(req.body).then(
+        (r) => res.json({ data: r }),
+        (error) => res.status(404).json({ data: { error: error } })
+      );
+    });
+  }
 
   updateTemplate(req, res) {
     isAuthenticated(req, res, () => {
@@ -69,5 +73,23 @@ export class Controller {
       }
     });
   }
+
+  getTemplate(req, res) {
+    isAuthenticated(req, res, () => {
+      try {
+        const templateId = req.params.templateId;
+        if (templateId) {
+          Template.findOne({ _id: templateId })
+            .then((r) => res.json({ data: r }))
+            .catch((err) => res.status(400).json({ data: { error: err } }));
+        } else {
+          throw "NO ID found!";
+        }
+      } catch (err) {
+        res.status(400).json({ data: { error: err } });
+      }
+    });
+  }
 }
+
 export default new Controller();
