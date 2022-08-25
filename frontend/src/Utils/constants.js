@@ -28,4 +28,5 @@ export const uri = {
   CREATE_TEMPLATE_URL: BASE_URL + "/template/create",
   UPDATE_TEMPLATE_URL: BASE_URL + "/template/update",
   REMOVE_TEMPLATE_URL: BASE_URL + "/template/remove",
+  GET_TEMPLATE_URL: BASE_URL + "/template/getTemplate",
 };

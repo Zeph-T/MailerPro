@@ -9,6 +9,9 @@ const TemplateSchema = new mongoose.Schema({
     type: String,
     required: [true, "Template Content Missing"],
   },
+  design: {
+    type: Object,
+  },
   editorType: {
     type: String,
     default: "TextEditor",

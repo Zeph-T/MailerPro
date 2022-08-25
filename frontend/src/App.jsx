@@ -126,7 +126,10 @@ const App = () => {
               />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/templates" element={<Templates />} />
-              <Route path="/managetemplate/:id" element={<ManageTemplate />} />
+              <Route
+                path="/managetemplate/:templateId"
+                element={<ManageTemplate />}
+              />
               <Route
                 path="/createtemplate"
                 element={<ManageTemplate isNew />}

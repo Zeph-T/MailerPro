@@ -6,9 +6,11 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let templatesCount = await Template.countDocuments();
-        let limit = 10,
-          skip = req.query.skip;
+        let templatesCount = await Template.countDocuments({
+          templateType: req.params.type,
+        });
+        let limit = 10;
+        let skip = req.query.skip * 10 || 0;
         Template.find({ isValid: true, templateType: req.params.type })
           .skip(skip)
           .limit(limit)
@@ -73,5 +75,23 @@ export class Controller {
       }
     });
   }
+
+  getTemplate(req, res) {
+    isAuthenticated(req, res, () => {
+      try {
+        const templateId = req.params.templateId;
+        if (templateId) {
+          Template.findOne({ _id: templateId })
+            .then((r) => res.json({ data: r }))
+            .catch((err) => res.status(400).json({ data: { error: err } }));
+        } else {
+          throw "NO ID found!";
+        }
+      } catch (err) {
+        res.status(400).json({ data: { error: err } });
+      }
+    });
+  }
 }
+
 export default new Controller();

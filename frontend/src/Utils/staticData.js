@@ -259,11 +259,11 @@ export const TEMPLATES_PAGE_DATA = {
   tabs: [
     {
       label: "Email",
-      value: "email",
+      value: "EMAIL",
     },
     {
       label: "SMS",
-      value: "sms",
+      value: "SMS",
     },
   ],
   navButtons: {
