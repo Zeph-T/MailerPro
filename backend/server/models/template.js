@@ -14,10 +14,10 @@ const TemplateSchema = new mongoose.Schema({
     default: "TextEditor",
     enum: ["Drag&Drop", "TextEditor"],
   },
-  templateType : {
-    type : String,
-    enum : ["SMS","EMAIL"],
-    required : true
+  templateType: {
+    type: String,
+    enum: ["SMS", "EMAIL"],
+    required: true,
   },
   isValid: {
     type: Boolean,

@@ -6,4 +6,4 @@ export default express
   .get("/all/:type", controller.all)
   .post("/create", controller.createTemplate)
   .post("/remove", controller.deleteTemplate)
-  .post("/update",controller.updateTemplate);
+  .post("/update", controller.updateTemplate);

@@ -17,13 +17,13 @@ db.once("open", function callback() {
 });
 
 const oSubscriberActivityKeys = {
-  SUBSCRIBER_UNSUBSCRIBED: 'EMAIL_UNSUBSCRIBED',
-  SUBSCRIBER_OPENED_EMAIL: 'EMAIL_OPENED',
-  SUBSCRIBER_EMAIL_BOUNCED: 'EMAIL_BOUNCED',
-  SUBSCRIBER_CLICKED_EMAIL_LINK: 'EMAIL_CLICKED_LINK', //A Message and campaign link
-  SUSBCRIBER_ACTIVITY_LOG_ERROR: 'Error while Inserting Subscribe activity log',
-  SUBSCRIBER_EMAIL_COMPLAINED: 'EMAIL_COMPLAINED',
-  SUBSCRIBER_EMAIL_SENT: 'EMAIL_SENT'
+  SUBSCRIBER_UNSUBSCRIBED: "EMAIL_UNSUBSCRIBED",
+  SUBSCRIBER_OPENED_EMAIL: "EMAIL_OPENED",
+  SUBSCRIBER_EMAIL_BOUNCED: "EMAIL_BOUNCED",
+  SUBSCRIBER_CLICKED_EMAIL_LINK: "EMAIL_CLICKED_LINK", //A Message and campaign link
+  SUSBCRIBER_ACTIVITY_LOG_ERROR: "Error while Inserting Subscribe activity log",
+  SUBSCRIBER_EMAIL_COMPLAINED: "EMAIL_COMPLAINED",
+  SUBSCRIBER_EMAIL_SENT: "EMAIL_SENT",
 };
 
 export class Controller {
@@ -52,23 +52,23 @@ export class Controller {
     });
   }
 
-    create(req, res) {
-        console.log("create api in progress")
-        isAuthenticated(req, res, () => {
-            let createdCampaignData = {
-                name: req.body.campaignName,
-                note: req.body.notes,
-                Subject: req.body.subject,
-                ReplyMail: req.body.replyTo,
-                SenderName: req.body.fromName,
-                senderMailAddress: req.body.fromEmail,
-                mailContent: "This is default mail content",
-                status: "Draft",
-                targetAudience: {
-                    audienceType: "ALL",
-                    tags:[]
-                }
-            };
+  create(req, res) {
+    console.log("create api in progress");
+    isAuthenticated(req, res, () => {
+      let createdCampaignData = {
+        name: req.body.campaignName,
+        note: req.body.notes,
+        Subject: req.body.subject,
+        ReplyMail: req.body.replyTo,
+        SenderName: req.body.fromName,
+        senderMailAddress: req.body.fromEmail,
+        mailContent: "This is default mail content",
+        status: "Draft",
+        targetAudience: {
+          audienceType: "ALL",
+          tags: [],
+        },
+      };
 
       let createdCampaign = new Campaign(createdCampaignData);
       createdCampaign.save().then(
@@ -93,9 +93,15 @@ export class Controller {
           : {},
         req.body.mailContent ? { mailContent: req.body.mailContent } : {},
         req.body.status ? { status: req.body.status } : {},
-        req.body.targetAudience ? { targetAudience: req.body.targetAudience } : {},
-        req.body.isMarkedForImmediateSend ? { isMarkedForImmediateSend: true } : { isMarkedForImmediateSend: false },
-        req.body.scheduledTime ? { scheduledTime: req.body.scheduledTime } : { scheduledTime: "" },
+        req.body.targetAudience
+          ? { targetAudience: req.body.targetAudience }
+          : {},
+        req.body.isMarkedForImmediateSend
+          ? { isMarkedForImmediateSend: true }
+          : { isMarkedForImmediateSend: false },
+        req.body.scheduledTime
+          ? { scheduledTime: req.body.scheduledTime }
+          : { scheduledTime: "" }
       );
 
       Campaign.findByIdAndUpdate(req.body.id, updateData, { new: true })
@@ -130,76 +136,106 @@ export class Controller {
         })
         .catch((error) => res.json({ data: { error: error } }));
     });
-      } catch (err) {
-        console.log(err);
-        res.status(400);
-        return res.send({ data: { error: err } });
+  }
+  catch(err) {
+    console.log(err);
+    res.status(400);
+    return res.send({ data: { error: err } });
   }
 
   getCampaignStatisticsByIds(req, res) {
     isAuthenticated(req, res, () => {
       try {
         let aCampaigns = [];
-        req.body.campaigns.map(sCampaignId => {
+        req.body.campaigns.map((sCampaignId) => {
           aCampaigns.push(mongoose.Types.ObjectId(sCampaignId));
         });
         let query = [
           {
             $match: {
-              'data.campaignId': { '$in': aCampaigns }
-            }
+              "data.campaignId": { $in: aCampaigns },
+            },
           },
           {
             $group: {
-              '_id': {
-                '_id': '$data.campaignId',
-                'eventType': '$activityKey'
+              _id: {
+                _id: "$data.campaignId",
+                eventType: "$activityKey",
               },
-              'subscribers': {
-                $addToSet: '$subscriberId'
-              }
-            }
+              subscribers: {
+                $addToSet: "$subscriberId",
+              },
+            },
           },
           {
-            $group:
-            {
-              '_id': '$_id._id',
-              'aggregatedSendStatistics': {
-                '$push': {
-                  'k': {
-                    '$ifNull': [
-                      '$_id.eventType', 'q'
-                    ]
+            $group: {
+              _id: "$_id._id",
+              aggregatedSendStatistics: {
+                $push: {
+                  k: {
+                    $ifNull: ["$_id.eventType", "q"],
                   },
-                  'v': {
-                    '$size': '$subscribers'
-                  }
-                }
-              }
-            }
-          }, {
+                  v: {
+                    $size: "$subscribers",
+                  },
+                },
+              },
+            },
+          },
+          {
             $project: {
-              '_id': 1,
-              'aggregatedSendStatistics': {
-                '$arrayToObject': '$aggregatedSendStatistics'
-              }
-            }
-          }
+              _id: 1,
+              aggregatedSendStatistics: {
+                $arrayToObject: "$aggregatedSendStatistics",
+              },
+            },
+          },
         ];
         return activityLog.aggregate(query, function (err, aStatistics) {
           if (!err) {
             res.status(200);
-            let data = aStatistics.map(aStat => {
-              return ({
+            let data = aStatistics.map((aStat) => {
+              return {
                 _id: aStat._id,
                 aggregatedSendStatistics: {
-                  sent: aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_EMAIL_SENT] ? aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_EMAIL_SENT] : 0,
-                  unsubscribe: aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_UNSUBSCRIBED_FROM_LINK] ? aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_UNSUBSCRIBED_FROM_LINK] : 0,
-                  open: aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_OPENED_EMAIL] ? aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_OPENED_EMAIL] : 0,
-                  click: aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_CLICKED_EMAIL_LINK] ? aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_CLICKED_EMAIL_LINK] : 0,
-                  bounce: aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_EMAIL_BOUNCED] ? aStat.aggregatedSendStatistics[oSubscriberActivityKeys.SUBSCRIBER_EMAIL_BOUNCED] : 0
-                }
-              });
+                  sent: aStat.aggregatedSendStatistics[
+                    oSubscriberActivityKeys.SUBSCRIBER_EMAIL_SENT
+                  ]
+                    ? aStat.aggregatedSendStatistics[
+                        oSubscriberActivityKeys.SUBSCRIBER_EMAIL_SENT
+                      ]
+                    : 0,
+                  unsubscribe: aStat.aggregatedSendStatistics[
+                    oSubscriberActivityKeys.SUBSCRIBER_UNSUBSCRIBED_FROM_LINK
+                  ]
+                    ? aStat.aggregatedSendStatistics[
+                        oSubscriberActivityKeys
+                          .SUBSCRIBER_UNSUBSCRIBED_FROM_LINK
+                      ]
+                    : 0,
+                  open: aStat.aggregatedSendStatistics[
+                    oSubscriberActivityKeys.SUBSCRIBER_OPENED_EMAIL
+                  ]
+                    ? aStat.aggregatedSendStatistics[
+                        oSubscriberActivityKeys.SUBSCRIBER_OPENED_EMAIL
+                      ]
+                    : 0,
+                  click: aStat.aggregatedSendStatistics[
+                    oSubscriberActivityKeys.SUBSCRIBER_CLICKED_EMAIL_LINK
+                  ]
+                    ? aStat.aggregatedSendStatistics[
+                        oSubscriberActivityKeys.SUBSCRIBER_CLICKED_EMAIL_LINK
+                      ]
+                    : 0,
+                  bounce: aStat.aggregatedSendStatistics[
+                    oSubscriberActivityKeys.SUBSCRIBER_EMAIL_BOUNCED
+                  ]
+                    ? aStat.aggregatedSendStatistics[
+                        oSubscriberActivityKeys.SUBSCRIBER_EMAIL_BOUNCED
+                      ]
+                    : 0,
+                },
+              };
             });
             return res.send(data);
           } else {
@@ -213,10 +249,7 @@ export class Controller {
         res.status(400);
         return res.send({ data: { error: err } });
       }
-
-    })
-  };
-
-
+    });
+  }
 }
 export default new Controller();
