@@ -35,10 +35,11 @@ function ManageCampaignState2({
       </Swiper>
       <div
         className={styles.TemplatePreviewWrapper}
-        dangerouslySetInnerHTML={{ __html: templates[activeTemplate].html }}
+        dangerouslySetInnerHTML={{ __html: templates.filter(item => item._id === activeTemplate)[0].content }}
       />
     </div>
   );
 }
 
 export default ManageCampaignState2;
+// templates[activeTemplate].html
