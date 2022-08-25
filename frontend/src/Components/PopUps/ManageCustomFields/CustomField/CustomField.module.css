@@ -1,0 +1,10 @@
+.Wrapper {
+  display: grid;
+  width: 50rem;
+  grid-template-columns: 6.4rem auto 12rem;
+  gap: 1rem;
+}
+
+.LowerWrapper {
+  font-size: var(--font-16);
+}

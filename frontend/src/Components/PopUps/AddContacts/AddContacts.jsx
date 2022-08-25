@@ -84,6 +84,20 @@ const AddContacts = ({
     }
   );
 
+  console.log(userData.customFields);
+  const customsTextList = userData.customFields.map((input, index) => {
+    return (
+      <StyledMUITextField
+        key={index}
+        name={input.fieldName}
+        label={input.fieldName}
+        type={input.fieldType}
+        onChange={handleUpdate}
+        value={values[input.fieldName]}
+      />
+    );
+  });
+
   useEffect(() => {
     console.log(values);
   }, [values]);
@@ -143,6 +157,8 @@ const AddContacts = ({
         }}
         value={values.tags}
       />
+      <h2>Custom Fields</h2>
+      {customsTextList}
       {isContactDetails ? (
         <>
           {/* <StyledMUIButton color="buttonBlue" fullWidth>

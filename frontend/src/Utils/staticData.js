@@ -154,11 +154,11 @@ export const MANAGE_CAMPAIGN_DATA = {
       name: "Select Audience",
       options: [
         {
-          name: "all",
+          name: "ALL",
           label: "To All Subscribers",
         },
         {
-          name: "selected",
+          name: "TAGS",
           label: "To Contact with particular Tags",
         },
       ],
@@ -279,6 +279,7 @@ export const DIRECTORY_PAGE_DATA = {
     manageTags: "Manage tags",
     importContacts: "Import Contacts from File",
     addContact: "Add Contact",
+    manageCustomFields: "Manage Custom Fields",
   },
   highlightsData: [
     {
@@ -362,6 +363,33 @@ export const MANAGE_TAGS_POPUP_DATA = {
   buttons: ["Add New", "Save", "Discard"],
 };
 
+export const MANAGE_CUSTOM_FIELDS_POPUP_DATA = {
+  title: "Custom Fields",
+  labels: {
+    type: "Type",
+    name: "Name",
+  },
+  buttons: {
+    add: "Add New",
+    save: "Save",
+    discard: "Discard",
+  },
+  typeOptions: [
+    {
+      label: "Text",
+      value: "Text",
+    },
+    {
+      label: "Number",
+      value: "Number",
+    },
+    {
+      label: "Date",
+      value: "Date",
+    },
+  ],
+};
+
 export const CAMPAIGN_INSIGHTS_POPUP_DATA = {
   title: "Campaign Insights",
   header: ["Name", "Contacts"],
@@ -417,6 +445,44 @@ export const DASHBOARD_DATA = {
     {
       date: "29 August,2022",
       subscribers: "12500",
+    },
+  ],
+  unSubscriberData: [
+    {
+      date: "21 August,2022",
+      subscribers: "1000",
+    },
+    {
+      date: "22 August,2022",
+      subscribers: "330",
+    },
+    {
+      date: "23 August,2022",
+      subscribers: "300",
+    },
+    {
+      date: "24 August,2022",
+      subscribers: "500",
+    },
+    {
+      date: "25 August,2022",
+      subscribers: "600",
+    },
+    {
+      date: "26 August,2022",
+      subscribers: "10",
+    },
+    {
+      date: "27 August,2022",
+      subscribers: "100",
+    },
+    {
+      date: "28 August,2022",
+      subscribers: "200",
+    },
+    {
+      date: "29 August,2022",
+      subscribers: "1200",
     },
   ],
 };
@@ -494,6 +560,7 @@ export const ADD_CONTACTS_POPUP_DATA = {
 };
 export const UPLOAD_FILE_POPUP_DATA = {
   title: "Upload Contacts",
+  selectTags: "Select Tags to add (optional)",
   buttons: {
     upload: "Upload",
   },

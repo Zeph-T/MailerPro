@@ -26,6 +26,7 @@ import { UPDATE_POPUP_STATE, UPDATE_USER_DATA } from "./Redux/ActionTypes";
 import { getUserData } from "./Services/user.service";
 import PopUp from "./Components/General/PopUp";
 import { getAllTags } from "./Services/tags.service";
+import { getAllCustomFields } from "./Services/customField.service";
 
 const App = () => {
   const userData = useSelector((state) => state.user?.userData);
@@ -49,10 +50,13 @@ const App = () => {
   const fetchUserData = async () => {
     if (cookie.token) {
       try {
-        const [localeUserData, userTags] = await Promise.all([
-          getUserData(cookie.token),
-          getAllTags(cookie.token),
-        ]);
+        const [localeUserData, userTags, userContactFields] = await Promise.all(
+          [
+            getUserData(cookie.token),
+            getAllTags(cookie.token),
+            getAllCustomFields(cookie.token),
+          ]
+        );
 
         dispatch({
           type: UPDATE_USER_DATA,
@@ -60,6 +64,7 @@ const App = () => {
             ...localeUserData.data,
             accessToken: cookie.token,
             tags: userTags.data.tags,
+            customFields: userContactFields.data.contactFields,
           },
         });
       } catch (err) {
@@ -133,6 +138,10 @@ const App = () => {
               <Route
                 path="/createtemplate"
                 element={<ManageTemplate isNew />}
+              />
+              <Route
+                path="/createsmstemplate"
+                element={<ManageTemplate isNew isSMS />}
               />
               <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<Navigate to="/dashboard" />} />

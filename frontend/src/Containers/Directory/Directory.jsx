@@ -24,6 +24,7 @@ import { getContactsList } from "../../Services/contact.service";
 import notify from "./../../Utils/helper/notifyToast";
 import AddContacts from "./../../Components/PopUps/AddContacts/AddContacts";
 import FileUpload from "../../Components/PopUps/FileUpload/FileUpload";
+import ManageCustomFields from "../../Components/PopUps/ManageCustomFields";
 
 const TEMP_DIR_HIGHLIGHTS_DATA = {
   total: 59874,
@@ -80,6 +81,27 @@ function Directory() {
           subTitle={"Create reusable templates"}
           rightSecContent={
             <div className={styles.NavRightwrapper}>
+              <StyledMUIButton
+                style={{
+                  padding: "0.8rem 1.5rem",
+                }}
+                color="buttonGrey"
+                onClick={() => {
+                  dispatch({
+                    type: UPDATE_POPUP_STATE,
+                    payload: {
+                      open: true,
+                      component: (
+                        <ManageCustomFields
+                          fetchCurrentPageData={fetchCurrentPageData}
+                        />
+                      ),
+                    },
+                  });
+                }}
+              >
+                {DIRECTORY_PAGE_DATA.navButtons.manageCustomFields}
+              </StyledMUIButton>
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",

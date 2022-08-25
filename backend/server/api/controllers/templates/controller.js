@@ -6,13 +6,11 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let templatesCount = await Template.countDocuments({
-          templateType: req.params.type,
-        });
-        let limit = 10;
-        let skip = req.query.skip * 10 || 0;
+        let templatesCount = await Template.countDocuments();
+        let limit = 10,
+          skip = req.query.skip;
         Template.find({ isValid: true, templateType: req.params.type })
-          .skip(skip)
+          .skip(skip * 10)
           .limit(limit)
           .then(
             (r) =>
@@ -32,9 +30,9 @@ export class Controller {
 
   createTemplate(req, res) {
     isAuthenticated(req, res, () => {
-      Template.create({ ...req.body, templateType: req.params.type }).then(
+      Template.create(req.body).then(
         (r) => res.json({ data: r }),
-        (error) => res.json({ data: { error: error } })
+        (error) => res.status(404).json({ data: { error: error } })
       );
     });
   }
