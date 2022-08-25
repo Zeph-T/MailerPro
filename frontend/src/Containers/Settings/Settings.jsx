@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   StyledMUIButton,
   StyledMUITextField,
 } from "../../Components/General/Helpers";
 import Header from "../../Components/Header";
 import { SETTINGS_PAGE_DATA } from "../../Utils/staticData";
+import { changePassword, updateUser } from "../../Services/user.service";
 import styles from "./Settings.module.css";
+import notify from "./../../Utils/helper/notifyToast";
+import { UPDATE_USER_DATA } from "../../Redux/ActionTypes";
 
 const Settings = () => {
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state.user?.userData);
   const [settings, setSettings] = useState({
     email: "",
@@ -76,6 +80,70 @@ const Settings = () => {
     }
   };
 
+  const handleButtonClick = async (button) => {
+    if (button === "Save Personal Details") {
+      try {
+        await updateUser(
+          {
+            email: settings.email,
+            name: settings.name,
+          },
+          userData.accessToken
+        );
+        dispatch({
+          type: UPDATE_USER_DATA,
+          data: {
+            ...userData,
+            email: settings.email,
+            name: settings.name,
+          },
+        });
+        return notify("Personal details updated successfully", "success");
+      } catch (err) {
+        return notify("Error updating personal details", "error");
+      }
+    } else if (button === "Save Form Info") {
+      try {
+        await updateUser(
+          {
+            unSubscriptionForm: settings.unSubscriptionForm,
+          },
+          userData.accessToken
+        );
+        dispatch({
+          type: UPDATE_USER_DATA,
+          data: {
+            ...userData,
+            unSubscriptionForm: settings.unSubscriptionForm,
+          },
+        });
+        return notify("Form info updated successfully", "success");
+      } catch (err) {
+        return notify("Error updating form info", "error");
+      }
+    } else if (button === "Update Password") {
+      try {
+        await changePassword(
+          {
+            password: settings.password,
+            newPassword: settings.newPassword,
+            newConfirmPassword: settings.newConfirmPassword,
+          },
+          userData.accessToken
+        );
+        setSettings({
+          ...settings,
+          password: "",
+          newPassword: "",
+          newConfirmPassword: "",
+        });
+        return notify("Password updated successfully", "success");
+      } catch (err) {
+        return notify("Error updating password", "error");
+      }
+    }
+  };
+
   const sectionMapList = SETTINGS_PAGE_DATA.sectionList.map(
     (section, index) => {
       return (
@@ -102,6 +170,7 @@ const Settings = () => {
                 padding: "1.2rem 2rem",
               }}
               disabled={handleButtonDisable(section.buttons)}
+              onClick={() => handleButtonClick(section.buttons)}
             >
               {section.buttons}
             </StyledMUIButton>
