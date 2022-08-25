@@ -35,6 +35,7 @@ const FileUpload = ({}) => {
     if (file) {
       await uploadContacts(userData.accessToken, file);
       notify("Contacts uploaded successfully", "success");
+      closePopup();
     } else {
       notify("Please select a file", "warning");
     }
