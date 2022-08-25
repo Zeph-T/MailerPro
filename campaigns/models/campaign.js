@@ -30,7 +30,7 @@ const CampaignSchema = new mongoose.Schema({
     },
     status : {
         type : String,
-        enum : ["Draft" , "Running" , "Scheduled" , "Aborted"],
+        enum : ["Draft" , "Running" , "Scheduled" , "Aborted","Completed"],
         required: [true , "Status of Campaign Missing"]
     },
     isMarkedForImmediateSend : {

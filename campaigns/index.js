@@ -3,6 +3,8 @@ const { MongoCron } = require("mongodb-cron");
 const env = require('./env');
 const http = require("http");
 const executeCampaign = require('./execute');
+const Campaign = require("./models/campaign");
+const smsCampaign = require("./models/smsCampaign");
 
 const server = http.createServer((req,res)=>{
     res.send("Server Created");
@@ -29,9 +31,21 @@ db.once('open',()=>{
     collection = db.collection('jobs');
     const cron = new MongoCron({
         collection,
-        onDocument : (doc) => {
-            console.log(doc);
-            executeCampaign(doc)
+        onDocument : async (doc) => {
+            try{
+                console.log(doc);
+                await executeCampaign(doc)
+            }catch(err){
+                try{
+                    if(doc.campaignType === "SMS"){
+                        await Campaign.findOneAndUpdate({_id : doc.campaignId} , {set : {status : "Aborted"}});
+                    }else{
+                        await smsCampaign.findOneAndUpdate({_id : doc.campaignId} , {set : {status : "Aborted"}});
+                    }
+                }catch(err){
+                    console.log(err);
+                }
+            }
         },
         onError : (err) => console.log("Error ",err)
     });

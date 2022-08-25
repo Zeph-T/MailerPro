@@ -100,13 +100,14 @@ export class Controller {
           ? { isMarkedForImmediateSend: false }
           : { isMarkedForImmediateSend: true },
         req.body.schedule.time
-          ? { scheduledTime: new Date(req.body.schedule.time) }
+          ? { scheduledTime: new Date(req.body.schedule.time) , status : "Scheduled" }
           : { scheduledTime: "" },
       );
       updateData.targetAudience.tags = updateData.targetAudience.tags.map(oTag=>oTag._id)
       Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true }).lean()
         .then(async (r) => {
           if (r.isMarkedForImmediateSend) {
+            r.status = "Running";
             try {
               await collection.deleteOne({
                 campaignId: r._id,
@@ -116,6 +117,7 @@ export class Controller {
                 campaignType: "EMAIL",
                 sleepUntil: new Date(),
               });
+              await r.save();
             } catch (err) {
               console.log(err);
             }
@@ -128,7 +130,7 @@ export class Controller {
               await collection.insert({
                 campaignId: r._id,
                 campaignType: "EMAIL",
-                sleepUntil: new Date(r.scheduledDate),
+                sleepUntil: new Date(r.scheduledTime),
               });
             } catch (err) {}
           }
@@ -144,6 +146,23 @@ export class Controller {
     console.log(err);
     res.status(400);
     return res.send({ data: { error: err } });
+  }
+
+  getCampaignById(req,res){
+    isAuthenticated(req, res, () => {
+      try {
+        Campaign.find({_id : mongoose.Types.ObjectId(req.params.id)})
+          .then(
+            (r) =>
+              res.json({
+                data: r
+              }),
+            (error) => res.json({ error: error })
+          );
+      } catch (err) {
+        return res.json({ error: err });
+      }
+    })
   }
 
   getCampaignStatisticsByIds(req, res) {

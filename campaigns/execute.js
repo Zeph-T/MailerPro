@@ -214,11 +214,17 @@ let runEmailCampaign = async function (campaign, contactList) {
             }
 
 
-            let intervalId = setInterval(function () {
+            let intervalId = setInterval(async function () {
                 if (list.length() != 0) {
                     sendEmail(templateText, senderMailAddress, templateSubject);
                 } else {
                     clearInterval(intervalId);
+                    campaign.status = "Completed";
+                    try{
+                        await campaign.save();
+                    }catch(err){
+                        console.log(err);
+                    }
                 }
             }, delay);
 
@@ -297,7 +303,11 @@ let executeCampaign = async function (document) {
         }
     } catch (err) {
         console.log(err);
-        deferred.reject(err);
+        Campaign.findOneAndUpdate({_id : campaignId},{$set : {status : "Aborted"}}).then(()=>{
+            deferred.reject(err);
+        }).catch(oError=>{
+            deferred.reject(oError);
+        })
     }
     return deferred.promise;
 

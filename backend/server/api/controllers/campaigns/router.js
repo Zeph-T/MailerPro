@@ -6,4 +6,5 @@ export default express
   .post("/create", controller.create)
   .post("/update", controller.update)
   .get("/", controller.all)
+  .get('/campaignById/:id',controller.getCampaignById)
   .post('/getStats',controller.getCampaignStatisticsByIds);

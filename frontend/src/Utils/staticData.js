@@ -513,6 +513,11 @@ export const ADD_CONTACTS_POPUP_DATA = {
         type: "text",
       },
       {
+        name: "phone",
+        label: "Mobile Number",
+        type: "text",
+      },
+      {
         name: "lname",
         label: "Last Name",
         type: "text",
