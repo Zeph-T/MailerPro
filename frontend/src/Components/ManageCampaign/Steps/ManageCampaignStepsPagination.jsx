@@ -8,7 +8,7 @@ function ManageCampaignStepsPagination({
   totalStates,
   handleNext,
   handleBack,
-  handleSave
+  handleSave,
 }) {
   return (
     <div className={styles.Wrapper}>
@@ -27,22 +27,22 @@ function ManageCampaignStepsPagination({
           style={{ maxWidth: "17rem" }}
           fullWidth
           color="buttonGreen"
-          onClick={handleNext}
+          type="submit"
         >
           {MANAGE_CAMPAIGN_DATA.next}
         </StyledMUIButton>
       )}
-      {currentState ===3 && (
+      {currentState === 3 && (
         <StyledMUIButton
           style={{ maxWidth: "17rem" }}
           fullWidth
           color="buttonGreen"
           onClick={handleSave}
         >
-        {MANAGE_CAMPAIGN_DATA.save}
-      </StyledMUIButton>
+          {MANAGE_CAMPAIGN_DATA.save}
+        </StyledMUIButton>
       )}
-      </div>
+    </div>
   );
 }
 

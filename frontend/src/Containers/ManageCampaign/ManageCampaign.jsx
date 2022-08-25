@@ -71,7 +71,8 @@ const ManageCampaign = ({ isNew, isSMS }) => {
 
   // console.log(currentDataState.schedule);
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    e.preventDefault();
     if (currentState == 0) {
       createNewCampaign(currentDataState.info);
     } else {
@@ -181,7 +182,7 @@ const ManageCampaign = ({ isNew, isSMS }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <form className={styles.container} onSubmit={handleNext}>
       <Header
         title={
           isNew
@@ -237,7 +238,7 @@ const ManageCampaign = ({ isNew, isSMS }) => {
           handleSave={handleSave}
         />
       </ManageCampaignStepsWrapper>
-    </div>
+    </form>
   );
 };
 
