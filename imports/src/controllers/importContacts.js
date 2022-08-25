@@ -21,9 +21,11 @@ module.exports = (req, res) => {
       });
     }
     let randomString = makeid(5);
+    let importPromise = [];
     req.body.tags = JSON.parse(req.body.tags);
     let tags = req.body.tags.map((oTag) => oTag._id);
     let Path = __basedir + "/uploads/" + req.file.filename;
+    let csv_paths = [];
     fs.createReadStream(Path)
       .pipe(csv())
       .on("data", (data) => {
@@ -35,12 +37,13 @@ module.exports = (req, res) => {
       })
       .on("end", async function () {
         try {
-          for (let i = 0; i <= (dataArray.length - 1) / 50000; i++) {
+          let batchSize = 10000;
+          for (let i = 0; i <= (dataArray.length - 1) / batchSize; i++) {
             var result = parse(
               dataArray.slice(
-                i * 50000,
-                (i + 1) * 50000 - 1 < dataArray.length
-                  ? (i + 1) * 50000
+                i * batchSize,
+                (i + 1) * batchSize - 1 < dataArray.length
+                  ? (i + 1) * batchSize
                   : dataArray.length - 1
               ),
               {
@@ -48,23 +51,32 @@ module.exports = (req, res) => {
                 header: false,
               }
             );
-            fs.writeFileSync("new.csv", result);
-            let newPath = __basedir + "/new.csv";
+            console.log("Batch Execution Started ",i);
+            fs.writeFileSync(`new_${i}.csv`, result);
+            let newPath = __basedir + `/new_${i}.csv`;
             let command =
               "mongoimport --uri " +
               env.DB_STRING +
               " -c contacts --type=csv --fields=" +
               temp_headers.toString() +
               " --file " +
-              `"${newPath}"` +
+              `${newPath}` +
               " --ignoreBlanks";
 
-            await exec(command);
-            addTags(randomString, tags);
+            importPromise.push(exec(command));
             console.log(`Completed Batch ${i}`);
           }
-          deleteCsv(Path);
-          res.send("Successfully uploaded the CSV into Database");
+          Promise.all(importPromise).then(async ()=>{
+            try{
+              console.log("imported contacts");
+              deleteCsv(Path);
+              await addTags(randomString, tags);
+              res.send("Successfully uploaded the CSV into Database");
+            }catch(err){
+              console.log(err);
+              res.send("Contacts Added,unable to attach tags");
+            }
+          })
         } catch (error) {
           console.log(error);
           res.status(500).send({
