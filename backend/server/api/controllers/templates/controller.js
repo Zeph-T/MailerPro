@@ -26,7 +26,7 @@ export class Controller {
 
     createTemplate(req, res) {
         isAuthenticated(req, res, () => {
-            Template.create({ ...req.body, templateType: req.params.type }).then(
+            Template.create(req.body).then(
                 (r) => res.json({ data: r }),
                 (error) => res.status(404).json({ data: { error: error } })
             );
