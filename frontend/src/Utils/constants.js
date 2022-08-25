@@ -21,4 +21,8 @@ export const uri = {
   GET_ALL_CAMPAIGNS_URL: BASE_URL + "/campaigns",
   UPDATE_USER_URL: BASE_URL + "/users/updateUser",
   CHANGE_PASSWORD_URL: BASE_URL + "/users/changePassword",
+  GET_ALL_TEMPLATES_URL: BASE_URL + "/template/all",
+  CREATE_TEMPLATE_URL: BASE_URL + "/template/create",
+  UPDATE_TEMPLATE_URL: BASE_URL + "/template/update",
+  REMOVE_TEMPLATE_URL: BASE_URL + "/template/remove",
 };
