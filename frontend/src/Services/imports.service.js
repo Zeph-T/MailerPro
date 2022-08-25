@@ -5,7 +5,7 @@ export const uploadContacts = async (accessToken, file, selectedTags) => {
   const formData = new FormData();
   formData.append("file", file);
 
-  formData.append("tags", selectedTags);
+  formData.append("tags", JSON.stringify(selectedTags));
 
   try {
     const { data } = await axios.post(uri.UPLOAD_CONTACTS_URL, formData, {
