@@ -23,12 +23,15 @@ function ManageCampaignState3({
   audience,
   handleAudienceChange,
   handleTagsChange,
+  userData
 }) {
+  console.log(audience)
   return (
+
     <div className={styles.Wrapper}>
       <RadioGroup
         name="audience"
-        value={audience.value}
+        value={audience.audienceType}
         onChange={handleAudienceChange}
       >
         {MANAGE_CAMPAIGN_DATA.steps[2].options.map((option, index) => (
@@ -40,13 +43,13 @@ function ManageCampaignState3({
           />
         ))}
       </RadioGroup>
-      {audience.value === "selected" && (
+      {audience.audienceType === "TAGS" && (
         <StyledMUISelectWithChip
           label={MANAGE_CAMPAIGN_DATA.steps[2].tags}
           placeholder={MANAGE_CAMPAIGN_DATA.steps[2].selectTags}
           value={audience.tags}
           onChange={handleTagsChange}
-          options={TMPTagsOptions}
+          options={userData.tags}
           getOptionLabel={(option) => option.name}
         />
       )}
