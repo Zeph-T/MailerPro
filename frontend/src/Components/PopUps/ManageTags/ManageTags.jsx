@@ -52,7 +52,6 @@ const ManageTags = () => {
       (tag, index) => tag._id && tag.name !== userData.tags[index]?.name
     );
     const newTags = tagsLocale.filter((tag) => tag._id === undefined);
-    console.log(changedTags, newTags);
     const deleteTags = userData.tags.filter(
       (tag, index) => tagsLocale.findIndex((t) => t._id === tag._id) === -1
     );
@@ -75,11 +74,12 @@ const ManageTags = () => {
 
     const deleteMap = deleteTags.map(async (tag) => {
       try {
-        await removeTag(userData.accessToken, tag);
+        await removeTag(userData.accessToken, tag._id);
       } catch (err) {
         notify("Error in deleting tag" + tag.name, "error");
       }
     });
+
     await Promise.all([...changeMap, ...createMap, ...deleteMap]);
     notify("Tags updated successfully", "success");
     dispatch({
