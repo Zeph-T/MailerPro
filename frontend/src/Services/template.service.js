@@ -2,12 +2,9 @@ import axios from "axios";
 import { uri } from "../Utils/constants";
 
 export const fetchAllTemplates = (type, accessToken) => {
-  return axios.get(uri.GET_ALL_TEMPLATES_URL, {
+  return axios.get(uri.GET_ALL_TEMPLATES_URL+`/${type}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-    },
-    params: {
-      type,
     },
   });
 };
