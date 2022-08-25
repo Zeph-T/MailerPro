@@ -18,6 +18,8 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { getAllCampaigns } from "../../Services/campaign.service";
+import { useSelector } from "react-redux";
 
 const TEMP_TABLE_CONTACTS_DATA = {
   email: new Array(45).fill({}).map((_, index) => {
@@ -47,7 +49,9 @@ const TEMP_TABLE_CONTACTS_DATA = {
 };
 
 function Campaign() {
-  let navigate = useNavigate()
+  const userData = useSelector((state) => state.user.userData);
+
+  let navigate = useNavigate();
   const [currentTab, setCurrentTab] = React.useState(
     CAMPAIGN_DATA.tabs[0].value
   );
@@ -69,8 +73,22 @@ function Campaign() {
   }, [currentPage, currentTab]);
 
   React.useEffect(() => {
-    setTotalItemsCount(TEMP_TABLE_CONTACTS_DATA[currentTab]?.length);
+    fetchCurrentData();
+    // setTotalItemsCount(TEMP_TABLE_CONTACTS_DATA[currentTab]?.length);
   }, [currentTab]);
+
+  const fetchCurrentData = async () => {
+    try {
+      const response = await getAllCampaigns(
+        userData.accessToken,
+        setCurrentPage
+      );
+      setCurrentData(response.data.campaigns);
+    } catch (error) {
+      console.log(error);
+      notify("Error fetching data", "error");
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -92,7 +110,7 @@ function Campaign() {
                 style={{
                   padding: "0.8rem 1.5rem",
                 }}
-                onClick={()=>navigate("/createcampaign")}
+                onClick={() => navigate("/createcampaign")}
               >
                 {CAMPAIGN_DATA.createEmailCampaign}
               </StyledMUIButton>

@@ -585,7 +585,7 @@ export const CAMPAIGN_DATA = {
   tableData: [
     {
       label: "Name",
-      renderer: (val) => val.mail,
+      renderer: (val) => val.Subject,
       width: "25%",
       align: "left",
     },
