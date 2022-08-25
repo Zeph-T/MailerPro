@@ -419,6 +419,44 @@ export const DASHBOARD_DATA = {
       subscribers: "12500",
     },
   ],
+  unSubscriberData: [
+    {
+      date: "21 August,2022",
+      subscribers: "1000",
+    },
+    {
+      date: "22 August,2022",
+      subscribers: "330",
+    },
+    {
+      date: "23 August,2022",
+      subscribers: "300",
+    },
+    {
+      date: "24 August,2022",
+      subscribers: "500",
+    },
+    {
+      date: "25 August,2022",
+      subscribers: "600",
+    },
+    {
+      date: "26 August,2022",
+      subscribers: "10",
+    },
+    {
+      date: "27 August,2022",
+      subscribers: "100",
+    },
+    {
+      date: "28 August,2022",
+      subscribers: "200",
+    },
+    {
+      date: "29 August,2022",
+      subscribers: "1200",
+    },
+  ],
 };
 
 export const ADD_CONTACTS_POPUP_DATA = {
