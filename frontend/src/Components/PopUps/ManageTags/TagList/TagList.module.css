@@ -1,12 +1,10 @@
 .Wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  width: 40rem;
+  grid-template-columns: 5rem auto;
+  gap: 2rem;
 }
-.UpperWrapper {
-  display: flex;
-  gap: 1rem;
-}
+
 .LowerWrapper {
   font-size: var(--font-16);
 }

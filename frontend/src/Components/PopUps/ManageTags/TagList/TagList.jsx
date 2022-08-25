@@ -2,36 +2,30 @@ import React from "react";
 import { StyledMUIButton } from "../../../General/Helpers";
 import DeleteIcon from "@mui/icons-material/Delete";
 import styles from "./TagList.module.css";
+import StyledMUITextField from "./../../../General/Helpers/StyledMUITextField";
 
-const TagList = () => {
+const TagList = ({ tag, handleChange, handleDelete, tagIndex }) => {
   return (
     <div className={styles.Wrapper}>
-      <div className={styles.UpperWrapper}>
-        <StyledMUIButton
-          color="buttonRed"
-          style={{
-            maxWidth: "17.5rem",
-            fontWeight: "500",
-            padding: "1rem 2.5rem",
-          }}
-        >
-          <DeleteIcon />
-        </StyledMUIButton>
-        <StyledMUIButton
-          color="buttonBlack"
-          fullWidth
-          style={{
-            maxWidth: "35rem",
-            minWidth: "35rem",
-            fontWeight: "400",
-            padding: "1rem 2.5rem",
-            justifyContent: "flex-start",
-          }}
-        >
-          hehe
-        </StyledMUIButton>
-      </div>
-      <div className={styles.LowerWrapper}>3500</div>
+      <StyledMUIButton
+        color="buttonRed"
+        style={{
+          height: "100%",
+          width: "5rem",
+        }}
+        onClick={() => {
+          handleDelete(tagIndex);
+        }}
+      >
+        <DeleteIcon />
+      </StyledMUIButton>
+      <StyledMUITextField
+        fullWidth
+        value={tag.name}
+        onChange={(e) => {
+          handleChange(e, tagIndex);
+        }}
+      />
     </div>
   );
 };
