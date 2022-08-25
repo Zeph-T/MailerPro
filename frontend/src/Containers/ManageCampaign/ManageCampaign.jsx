@@ -151,7 +151,7 @@ const ManageCampaign = ({ isNew, isSMS }) => {
   const createNewCampaign = async (data) => {
     try {
       // console.log("create campaign started with data",data)
-      const response = await createCampaign(userData.accessToken, data);
+      const response = await createCampaign(userData.accessToken, data, isSMS);
       console.log("create campaign response from api", response);
       navigate(
         isSMS
@@ -167,7 +167,12 @@ const ManageCampaign = ({ isNew, isSMS }) => {
   const updateExistingCampaign = async (data, id) => {
     try {
       console.log("update campaign started with data", data);
-      const response = await updateCampaign(userData.accessToken, data, id);
+      const response = await updateCampaign(
+        userData.accessToken,
+        data,
+        id,
+        isSMS
+      );
       console.log(response);
     } catch (err) {
       console.log(err);
