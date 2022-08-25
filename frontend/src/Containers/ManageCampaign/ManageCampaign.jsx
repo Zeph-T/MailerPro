@@ -97,7 +97,7 @@ const ManageCampaign = ({ isNew,isSMS }) => {
   const handleSave = () => {
     notify("Campaign Updated Successfully!")
     updateExistingCampaign(currentDataState,params.id)
-    navigate("/campaigns")
+    navigate("/campaign")
   }
 
   const handleCampaignStatusChange = (e) =>{
@@ -192,7 +192,7 @@ const ManageCampaign = ({ isNew,isSMS }) => {
             : MANAGE_CAMPAIGN_DATA.manageCampaign
         }
         withBackButton
-        link="/campaigns"
+        link="/campaign"
       />
       <ManageCampaignState currentState={currentState} />
       <ManageCampaignStepsWrapper>
