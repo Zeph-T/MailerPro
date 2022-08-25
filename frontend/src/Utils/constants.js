@@ -15,6 +15,7 @@ export const uri = {
   ADD_CONTACT_URL: BASE_URL + "/contact/add",
   UPDATE_CONTACT_URL: BASE_URL + "/contact/update",
   REMOVE_CONTACT_URL: BASE_URL + "/contact/remove",
+  UNSUBSCRIBE_FROM_LINK: BASE_URL + "/contact/unsubscribe",
   GET_ALL_CONTACT_FIELDS_URL: BASE_URL + "/contactFields/all",
   CREATE_CONTACT_FIELD_URL: BASE_URL + "/contactFields/create",
   REMOVE_CONTACT_FIELD_URL: BASE_URL + "/contactFields/remove",
