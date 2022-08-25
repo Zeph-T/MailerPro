@@ -23,6 +23,7 @@ const AddContacts = ({
   const [values, setValues] = useState({
     tags: [],
     status: "Subscribed",
+    dob: null,
   });
 
   useEffect(() => {
