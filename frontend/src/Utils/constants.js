@@ -6,6 +6,7 @@ export const uri = {
   GET_USER_URL: BASE_URL + "/users/",
   GET_ALL_TAGS_URL: BASE_URL + "/tags/all",
   CREATE_TAG_URL: BASE_URL + "/tags/create",
+  UPDATE_TAG_URL: BASE_URL + "/tags/update",
   ADD_TAG_TO_CONTACT_URL: BASE_URL + "/tags/addTagToContact",
   REMOVE_TAG_URL: BASE_URL + "/tags/remove",
   GET_ALL_CONTACTS_URL: BASE_URL + "/contact/all",

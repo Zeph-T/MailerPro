@@ -9,6 +9,11 @@ const TemplateSchema = new mongoose.Schema({
     type : String,
     required : [true , "Template Content Missing"]
   },
+  templateType : {
+    type : String,
+    enum : ["SMS","EMAIL"],
+    required : true
+  },
   editorType : {
     type : String,
     default : "TextEditor",
