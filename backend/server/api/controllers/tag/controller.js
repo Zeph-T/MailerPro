@@ -39,10 +39,12 @@ export class Controller {
 
   update(req, res) {
     isAuthenticated(req, res, () => {
-
-      Tag.findOneAndUpdate({_id : mongoose.Types.ObjectId(req.body._id) },req.body,{new : true})
-        .then((r) => res.json({ data: r })
-        )
+      Tag.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(req.body._id) },
+        req.body,
+        { new: true }
+      )
+        .then((r) => res.json({ data: r }))
         .catch((err) => res.json({ data: { error: err } }));
     });
   }
@@ -68,9 +70,15 @@ export class Controller {
         .then(() =>
           Tag.deleteOne({ _id: mongoose.Types.ObjectId(tagId) })
             .then((response) => res.json({ data: response }))
-            .catch((err) => res.json({ data: { error: err } }))
+            .catch((err) => {
+              console.log(err);
+              res.json({ data: { error: err } });
+            })
         )
-        .catch((err) => res.json({ data: { error: err } }));
+        .catch((err) => {
+          console.log(err);
+          res.json({ data: { error: err } });
+        });
     });
   }
 }

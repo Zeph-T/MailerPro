@@ -492,6 +492,12 @@ export const ADD_CONTACTS_POPUP_DATA = {
   button: "Create",
   buttonDetails: ["Add Field", "Save", "Cancel"],
 };
+export const UPLOAD_FILE_POPUP_DATA = {
+  title: "Upload Contacts",
+  buttons: {
+    upload: "Upload",
+  },
+};
 
 export const CAMPAIGN_DATA = {
   title: "Campaign",

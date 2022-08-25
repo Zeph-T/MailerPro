@@ -1,0 +1,20 @@
+.Wrapper {
+  width: 50rem;
+  background-color: var(--pure-white);
+  border-radius: 1rem;
+  padding: 3.5rem 4.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: var(--font-20);
+}
+.ButtonWrapper {
+  display: flex;
+  gap: 1rem;
+}
