@@ -363,6 +363,33 @@ export const MANAGE_TAGS_POPUP_DATA = {
   buttons: ["Add New", "Save", "Discard"],
 };
 
+export const MANAGE_CUSTOM_FIELDS_POPUP_DATA = {
+  title: "Custom Fields",
+  labels: {
+    type: "Type",
+    name: "Name",
+  },
+  buttons: {
+    add: "Add New",
+    save: "Save",
+    discard: "Discard",
+  },
+  typeOptions: [
+    {
+      label: "Text",
+      value: "Text",
+    },
+    {
+      label: "Number",
+      value: "Number",
+    },
+    {
+      label: "Date",
+      value: "Date",
+    },
+  ],
+};
+
 export const CAMPAIGN_INSIGHTS_POPUP_DATA = {
   title: "Campaign Insights",
   header: ["Name", "Contacts"],

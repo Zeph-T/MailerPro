@@ -15,7 +15,7 @@
   font-weight: 600;
   font-size: var(--font-20);
 }
-.TagsWrapper {
+.ListWrapper {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;

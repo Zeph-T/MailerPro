@@ -28,4 +28,7 @@ export const uri = {
   CREATE_TEMPLATE_URL: BASE_URL + "/template/create",
   UPDATE_TEMPLATE_URL: BASE_URL + "/template/update",
   REMOVE_TEMPLATE_URL: BASE_URL + "/template/remove",
+  GET_ALL_CUSTOM_FIELDS_URL: BASE_URL + "/contactFields/all",
+  ADD_CUSTOM_FIELD_URL: BASE_URL + "/contactFields/create",
+  REMOVE_CUSTOM_FIELDS_URL: BASE_URL + "/contactFields/remove",
 };

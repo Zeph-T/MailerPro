@@ -24,6 +24,7 @@ import { getContactsList } from "../../Services/contact.service";
 import notify from "./../../Utils/helper/notifyToast";
 import AddContacts from "./../../Components/PopUps/AddContacts/AddContacts";
 import FileUpload from "../../Components/PopUps/FileUpload/FileUpload";
+import ManageCustomFields from "../../Components/PopUps/ManageCustomFields";
 
 const TEMP_DIR_HIGHLIGHTS_DATA = {
   total: 59874,
@@ -91,9 +92,8 @@ function Directory() {
                     payload: {
                       open: true,
                       component: (
-                        <AddContacts
+                        <ManageCustomFields
                           fetchCurrentPageData={fetchCurrentPageData}
-                          isContactDetails={false}
                         />
                       ),
                     },

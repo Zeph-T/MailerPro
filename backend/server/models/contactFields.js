@@ -10,6 +10,10 @@ const ContactFieldSchema = new mongoose.Schema({
     enum: ["Text", "Number", "Date"],
     required: [true, "Field Type missing"],
   },
+  isValid: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export default mongoose.model("Fields", ContactFieldSchema);

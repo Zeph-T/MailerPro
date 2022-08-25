@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { MANAGE_TAGS_POPUP_DATA, CROSS_ICON } from "../../../Utils/staticData";
+import {
+  MANAGE_CUSTOM_FIELDS_POPUP_DATA,
+  CROSS_ICON,
+} from "../../../Utils/staticData";
 import { StyledMUIButton } from "../../General/Helpers";
-// import TagList from "./TagList";
 import styles from "./ManageCustomFields.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   UPDATE_POPUP_STATE,
   UPDATE_USER_DATA,
 } from "../../../Redux/ActionTypes";
-import {
-  updateTag,
-  createTag,
-  removeTag,
-} from "../../../Services/tags.service";
 import notify from "../../../Utils/helper/notifyToast";
+import CustomField from "./CustomField";
+import {
+  addCustomField,
+  getAllCustomFields,
+  removeCustomField,
+} from "../../../Services/customField.service";
 
 const ManageCustomFields = () => {
   const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
 
-  const [tagsLocale, setTagsLocale] = useState(userData.tags);
+  const [fieldsLocale, setFieldsLocale] = useState(userData.customFields);
   useEffect(() => {
-    setTagsLocale(JSON.parse(JSON.stringify(userData.tags)));
-  }, [userData.tags]);
-
+    setFieldsLocale(JSON.parse(JSON.stringify(userData.customFields)));
+  }, [userData.customFields]);
+  console.log(fieldsLocale);
   const closePopup = () => {
     dispatch({
       type: UPDATE_POPUP_STATE,
@@ -34,68 +37,70 @@ const ManageCustomFields = () => {
     });
   };
 
-  const handleDelete = (tagIndex) => {
-    setTagsLocale((prevState) => {
-      return prevState.filter((tag, index) => index !== tagIndex);
+  const handleDelete = (fieldIndex) => {
+    setFieldsLocale((prevState) => {
+      return prevState.filter((_, index) => index !== fieldIndex);
     });
   };
-  const handleChange = (e, tabIndex) => {
-    setTagsLocale((prevState) => {
-      prevState[tabIndex].name = e.target.value;
+  const handleNameChange = (e, tabIndex) => {
+    setFieldsLocale((prevState) => {
+      prevState[tabIndex].fieldName = e.target.value;
+      return [...prevState];
+    }),
+      [tabIndex];
+  };
+
+  const handleTypeChange = (e, tabIndex) => {
+    setFieldsLocale((prevState) => {
+      prevState[tabIndex].fieldType = e.target.value;
       return [...prevState];
     }),
       [tabIndex];
   };
 
   const handleSave = async () => {
-    const changedTags = tagsLocale.filter(
-      (tag, index) => tag._id && tag.name !== userData.tags[index]?.name
-    );
-    const newTags = tagsLocale.filter((tag) => tag._id === undefined);
-    const deleteTags = userData.tags.filter(
-      (tag, index) => tagsLocale.findIndex((t) => t._id === tag._id) === -1
+    const newFields = fieldsLocale.filter((field) => field._id === undefined);
+    const deleteFields = userData.customFields.filter(
+      (field, index) =>
+        fieldsLocale.findIndex((t) => t._id === field._id) === -1
     );
 
-    const changeMap = changedTags.map(async (tag) => {
+    const createMap = newFields.map(async (field) => {
       try {
-        await updateTag(userData.accessToken, tag);
+        await addCustomField(userData.accessToken, field);
       } catch (err) {
-        notify("Error in updating tag" + tag.name, "error");
+        notify("Error in adding Custom Field" + field.fieldName, "error");
       }
     });
 
-    const createMap = newTags.map(async (tag) => {
+    const deleteMap = deleteFields.map(async (field) => {
       try {
-        await createTag(userData.accessToken, tag);
+        await removeCustomField(userData.accessToken, field._id);
       } catch (err) {
-        notify("Error in adding tag" + tag.name, "error");
+        notify("Error in deleting Custom Field" + field.fieldName, "error");
       }
     });
 
-    const deleteMap = deleteTags.map(async (tag) => {
-      try {
-        await removeTag(userData.accessToken, tag._id);
-      } catch (err) {
-        notify("Error in deleting tag" + tag.name, "error");
-      }
-    });
-
-    await Promise.all([...changeMap, ...createMap, ...deleteMap]);
-    notify("Tags updated successfully", "success");
+    await Promise.all([...createMap, ...deleteMap]);
+    notify("Custom Fields updated successfully", "success");
+    const resp = await getAllCustomFields(userData.accessToken);
     dispatch({
       type: UPDATE_USER_DATA,
       data: {
         ...userData,
-        tags: JSON.parse(JSON.stringify(tagsLocale)),
+        customFields: resp.data.contactFields,
       },
     });
+    closePopup();
+    console.log(err);
+
     closePopup();
   };
 
   return (
     <div className={styles.Wrapper}>
       <div className={styles.Header}>
-        <p>{MANAGE_TAGS_POPUP_DATA.title}</p>
+        <p>{MANAGE_CUSTOM_FIELDS_POPUP_DATA.title}</p>
         <img
           src={CROSS_ICON}
           alt="cross"
@@ -103,16 +108,17 @@ const ManageCustomFields = () => {
           style={{ cursor: "pointer" }}
         />
       </div>
-      <div className={styles.TagsWrapper}>
-        {tagsLocale.map((tag, index) => (
-          // <TagList
-          //   key={tag.id}
-          //   tag={tag}
-          //   tagIndex={index}
-          //   handleDelete={handleDelete}
-          //   handleChange={handleChange}
-          // />
-          <></>
+      <div className={styles.ListWrapper}>
+        {fieldsLocale.map((customField, index) => (
+          <CustomField
+            key={customField.id}
+            customField={customField}
+            fieldIndex={index}
+            handleDelete={handleDelete}
+            handleNameChange={handleNameChange}
+            handleTypeChange={handleTypeChange}
+            isNew={customField._id === undefined}
+          />
         ))}
       </div>
       <StyledMUIButton
@@ -123,13 +129,13 @@ const ManageCustomFields = () => {
           padding: "1rem 2.5rem",
         }}
         onClick={() => {
-          setTagsLocale((prevState) => {
-            return [...prevState, { name: "" }];
+          setFieldsLocale((prevState) => {
+            return [...prevState, { fieldName: "", fieldType: "Text" }];
           }),
-            [tagsLocale];
+            [fieldsLocale];
         }}
       >
-        {MANAGE_TAGS_POPUP_DATA.buttons[0]}
+        {MANAGE_CUSTOM_FIELDS_POPUP_DATA.buttons.add}
       </StyledMUIButton>
       <div className={styles.LowerButtonWrapper}>
         <StyledMUIButton
@@ -141,7 +147,7 @@ const ManageCustomFields = () => {
           }}
           onClick={handleSave}
         >
-          {MANAGE_TAGS_POPUP_DATA.buttons[1]}
+          {MANAGE_CUSTOM_FIELDS_POPUP_DATA.buttons.save}
         </StyledMUIButton>
         <StyledMUIButton
           color="buttonRed"
@@ -151,10 +157,10 @@ const ManageCustomFields = () => {
             padding: "1rem 2.5rem",
           }}
           onClick={() => {
-            setTagsLocale(userData.tags);
+            setFieldsLocale(userData.customFields);
           }}
         >
-          {MANAGE_TAGS_POPUP_DATA.buttons[2]}
+          {MANAGE_CUSTOM_FIELDS_POPUP_DATA.buttons.discard}
         </StyledMUIButton>
       </div>
     </div>
