@@ -3,11 +3,14 @@ import Header from "../../Components/Header";
 import ManageCampaignState from "./../../Components/ManageCampaign/ManageCampaignState";
 import styles from "./ManageCampaign.module.css";
 import { MANAGE_CAMPAIGN_DATA } from "./../../Utils/staticData";
-import { createCampaign,updateCampaign } from "../../Services/campaign.service";
-import {fetchAllTemplates} from "../../Services/template.service";
+import {
+  createCampaign,
+  updateCampaign,
+} from "../../Services/campaign.service";
+import { fetchAllTemplates } from "../../Services/template.service";
 import notify from "./../../Utils/helper/notifyToast";
-import { useDispatch, useSelector, } from "react-redux";
-import { useNavigate,useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   ManageCampaignStepsWrapper,
   ManageCampaignStepsPagination,
@@ -17,33 +20,19 @@ import {
   ManageCampaignState4,
 } from "./../../Components/ManageCampaign/Steps";
 
-import IMG1 from "../../Assets/TMP/website templates/1.jpg";
-import IMG2 from "../../Assets/TMP/website templates/2.jpg";
-import IMG3 from "../../Assets/TMP/website templates/3.jpg";
-import IMG4 from "../../Assets/TMP/website templates/4.jpg";
-import IMG5 from "../../Assets/TMP/website templates/5.jpg";
-import IMG6 from "../../Assets/TMP/website templates/6.jpg";
-import IMG7 from "../../Assets/TMP/website templates/7.jpg";
-import IMG8 from "../../Assets/TMP/website templates/8.jpg";
-
-const tempTemplates = [IMG1, IMG2, IMG3, IMG4, IMG5, IMG6, IMG7, IMG8].map(
-  (template, _id) => {
-    return {
-      _id: _id,
-      html: `<div   class=${styles.TMPTemplateStyle}><h1> ${_id} </h1> </div>`,
-      name: `Template ${_id + 1}`,
-    };
-  }
-);
-
-const ManageCampaign = ({ isNew,isSMS }) => {
-
-  useEffect( ()=>{
+const ManageCampaign = ({ isNew, isSMS }) => {
+  useEffect(() => {
     async function fetchTemplates() {
       try {
-        const templates = await fetchAllTemplates(isSMS?"SMS":"EMAIL",userData.accessToken)
-        console.log("templates",templates.data.data.templates)
-        setCurrentDataState({...currentDataState, allTemplates:templates.data.data.templates})
+        const templates = await fetchAllTemplates(
+          isSMS ? "SMS" : "EMAIL",
+          userData.accessToken
+        );
+        console.log("templates", templates.data.data.templates);
+        setCurrentDataState({
+          ...currentDataState,
+          allTemplates: templates.data.data.templates,
+        });
       } catch (err) {
         console.log(err);
         notify("Internal Server Error while fetching templates", "error");
@@ -52,10 +41,10 @@ const ManageCampaign = ({ isNew,isSMS }) => {
 
     fetchTemplates();
     console.log("useEffect ran...");
-  },[])
-   
+  }, []);
+
   const params = useParams();
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   const userData = useSelector((state) => state.user.userData);
   const [currentState, setCurrentState] = React.useState(0);
   const [currentDataState, setCurrentDataState] = React.useState({
@@ -68,7 +57,7 @@ const ManageCampaign = ({ isNew,isSMS }) => {
       fromName: "",
       replyTo: "",
     },
-    status:"Draft",
+    status: "Draft",
     audience: {
       audienceType: MANAGE_CAMPAIGN_DATA.steps[2].options[0].name,
       tags: [],
@@ -77,16 +66,16 @@ const ManageCampaign = ({ isNew,isSMS }) => {
       value: MANAGE_CAMPAIGN_DATA.steps[3].options[1].name,
       time: null,
     },
-    allTemplates:[]
+    allTemplates: [],
   });
 
   // console.log(currentDataState.schedule);
 
   const handleNext = () => {
-    if(currentState==0){
-      createNewCampaign(currentDataState.info)
-    }else{
-      updateExistingCampaign(currentDataState,params.id)
+    if (currentState == 0) {
+      createNewCampaign(currentDataState.info);
+    } else {
+      updateExistingCampaign(currentDataState, params.id);
     }
     setCurrentState(currentState + 1);
   };
@@ -95,18 +84,18 @@ const ManageCampaign = ({ isNew,isSMS }) => {
   };
 
   const handleSave = () => {
-    notify("Campaign Updated Successfully!")
-    updateExistingCampaign(currentDataState,params.id)
-    navigate("/campaign")
-  }
+    notify("Campaign Updated Successfully!");
+    updateExistingCampaign(currentDataState, params.id);
+    navigate("/campaign");
+  };
 
-  const handleCampaignStatusChange = (e) =>{
-    console.log("handleCampaignStatusChange Running",e.target.value)
+  const handleCampaignStatusChange = (e) => {
+    console.log("handleCampaignStatusChange Running", e.target.value);
     setCurrentDataState({
       ...currentDataState,
-      status: e.target.value==='later'?'Scheduled':'Running'
+      status: e.target.value === "later" ? "Scheduled" : "Running",
     });
-  }
+  };
 
   const handleCampaignInfoChange = (e) => {
     setCurrentDataState({
@@ -139,7 +128,7 @@ const ManageCampaign = ({ isNew,isSMS }) => {
   };
 
   const handleScheduleChange = (e) => {
-    handleCampaignStatusChange(e)
+    handleCampaignStatusChange(e);
     setCurrentDataState({
       ...currentDataState,
       schedule: {
@@ -162,26 +151,25 @@ const ManageCampaign = ({ isNew,isSMS }) => {
   const createNewCampaign = async (data) => {
     try {
       // console.log("create campaign started with data",data)
-      const response = await createCampaign(userData.accessToken,data);
-      console.log("create campaign response from api",response);
-      navigate(`/managecampaign/${response.data._id}`)
+      const response = await createCampaign(userData.accessToken, data);
+      console.log("create campaign response from api", response);
+      navigate(`/managecampaign/${response.data._id}`);
     } catch (err) {
       console.log(err);
       notify("Internal Server Error", "error");
     }
   };
 
-  const updateExistingCampaign = async (data,id) => {
+  const updateExistingCampaign = async (data, id) => {
     try {
-      console.log("update campaign started with data",data)
-      const response = await updateCampaign(userData.accessToken,data,id);
+      console.log("update campaign started with data", data);
+      const response = await updateCampaign(userData.accessToken, data, id);
       console.log(response);
     } catch (err) {
       console.log(err);
       notify("Internal Server Error", "error");
     }
-  }
-
+  };
 
   return (
     <div className={styles.container}>
@@ -233,7 +221,7 @@ const ManageCampaign = ({ isNew,isSMS }) => {
           totalStates={4}
           handleNext={handleNext}
           handleBack={handleBack}
-          handleSave ={handleSave}
+          handleSave={handleSave}
         />
       </ManageCampaignStepsWrapper>
     </div>
