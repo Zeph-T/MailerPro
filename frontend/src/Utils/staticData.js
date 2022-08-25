@@ -634,6 +634,7 @@ export const CAMPAIGN_DATA = {
 
 export const SETTINGS_PAGE_DATA = {
   title: "Settings",
+  logOut: "Log Out",
   sectionList: [
     {
       title: "Personal Details",
