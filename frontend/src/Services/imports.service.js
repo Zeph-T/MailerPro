@@ -4,7 +4,7 @@ import { uri } from "../Utils/constants";
 export const uploadContacts = async (accessToken, file, selectedTags) => {
   const formData = new FormData();
   formData.append("file", file);
-  
+
   formData.append("tags", selectedTags);
 
   try {
