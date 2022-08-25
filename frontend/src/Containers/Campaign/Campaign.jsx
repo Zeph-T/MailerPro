@@ -136,7 +136,6 @@ function Campaign() {
             </TableBody>
             <TableFooter>
               <TablePagination
-                colSpan={3}
                 count={totalItemsCount}
                 rowsPerPage={10}
                 page={currentPage}
