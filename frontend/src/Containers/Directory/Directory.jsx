@@ -84,6 +84,28 @@ function Directory() {
                 style={{
                   padding: "0.8rem 1.5rem",
                 }}
+                color="buttonGrey"
+                onClick={() => {
+                  dispatch({
+                    type: UPDATE_POPUP_STATE,
+                    payload: {
+                      open: true,
+                      component: (
+                        <AddContacts
+                          fetchCurrentPageData={fetchCurrentPageData}
+                          isContactDetails={false}
+                        />
+                      ),
+                    },
+                  });
+                }}
+              >
+                {DIRECTORY_PAGE_DATA.navButtons.manageCustomFields}
+              </StyledMUIButton>
+              <StyledMUIButton
+                style={{
+                  padding: "0.8rem 1.5rem",
+                }}
                 color="buttonGreen"
                 onClick={() => {
                   dispatch({

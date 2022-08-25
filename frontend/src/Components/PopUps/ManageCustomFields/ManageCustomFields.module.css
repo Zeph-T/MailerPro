@@ -1,0 +1,26 @@
+.Wrapper {
+  width: 100%;
+  max-width: 63rem;
+  background-color: var(--pure-white);
+  border-radius: 1rem;
+  padding: 4rem 4.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: var(--font-20);
+}
+.TagsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.LowerButtonWrapper {
+  display: flex;
+  gap: 1rem;
+}

@@ -279,6 +279,7 @@ export const DIRECTORY_PAGE_DATA = {
     manageTags: "Manage tags",
     importContacts: "Import Contacts from File",
     addContact: "Add Contact",
+    manageCustomFields: "Manage Custom Fields",
   },
   highlightsData: [
     {
