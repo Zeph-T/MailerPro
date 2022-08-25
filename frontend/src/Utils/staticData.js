@@ -98,6 +98,7 @@ export const MANAGE_CAMPAIGN_DATA = {
   manageCampaign: "Manage Campaign",
   back: "Back",
   next: "Next",
+  save:"Save",
   steps: [
     {
       name: "Campaign Info",
