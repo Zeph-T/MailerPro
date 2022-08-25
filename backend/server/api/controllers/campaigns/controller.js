@@ -62,7 +62,6 @@ export class Controller {
         ReplyMail: req.body.replyTo,
         SenderName: req.body.fromName,
         senderMailAddress: req.body.fromEmail,
-        mailContent: "This is default mail content",
         status: "Draft",
         targetAudience: {
           audienceType: "ALL",
@@ -83,28 +82,29 @@ export class Controller {
       let updateData = {};
       Object.assign(
         updateData,
-        req.body.name ? { name: req.body.name } : {},
-        req.body.note ? { note: req.body.note } : {},
-        req.body.Subject ? { Subject: req.body.Subject } : {},
-        req.body.ReplyMail ? { ReplyMail: req.body.ReplyMail } : {},
-        req.body.SenderName ? { SenderName: req.body.SenderName } : {},
-        req.body.senderMailAddress
-          ? { senderMailAddress: req.body.senderMailAddress }
+        {_id:req.body._id},
+        req.body.info.campaignName ? { name: req.body.info.campaignName } : {},
+        req.body.info.notes ? { note: req.body.info.notes } : {},
+        req.body.info.subject ? { Subject: req.body.info.subject } : {},
+        req.body.info.replyTo ? { ReplyMail: req.body.info.replyTo } : {},
+        req.body.info.fromName ? { SenderName: req.body.info.fromName } : {},
+        req.body.info.fromEmail
+          ? { senderMailAddress: req.body.info.fromEmail }
           : {},
-        req.body.mailContent ? { mailContent: req.body.mailContent } : {},
+        req.body.template ? { template: mongoose.Types.ObjectId(req.body.template) } : {},
         req.body.status ? { status: req.body.status } : {},
-        req.body.targetAudience
-          ? { targetAudience: req.body.targetAudience }
+        req.body.audience
+          ? { targetAudience: req.body.audience }
           : {},
-        req.body.isMarkedForImmediateSend
-          ? { isMarkedForImmediateSend: true }
-          : { isMarkedForImmediateSend: false },
-        req.body.scheduledTime
-          ? { scheduledTime: req.body.scheduledTime }
-          : { scheduledTime: "" }
+        req.body.schedule.value==="later"
+          ? { isMarkedForImmediateSend: false }
+          : { isMarkedForImmediateSend: true },
+        req.body.schedule.time
+          ? { scheduledTime: req.body.schedule.time }
+          : { scheduledTime: "" },
       );
-
-      Campaign.findByIdAndUpdate(req.body.id, updateData, { new: true })
+      console.log(req.body._id)
+      Campaign.findByIdAndUpdate(req.body._id, updateData, { new: true })
         .then(async (r) => {
           if (r.isMarkedForImmediateSend) {
             try {
@@ -134,7 +134,10 @@ export class Controller {
           }
           res.json({ data: r });
         })
-        .catch((error) => res.json({ data: { error: error } }));
+        .catch((error) =>{
+          console.log(error);
+          res.json({ data: { error: error } });
+        })
     });
   }
   catch(err) {
