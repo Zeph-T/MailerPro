@@ -154,11 +154,11 @@ export const MANAGE_CAMPAIGN_DATA = {
       name: "Select Audience",
       options: [
         {
-          name: "all",
+          name: "ALL",
           label: "To All Subscribers",
         },
         {
-          name: "selected",
+          name: "TAGS",
           label: "To Contact with particular Tags",
         },
       ],
