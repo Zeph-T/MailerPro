@@ -7,6 +7,7 @@ const Template = require("./models/template");
 const env = require('./env');
 const Handlebars = require("handlebars");
 const twilio = require('twilio');
+const Base58 = require("base-58");
 
 class Node {
     constructor(element) {
@@ -164,6 +165,19 @@ let runEmailCampaign = async function (campaign, contactList) {
                 let recieverSubject = subjectTemplate(contact.getContact());
                 let c = contact.getContact();
                 console.log(c);
+                let campaignIdStr = campaign._id.toString();
+                let aTags = [];
+                if(campaignIdStr){
+                  aTags.push({
+                    Name: 'campaignId',
+                    Value: campaignIdStr
+                  });
+                }
+                aTags.push({
+                  Name:  'subscriber',
+                  Value: Base58.encode(new Buffer(c._id.toString()))
+                });
+
 
                 ses.sendEmail({
                     Source: senderEmail,
@@ -181,6 +195,7 @@ let runEmailCampaign = async function (campaign, contactList) {
                         }
                     },
                     ConfigurationSetName: "mailerpro",
+                    Tags : aTags,
                     ReplyToAddresses: replyMails
                 }, function (err,response) {
                     if(err){
