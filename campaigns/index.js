@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { MongoCron } = require("mongodb-cron");
-const env = require('env');
+const env = require('./env');
 const http = require("http");
 const executeCampaign = require('./execute');
 
@@ -8,7 +8,7 @@ const server = http.createServer((req,res)=>{
     res.send("Server Created");
 })
 
-const port = process.env.PORT || 2021 ;
+const port = env.PORT || 2021 ;
 
 mongoose.connect(env.DB_STRING , { useNewUrlParser : true, useUnifiedTopology : true })
 .then(async() => {
@@ -29,7 +29,10 @@ db.once('open',()=>{
     collection = db.collection('jobs');
     const cron = new MongoCron({
         collection,
-        onDocument : (doc) => executeCampaign(doc),
+        onDocument : (doc) => {
+            console.log(doc);
+            executeCampaign(doc)
+        },
         onError : (err) => console.log("Error ",err)
     });
     cron.start();

@@ -10,5 +10,6 @@ module.exports = {
     'TWILIO_ACCESS_KEY': process.env.TWILIO_ACCESS_KEY,
     'TWILIO_SECRET_ACCESS_KEY': process.env.TWILIO_SECRET_ACCESS_KEY,
     'TWILIO_SENDING_NUMBER': process.env.TWILIO_SENDING_NUMBER,
-    'TWILIO_WEBHOOK_URL' : process.env.TWILIO_WEBHOOK_URL
+    'TWILIO_WEBHOOK_URL' : process.env.TWILIO_WEBHOOK_URL,
+    'PORT' : process.env.PORT
 }

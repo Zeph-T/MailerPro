@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +16,8 @@
     "handlebars": "^4.7.7",
     "mongodb-cron": "^1.8.0",
     "mongoose": "^6.5.2",
-    "q": "^1.5.1"
+    "nodemon": "^2.0.19",
+    "q": "^1.5.1",
+    "twilio": "^3.81.0"
   }
 }

@@ -2,14 +2,20 @@ const aws = require('aws-sdk');
 const Q = require('q');
 const Contacts = require('./models/contact');
 const Campaign = require('./models/campaign');
-const ActivityLog = require('./models/activityLog')
+const ActivityLog = require('./models/activityLog');
+const Template = require("./models/template");
 const env = require('./env');
+const Handlebars = require("handlebars");
 const twilio = require('twilio');
 
 class Node {
     constructor(element) {
         this.contact = element;
         this.next = null;
+    }
+
+    getContact(){
+        return this.contact;
     }
 }
 
@@ -34,6 +40,7 @@ class LinkedList {
         }
         this.size++;
     }
+
 
     length() {
         return this.size;
@@ -61,10 +68,10 @@ const getContactList = async function (targetAudience) {
     try {
         let contacts = [];
         if (targetAudience.audienceType === 'ALL') {
-            contacts = await Contacts.find({ isValid: true, status: 'Subscribed' });
+            contacts = await Contacts.find({ isValid: true, status: 'Subscribed' }).lean();
             deferred.resolve(contacts);
         } else if (targetAudience.audienceType === 'TAGS') {
-            contacts = await Contacts.find({ isValid: true, status: 'Subscribed', tags: { $in: targetAudience.tags } });
+            contacts = await Contacts.find({ isValid: true, status: 'Subscribed', tags: { $in: targetAudience.tags } }).lean();
             deferred.resolve(contacts);
         } else {
             deferred.reject('Invalid Audience Type ', targetAudience.audienceType);
@@ -72,6 +79,7 @@ const getContactList = async function (targetAudience) {
     } catch (err) {
         deferred.reject(err);
     }
+    return deferred.promise;
 }
 
 
@@ -79,7 +87,7 @@ const getContactList = async function (targetAudience) {
 
 // }
 
-export const oSubscriberActivityKeys = {
+const oSubscriberActivityKeys = {
     SMS_FAILED: 'SMS_FAILED',
     SMS_SENT: 'SMS_SENT',
     SMS_QUEUED: 'SMS_QUEUED'
@@ -88,24 +96,25 @@ export const oSubscriberActivityKeys = {
 
 
 
-async function insertSubscriberActivityLog(userId, activityKey , data) {
+async function insertSubscriberActivityLog(userId, activityKey, data) {
     try {
-      const oActivityLog = new ActivityLog();
-      oActivityLog.subscriberId = userId;
-      oActivityLog.activityKey = activityKey;
-      oActivityLog.data = data;
-      await oActivityLog.save();
-    }catch(err){
-      //eslint-disable-next-line no-console
+        const oActivityLog = new ActivityLog();
+        oActivityLog.subscriberId = userId;
+        oActivityLog.activityKey = activityKey;
+        oActivityLog.data = data;
+        await oActivityLog.save();
+    } catch (err) {
+        //eslint-disable-next-line no-console
         console.error(err);
     }
-  }
-  
+}
+
 let smtpInfo = async function (ses) {
     let deferred = Q.defer();
     try {
         const oSendQuota = await ses.getSendQuota({});
-        deferred.resolve({ ses, oSendQuota })
+        let sendQuota = { MaxSendRate: oSendQuota.MaxSendRate ? oSendQuota.MaxSendRate : 0 };
+        deferred.resolve({ ses, maxSendRate: sendQuota.MaxSendRate })
     } catch (err) {
         deferred.reject(err);
     }
@@ -118,8 +127,8 @@ let getAWSConfig = async function () {
     let deferred = Q.defer();
     try {
         aws.config.update({
-            'accesskeyId': env.AWS_ACCESS_KEY,
-            'secretAccessKey': env.AWS_SECRET_ACCESS_KEY,
+            accesskeyId: process.env.AWS_ACCESS_KEY,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
             region: env.AWS_REGION
         })
         let ses = new aws.SES({ apiVersion: '2010-12-01' });
@@ -135,60 +144,73 @@ let runEmailCampaign = async function (campaign, contactList) {
         let deferred = Q.defer();
         let list = new LinkedList();
         for (let i = 0; i < contactList.length; i++)list.add(contactList[i]);
-        let { ses, maxSendRate } = await getAWSConfig();
-        let nMaxSendRate = Math.floor(maxSendRate * 0.8);
-        let delay = Math.ceil(1000 / nMaxSendRate);
-        let templateText = campaign.mailContent;
-        let senderMailAddress = campaign.senderMailAddress
-        let templateSubject = campaign.Subject;
+        let awsInfoPromise = getAWSConfig();
+        let templatePromise = Template.findOne({ _id: campaign.template });
+        Q.all([awsInfoPromise, templatePromise]).then(data => {
+            let { ses, maxSendRate } = data[0];
+            let template = data[1];
+            let nMaxSendRate = maxSendRate >= 1 ? Math.floor(maxSendRate * 0.8) : 1;
+            let delay = Math.ceil(1000 / nMaxSendRate);
+            let templateText = template.content;
+            let senderMailAddress = campaign.senderMailAddress
+            let templateSubject = campaign.Subject;
 
-        let sendEmail = function (template, senderEmail, subject, replyMails) {
-            // send email
-            let contact = list.pop_front();
-            let bodyTemplate = Handlebars.compile(template, { noEscape: true });
-            let mailTextForReciever = bodyTemplate(contact);
-            let subjectTemplate = Handlebars.compile(subject, { noEscape: true });
-            let recieverSubject = subjectTemplate(contact);
+            let sendEmail = function (template, senderEmail, subject, replyMails) {
+                // send email
+                let contact = list.pop_front();
+                let bodyTemplate = Handlebars.compile(template, { noEscape: true });
+                let mailTextForReciever = bodyTemplate(contact.getContact());
+                let subjectTemplate = Handlebars.compile(subject, { noEscape: true });
+                let recieverSubject = subjectTemplate(contact.getContact());
+                let c = contact.getContact();
+                console.log(c);
 
-
-            ses.sendEmail({
-                Source: senderEmail,
-                Destination: {
-                    ToAddresses: [contact.email]
-                },
-                Message: {
-                    Subject: {
-                        Data: recieverSubject
+                ses.sendEmail({
+                    Source: senderEmail,
+                    Destination: {
+                        ToAddresses: [contact.getContact().email]
                     },
-                    Body: {
-                        Html: {
-                            Data: mailTextForReciever
+                    Message: {
+                        Subject: {
+                            Data: recieverSubject
+                        },
+                        Body: {
+                            Html: {
+                                Data: mailTextForReciever
+                            }
+                        }
+                    },
+                    ConfigurationSetName: "mailerpro",
+                    ReplyToAddresses: replyMails
+                }, function (err,response) {
+                    if(err){
+                        console.log(err);
+                        if (err.code == 'Throttling') {
+                            if (error.message == 'Daily message quota exceeded') deferred.reject('Daily message quota exceeded');
+                            else if (error.message == 'Maximum sending rate exceeded') list.push_back(contact);
+                            else {
+                                console.log('Error Occured while sending Emails');
+                                deferred.reject('Error Occured while sending Emails')
+                            }
                         }
                     }
-                },
-                configurationSetName: "mailerpro",
-                ReplyToAddresses: replyMails
-            }, function (err) {
-                if (err.code == 'Throttling') {
-                    if (error.message == 'Daily message quota exceeded') deferred.reject('Daily message quota exceeded');
-                    else if (error.message == 'Maximum sending rate exceeded') list.push_back(contact);
-                    else {
-                        console.log('Error Occured while sending Emails');
-                        deferred.reject('Error Occured while sending Emails')
-                    }
-                }
-            })
+                })
 
-        }
-
-
-        let intervalId = setInterval(function () {
-            if (list.length() != 0) {
-                sendEmail(templateText, senderMailAddress, templateSubject);
-            } else {
-                clearInterval(intervalId);
             }
-        }, delay);
+
+
+            let intervalId = setInterval(function () {
+                if (list.length() != 0) {
+                    sendEmail(templateText, senderMailAddress, templateSubject);
+                } else {
+                    clearInterval(intervalId);
+                }
+            }, delay);
+
+
+        }).catch(err => {
+            console.log(err);
+        })
     } catch (err) {
         console.log(err);
         deferred.reject(err);
@@ -238,12 +260,13 @@ let runSMSCampaign = function (campaign, contactList) {
 }
 
 let executeCampaign = async function (document) {
+    let deferred = Q.defer();
     try {
-        let deferred = Q.defer();
+        console.log(document);
         if (document.campaignId) {
             let campaignType = document.campaignType;
             let campaignId = document.campaignId;
-            let campaign = await Campaign.findById(campaign);
+            let campaign = await Campaign.findById(campaignId);
             let contactList = await getContactList(campaign.targetAudience);
             switch (campaignType) {
                 case 'EMAIL':
@@ -258,6 +281,7 @@ let executeCampaign = async function (document) {
             deferred.reject('No campaignId found!');
         }
     } catch (err) {
+        console.log(err);
         deferred.reject(err);
     }
     return deferred.promise;

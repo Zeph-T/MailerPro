@@ -6,7 +6,7 @@ const { MongoCron } = require("mongodb-cron");
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 let collection = {};
-collection = db.collection("jobsz");
+collection = db.collection("jobs");
 
 db.once("open", function callback() {
   collection = db.collection("jobs");
@@ -53,7 +53,6 @@ export class Controller {
   }
 
   create(req, res) {
-    console.log("create api in progress");
     isAuthenticated(req, res, () => {
       let createdCampaignData = {
         name: req.body.campaignName,
@@ -103,16 +102,15 @@ export class Controller {
           ? { scheduledTime: new Date(req.body.schedule.time) }
           : { scheduledTime: "" },
       );
-      console.log(updateData)
-      Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true })
+      updateData.targetAudience.tags = updateData.targetAudience.tags.map(oTag=>oTag._id)
+      Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true }).lean()
         .then(async (r) => {
-          console.log(r);
           if (r.isMarkedForImmediateSend) {
             try {
               await collection.deleteOne({
                 campaignId: r._id,
               });
-              collection.insert({
+              await collection.insert({
                 campaignId: r._id,
                 campaignType: "EMAIL",
                 sleepUntil: new Date(),

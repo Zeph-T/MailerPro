@@ -32,6 +32,18 @@ const CampaignSchema = new mongoose.Schema({
     enum: ["Draft", "Running", "Scheduled", "Aborted"],
     required: [true, "Status of Campaign Missing"],
   },
+  template: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Template'
+  },
+  isMarkedForImmediateSend: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
+  scheduledTime: {
+    type: Date
+  },
   targetAudience: {
     audienceType: {
       type: String,
