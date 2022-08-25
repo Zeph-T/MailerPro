@@ -3,39 +3,35 @@ import mongoose from "mongoose";
 import Template from "../../../models/template";
 
 export class Controller {
-  all(req, res) {
-    isAuthenticated(req, res, async () => {
-      try {
-        let templatesCount = await Template.countDocuments();
-        let limit = 10,
-          skip = req.query.skip;
-        Template.find({ isValid: true, templateType: req.params.type })
-          .skip(skip)
-          .limit(limit)
-          .then(
-            (r) =>
-              res.json({
-                data: {
-                  total: templatesCount,
-                  templates: r,
-                },
-              }),
-            (error) => res.json({ error: error })
-          );
-      } catch (err) {
-        res.json({ error: err });
-      }
-    });
-  }
+    all(req, res) {
+        isAuthenticated(req, res, async () => {
+            try {
+                let templatesCount = await Template.countDocuments();
+                let limit = 10 , skip = req.query.skip;
+                Template.find({ isValid: true, templateType: req.params.type }).skip(skip*10).limit(limit).then(
+                    (r) =>
+                        res.json({
+                            data: {
+                                total: templatesCount,
+                                templates: r,
+                            },
+                        }),
+                    (error) => res.json({ error: error })
+                );
+            } catch (err) {
+                res.json({ error: err });
+            }
+        });
+    }
 
-  createTemplate(req, res) {
-    isAuthenticated(req, res, () => {
-      Template.create({ ...req.body, templateType: req.params.type }).then(
-        (r) => res.json({ data: r }),
-        (error) => res.json({ data: { error: error } })
-      );
-    });
-  }
+    createTemplate(req, res) {
+        isAuthenticated(req, res, () => {
+            Template.create({ ...req.body, templateType: req.params.type }).then(
+                (r) => res.json({ data: r }),
+                (error) => res.status(404).json({ data: { error: error } })
+            );
+        });
+    }
 
   updateTemplate(req, res) {
     isAuthenticated(req, res, () => {
