@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import notify from "../../../Utils/helper/notifyToast";
 import { UPDATE_POPUP_STATE } from "../../../Redux/ActionTypes";
 import { FileUploader } from "react-drag-drop-files";
-import { StyledMUIButton } from "../../General/Helpers";
+import {
+  StyledMUIButton,
+  StyledMUISelectWithChip,
+} from "../../General/Helpers";
 import { uploadContacts } from "../../../Services/imports.service";
 
 const fileTypes = ["CSV", "XLSX", "XLS"];
@@ -14,6 +17,7 @@ const FileUpload = ({}) => {
   const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   console.log(file);
   const closePopup = () => {
@@ -33,7 +37,7 @@ const FileUpload = ({}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (file) {
-      await uploadContacts(userData.accessToken, file);
+      await uploadContacts(userData.accessToken, file, selectedTags);
       notify("Contacts uploaded successfully", "success");
       closePopup();
     } else {
@@ -59,6 +63,16 @@ const FileUpload = ({}) => {
         handleChange={handleChange}
         name="file"
         types={fileTypes}
+      />
+
+      <StyledMUISelectWithChip
+        label={UPLOAD_FILE_POPUP_DATA.selectTags}
+        options={userData.tags}
+        getOptionLabel={(option) => option.name}
+        onChange={(e, val) => {
+          setSelectedTags(val);
+        }}
+        value={selectedTags}
       />
 
       <StyledMUIButton type="submit" color="buttonGreen" fullWidth>

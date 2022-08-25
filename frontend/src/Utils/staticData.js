@@ -533,6 +533,7 @@ export const ADD_CONTACTS_POPUP_DATA = {
 };
 export const UPLOAD_FILE_POPUP_DATA = {
   title: "Upload Contacts",
+  selectTags: "Select Tags to add (optional)",
   buttons: {
     upload: "Upload",
   },
