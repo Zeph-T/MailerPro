@@ -594,6 +594,12 @@ export const CAMPAIGN_DATA = {
       align: "left",
     },
     {
+      label: "Status",
+      renderer: (val) => val.status,
+      width: "7%",
+      align: "left",
+    },
+    {
       label: "Sent",
       renderer: (val) => val.totalSent,
       width: "7%",
