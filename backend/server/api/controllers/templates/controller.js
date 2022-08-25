@@ -7,16 +7,21 @@ export class Controller {
     isAuthenticated(req, res, async () => {
       try {
         let templatesCount = await Template.countDocuments();
-        Template.find({ isValid: true, templateType: req.params.type }).then(
-          (r) =>
-            res.json({
-              data: {
-                total: templatesCount,
-                templates: r,
-              },
-            }),
-          (error) => res.json({ error: error })
-        );
+        let limit = 10,
+          skip = req.query.skip;
+        Template.find({ isValid: true, templateType: req.params.type })
+          .skip(skip)
+          .limit(limit)
+          .then(
+            (r) =>
+              res.json({
+                data: {
+                  total: templatesCount,
+                  templates: r,
+                },
+              }),
+            (error) => res.json({ error: error })
+          );
       } catch (err) {
         res.json({ error: err });
       }

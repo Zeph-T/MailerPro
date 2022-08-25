@@ -23,6 +23,7 @@ import ManageTags from "../../Components/PopUps/ManageTags";
 import { getContactsList } from "../../Services/contact.service";
 import notify from "./../../Utils/helper/notifyToast";
 import AddContacts from "./../../Components/PopUps/AddContacts/AddContacts";
+import FileUpload from "../../Components/PopUps/FileUpload/FileUpload";
 
 const TEMP_DIR_HIGHLIGHTS_DATA = {
   total: 59874,
@@ -121,6 +122,15 @@ function Directory() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
+                }}
+                onClick={() => {
+                  dispatch({
+                    type: UPDATE_POPUP_STATE,
+                    payload: {
+                      open: true,
+                      component: <FileUpload />,
+                    },
+                  });
                 }}
               >
                 {DIRECTORY_PAGE_DATA.navButtons.importContacts}

@@ -70,9 +70,15 @@ export class Controller {
         .then(() =>
           Tag.deleteOne({ _id: mongoose.Types.ObjectId(tagId) })
             .then((response) => res.json({ data: response }))
-            .catch((err) => res.json({ data: { error: err } }))
+            .catch((err) => {
+              console.log(err);
+              res.json({ data: { error: err } });
+            })
         )
-        .catch((err) => res.json({ data: { error: err } }));
+        .catch((err) => {
+          console.log(err);
+          res.json({ data: { error: err } });
+        });
     });
   }
 }

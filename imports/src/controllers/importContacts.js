@@ -28,7 +28,7 @@ module.exports = (req, res) => {
           " -c collection --type=csv --fields=" +
           headers.toString() +
           " --file " +
-          newPath +
+          `"${newPath}"` +
           " --ignoreBlanks";
 
         exec(command, (err, stdout, stderr) => {
