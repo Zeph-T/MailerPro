@@ -35,7 +35,10 @@ function ManageCampaignState2({
       </Swiper>
       <div
         className={styles.TemplatePreviewWrapper}
-        dangerouslySetInnerHTML={{ __html: templates.filter(item => item._id === activeTemplate)[0].content }}
+        dangerouslySetInnerHTML={{
+          __html: templates.filter((item) => item._id === activeTemplate)[0]
+            ?.content,
+        }}
       />
     </div>
   );
