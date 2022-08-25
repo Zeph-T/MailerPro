@@ -1,4 +1,3 @@
-import Tag from "../../../models/tag";
 import isAuthenticated from "../../middlewares/isAuthenticated.jwt.js";
 import mongoose from "mongoose";
 import Template from '../../../models/template';
