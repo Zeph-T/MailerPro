@@ -22,6 +22,7 @@ export const uri = {
   CREATE_CAMPAIGN_URL: BASE_URL + "/campaigns/create",
   UPDATE_CAMPAIGN_URL: BASE_URL + "/campaigns/update",
   GET_ALL_CAMPAIGNS_URL: BASE_URL + "/campaigns",
+  GET_CAMPAIGN_BY_ID_URL: BASE_URL + "/campaigns/campaignById",
   UPDATE_USER_URL: BASE_URL + "/users/updateUser",
   CHANGE_PASSWORD_URL: BASE_URL + "/users/changePassword",
   UPLOAD_CONTACTS_URL: BASE_IMPORTS_URL + "/importContacts",
@@ -36,4 +37,5 @@ export const uri = {
   CREATE_SMS_CAMPAIGN_URL: BASE_URL + "/smsCampaigns/create",
   UPDATE_SMS_CAMPAIGN_URL: BASE_URL + "/smsCampaigns/update",
   GET_ALL_SMS_CAMPAIGNS_URL: BASE_URL + "/smsCampaigns",
+  GET_SMS_CAMPAIGN_BY_ID_URL: BASE_URL + "/smsCampaigns/campaignById",
 };

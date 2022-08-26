@@ -5,6 +5,7 @@ import styles from "./ManageCampaign.module.css";
 import { MANAGE_CAMPAIGN_DATA } from "./../../Utils/staticData";
 import {
   createCampaign,
+  getCampaignById,
   updateCampaign,
 } from "../../Services/campaign.service";
 import { fetchAllTemplates } from "../../Services/template.service";
@@ -21,28 +22,6 @@ import {
 } from "./../../Components/ManageCampaign/Steps";
 
 const ManageCampaign = ({ isNew, isSMS }) => {
-  useEffect(() => {
-    async function fetchTemplates() {
-      try {
-        const templates = await fetchAllTemplates(
-          isSMS ? "SMS" : "EMAIL",
-          userData.accessToken
-        );
-        console.log("templates", templates.data.data.templates);
-        setCurrentDataState({
-          ...currentDataState,
-          allTemplates: templates.data.data.templates,
-        });
-      } catch (err) {
-        console.log(err);
-        notify("Internal Server Error while fetching templates", "error");
-      }
-    }
-
-    fetchTemplates();
-    console.log("useEffect ran...");
-  }, []);
-
   const params = useParams();
   let navigate = useNavigate();
   const userData = useSelector((state) => state.user.userData);
@@ -68,12 +47,70 @@ const ManageCampaign = ({ isNew, isSMS }) => {
     },
     allTemplates: [],
   });
+  console.log(currentDataState);
+  useEffect(() => {
+    fetchCampaignData();
+  }, [params.id]);
+
+  // useEffect(() => {
+  //   async function fetchTemplates() {
+  //     try {
+  //     } catch (err) {
+  //       console.log(err);
+  //       notify("Internal Server Error while fetching templates", "error");
+  //     }
+  //   }
+
+  //   fetchTemplates();
+  //   console.log("useEffect ran...");
+  // }, []);
+
+  const fetchCampaignData = async () => {
+    if (!isNew) {
+      try {
+        const response = await getCampaignById(
+          userData.accessToken,
+          params.id,
+          isSMS
+        );
+        const templates = await fetchAllTemplates(
+          isSMS ? "SMS" : "EMAIL",
+          userData.accessToken
+        );
+
+        console.log("response", response);
+        setCurrentDataState({
+          ...currentDataState,
+          template: response.data.template,
+          info: {
+            campaignName: response.data.name,
+            notes: response.data.note,
+            subject: response.data.Subject,
+            fromEmail: response.data.senderMailAddress,
+            fromName: response.data.SenderName,
+            replyTo: response.data.ReplyMail,
+          },
+          status: response.data.status,
+          audience: response.data.targetAudience,
+          schedule: {
+            value: response.data.isMarkedForImmediateSend
+              ? "immediately"
+              : "later",
+            time: response.data.scheduledTime,
+          },
+          allTemplates: templates.data.data.templates,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   // console.log(currentDataState.schedule);
 
   const handleNext = (e) => {
     e.preventDefault();
-    if (currentState == 0) {
+    if (currentState == 0 && isNew) {
       createNewCampaign(currentDataState.info);
     } else {
       updateExistingCampaign(currentDataState, params.id);

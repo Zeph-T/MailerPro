@@ -142,7 +142,7 @@ export class Controller {
     getCampaignById(req,res){
         isAuthenticated(req, res, () => {
           try {
-            Campaign.find({_id : mongoose.Types.ObjectId(req.params.id)})
+            Campaign.findOne({_id : mongoose.Types.ObjectId(req.params.id)})
               .then(
                 (r) =>
                   res.json({

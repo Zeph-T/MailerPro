@@ -120,7 +120,17 @@ function Campaign() {
             </TableHead>
             <TableBody>
               {currentData.map((row, index) => (
-                <TableRow key={index}>
+                <TableRow
+                  key={index}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() =>
+                    currentTab === "email"
+                      ? navigate(`/managecampaign/${row._id}`)
+                      : navigate(`/managesmscampaign/${row._id}`)
+                  }
+                >
                   {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
                     return (
                       <TableCell

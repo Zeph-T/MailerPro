@@ -73,3 +73,21 @@ export const getAllSMSCampaigns = async (accessToken, skip) => {
     throw err;
   }
 };
+
+export const getCampaignById = async (accessToken, id, isSMS) => {
+  try {
+    const { data } = await axios.get(
+      (isSMS ? uri.GET_SMS_CAMPAIGN_BY_ID_URL : uri.GET_CAMPAIGN_BY_ID_URL) +
+        "/" +
+        id,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
