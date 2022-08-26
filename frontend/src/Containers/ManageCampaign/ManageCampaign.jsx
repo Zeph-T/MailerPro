@@ -113,7 +113,23 @@ const ManageCampaign = ({ isNew, isSMS }) => {
     if (currentState == 0 && isNew) {
       createNewCampaign(currentDataState.info);
     } else {
-      updateExistingCampaign(currentDataState, params.id);
+      if (
+        currentState == 2 &&
+        currentDataState.audience.audienceType === "TAGS" &&
+        currentDataState.audience.tags.length > 0
+      )
+        updateExistingCampaign(currentDataState, params.id);
+      else if (currentState == 1)
+        updateExistingCampaign(currentDataState, params.id);
+      else if(currentState == 3 && currentDataState.schedule.time !== null){
+        updateExistingCampaign(currentDataState, params.id);
+      } 
+      else if (
+        currentState == 2 &&
+        currentDataState.audience.tags.length === 0 &&
+        currentDataState.audience.audienceType === "TAGS"
+      )
+        return notify("Tags array is empty");
     }
     setCurrentState(currentState + 1);
   };
