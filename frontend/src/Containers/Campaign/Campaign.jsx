@@ -75,7 +75,9 @@ function Campaign() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
+                  display: currentTab =='sms' ? "inline" : "none"
                 }}
+
                 color="buttonOrange"
                 onClick={() => navigate("/createsmscampaign")}
               >
@@ -84,6 +86,7 @@ function Campaign() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
+                  display: currentTab =='email' ? "inline" : "none"
                 }}
                 onClick={() => navigate("/createcampaign")}
               >
@@ -96,6 +99,7 @@ function Campaign() {
           tabsData={CAMPAIGN_DATA.tabs}
           currentTab={currentTab}
           handleClick={(val) => {
+            console.log("val",val)
             setCurrentTab(val);
             setCurrentPage(0);
           }}
