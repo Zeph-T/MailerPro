@@ -25,6 +25,7 @@ import notify from "./../../Utils/helper/notifyToast";
 import AddContacts from "./../../Components/PopUps/AddContacts/AddContacts";
 import FileUpload from "../../Components/PopUps/FileUpload/FileUpload";
 import ManageCustomFields from "../../Components/PopUps/ManageCustomFields";
+import Progress from "../../Utils/helper/linearProgress";
 
 const TEMP_DIR_HIGHLIGHTS_DATA = {
   total: 59874,
@@ -162,6 +163,7 @@ function Directory() {
         />
       </div>
       <div className={styles.HighlightsList}>
+        {}
         {DIRECTORY_PAGE_DATA.highlightsData.map((highlight, index) => {
           return (
             <>
@@ -187,51 +189,11 @@ function Directory() {
         })}
       </div>
       <div className={styles.ContentWrapper}>
-        <TableContainer>
-          <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-            <TableHead>
-              <TableRow>
-                {DIRECTORY_PAGE_DATA.tableData.map((columnInfo, index) => {
-                  return (
-                    <TableCell
-                      align={
-                        index === DIRECTORY_PAGE_DATA.tableData.length - 1
-                          ? "right"
-                          : index === 0
-                          ? "left"
-                          : "center"
-                      }
-                      width={columnInfo.width}
-                    >
-                      {columnInfo.label}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {currentData.map((row, index) => (
-                <TableRow
-                  key={index}
-                  style={{
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    dispatch({
-                      type: UPDATE_POPUP_STATE,
-                      payload: {
-                        open: true,
-                        component: (
-                          <AddContacts
-                            fetchCurrentPageData={fetchCurrentPageData}
-                            isContactDetails={true}
-                            contactData={row}
-                          />
-                        ),
-                      },
-                    });
-                  }}
-                >
+        {currentData.length > 0 ? (
+          <TableContainer>
+            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+              <TableHead>
+                <TableRow>
                   {DIRECTORY_PAGE_DATA.tableData.map((columnInfo, index) => {
                     return (
                       <TableCell
@@ -244,35 +206,79 @@ function Directory() {
                         }
                         width={columnInfo.width}
                       >
-                        {columnInfo.renderer(row)}
+                        {columnInfo.label}
                       </TableCell>
                     );
                   })}
                 </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TablePagination
-                count={highlightData.total}
-                rowsPerPage={10}
-                page={currentPage}
-                SelectProps={{
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                }}
-                rowsPerPageOptions={[]}
-                onPageChange={(e, newPage) => {
-                  setCurrentPage(newPage);
-                }}
-                sx={{
-                  borderBottom: "none",
-                }}
-              />
-            </TableFooter>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {currentData.map((row, index) => (
+                  <TableRow
+                    key={index}
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      dispatch({
+                        type: UPDATE_POPUP_STATE,
+                        payload: {
+                          open: true,
+                          component: (
+                            <AddContacts
+                              fetchCurrentPageData={fetchCurrentPageData}
+                              isContactDetails={true}
+                              contactData={row}
+                            />
+                          ),
+                        },
+                      });
+                    }}
+                  >
+                    {DIRECTORY_PAGE_DATA.tableData.map((columnInfo, index) => {
+                      return (
+                        <TableCell
+                          align={
+                            index === DIRECTORY_PAGE_DATA.tableData.length - 1
+                              ? "right"
+                              : index === 0
+                              ? "left"
+                              : "center"
+                          }
+                          width={columnInfo.width}
+                        >
+                          {columnInfo.renderer(row)}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TablePagination
+                  count={highlightData.total}
+                  rowsPerPage={10}
+                  page={currentPage}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  rowsPerPageOptions={[]}
+                  onPageChange={(e, newPage) => {
+                    setCurrentPage(newPage);
+                  }}
+                  sx={{
+                    borderBottom: "none",
+                  }}
+                />
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Progress />
+        )}
       </div>
     </div>
   );
