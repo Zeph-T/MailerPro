@@ -94,6 +94,7 @@ function Templates() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
+                  display: currentTab =='SMS' ? "inline" : "none"
                 }}
                 color="buttonOrange"
                 onClick={() => {
@@ -105,6 +106,7 @@ function Templates() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
+                  display: currentTab =='EMAIL' ? "inline" : "none"
                 }}
                 onClick={() => {
                   navigate("/createtemplate");
