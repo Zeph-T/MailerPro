@@ -22,8 +22,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {
   getAllCampaigns,
   getAllSMSCampaigns,
+  getCampignsStats,
 } from "../../Services/campaign.service";
 import { useSelector } from "react-redux";
+import notify from "./../../Utils/helper/notifyToast";
 
 function Campaign() {
   const userData = useSelector((state) => state.user.userData);
@@ -32,38 +34,42 @@ function Campaign() {
   const [currentTab, setCurrentTab] = React.useState(
     CAMPAIGN_DATA.tabs[0].value
   );
+  const [loading, setLoading] = React.useState(true);
   const [currentData, setCurrentData] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(0);
   const [totalItemsCount, setTotalItemsCount] = React.useState(0);
 
   React.useEffect(() => {
+    setLoading(true);
     fetchCurrentData();
   }, [currentPage, currentTab]);
 
   const fetchCurrentData = async () => {
     try {
+      let response;
       if (currentTab === "email") {
-        const response = await getAllCampaigns(
-          userData.accessToken,
-          setCurrentPage
-        );
-
-        setCurrentData(response.data.campaigns);
-        setTotalItemsCount(response.data.total);
+        response = await getAllCampaigns(userData.accessToken, currentPage);
       } else {
-        setCurrentData;
-        const response = await getAllSMSCampaigns(
-          userData.accessToken,
-          setCurrentPage
-        );
-
-        setCurrentData(response.data.campaigns);
-        setTotalItemsCount(response.data.total);
+        response = await getAllSMSCampaigns(userData.accessToken, currentPage);
       }
+
+      setTotalItemsCount(response.data.total);
+      const statsData = await getCampignsStats(
+        userData.accessToken,
+        response.data.campaigns.map((campaign) => campaign._id),
+        currentTab !== "email"
+      );
+      const updatedCampaigns = response.data.campaigns.map((campaign) => {
+        const stats = statsData.find((stat) => stat._id === campaign._id);
+        return { ...campaign, ...stats };
+      });
+      console.log(updatedCampaigns, statsData, response.data.campaigns);
+      setCurrentData(updatedCampaigns);
     } catch (error) {
       console.log(error);
       notify("Error fetching data", "error");
     }
+    setLoading(false);
   };
 
   return (
@@ -107,12 +113,14 @@ function Campaign() {
         />
       </div>
       <div className={styles.ContentWrapper}>
-        {currentData.length > 0 ? (
+        {!loading ? (
           <TableContainer>
             <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
               <TableHead>
                 <TableRow>
-                  {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
+                  {CAMPAIGN_DATA[
+                    currentTab == "email" ? "tableData" : "tableDataSMS"
+                  ].map((columnInfo, index) => {
                     return (
                       <TableCell
                         align={columnInfo.align}
@@ -137,7 +145,9 @@ function Campaign() {
                         : navigate(`/managesmscampaign/${row._id}`)
                     }
                   >
-                    {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
+                    {CAMPAIGN_DATA[
+                      currentTab == "email" ? "tableData" : "tableDataSMS"
+                    ].map((columnInfo, index) => {
                       return (
                         <TableCell
                           align={columnInfo.align}

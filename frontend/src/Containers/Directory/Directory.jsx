@@ -42,8 +42,10 @@ function Directory() {
     unsubscribed: 0,
   });
   const [currentPage, setCurrentPage] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    setLoading(true);
     fetchCurrentPageData();
   }, [currentPage]);
 
@@ -72,6 +74,7 @@ function Directory() {
       console.log(err);
       notify("Internal Server Error", "error");
     }
+    setLoading(false);
   };
 
   return (
@@ -189,7 +192,7 @@ function Directory() {
         })}
       </div>
       <div className={styles.ContentWrapper}>
-        {currentData.length > 0 ? (
+        {!loading ? (
           <TableContainer>
             <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
               <TableHead>

@@ -18,10 +18,10 @@ export class Controller {
                 tags: r,
               },
             }),
-          (error) => res.json({ error: error })
+          (error) => res.status(400).json({ error: error })
         );
       } catch (err) {
-        res.json({ error: err });
+        res.status(400).json({ error: err });
       }
     });
   }
@@ -35,7 +35,7 @@ export class Controller {
 
       let createdTag = Tag.create(createdTagData).then(
         (r) => res.json({ data: r }),
-        (error) => res.json({ data: { error: error } })
+        (error) => res.status(400).res.json({ data: { error: error } })
       );
     });
   }
@@ -49,7 +49,7 @@ export class Controller {
         { new: true }
       )
         .then((r) => res.json({ data: r }))
-        .catch((err) => res.json({ data: { error: err } }));
+        .catch((err) => res.status(400).json({ data: { error: err } }));
     });
   }
 
@@ -63,7 +63,7 @@ export class Controller {
         { new: true }
       )
         .then((response) => res.json({ data: response }))
-        .catch((err) => res.json({ data: { error: err } }));
+        .catch((err) => res.status(400).json({ data: { error: err } }));
     });
   }
 
@@ -81,7 +81,7 @@ export class Controller {
         )
         .catch((err) => {
           console.log(err);
-          res.json({ data: { error: err } });
+          res.status(400).json({ data: { error: err } });
         });
     });
   }

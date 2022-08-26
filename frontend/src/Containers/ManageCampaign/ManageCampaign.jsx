@@ -113,6 +113,9 @@ const ManageCampaign = ({ isNew, isSMS }) => {
     if (currentState == 0 && isNew) {
       createNewCampaign(currentDataState.info);
     } else {
+      if (currentState == 0) {
+        updateExistingCampaign(currentDataState, params.id);
+      }
       if (
         currentState == 2 &&
         currentDataState.audience.audienceType === "TAGS" &&
@@ -121,10 +124,9 @@ const ManageCampaign = ({ isNew, isSMS }) => {
         updateExistingCampaign(currentDataState, params.id);
       else if (currentState == 1)
         updateExistingCampaign(currentDataState, params.id);
-      else if(currentState == 3 && currentDataState.schedule.time !== null){
+      else if (currentState == 3 && currentDataState.schedule.time !== null) {
         updateExistingCampaign(currentDataState, params.id);
-      } 
-      else if (
+      } else if (
         currentState == 2 &&
         currentDataState.audience.tags.length === 0 &&
         currentDataState.audience.audienceType === "TAGS"

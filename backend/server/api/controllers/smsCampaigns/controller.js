@@ -1,6 +1,7 @@
 import Campaign from "../../../models/smsCampaign";
 import isAuthenticated from "../../middlewares/isAuthenticated.jwt.js";
 import mongoose from "mongoose";
+import ActivityLog from "../../../models/activityLog";
 const { MongoCron } = require("mongodb-cron");
 
 let db = mongoose.connection;
@@ -47,10 +48,10 @@ export class Controller {
                   campaigns: r,
                 },
               }),
-            (error) => res.json({ error: error })
+            (error) => res.status(400).json({ error: error })
           );
       } catch (err) {
-        return res.json({ error: err });
+        return res.status(400).json({ error: err });
       }
     });
   }
@@ -74,7 +75,7 @@ export class Controller {
         (r) => res.json({ data: r }),
         (error) => {
           console.log(error);
-          res.json({ data: { error: error } });
+          res.status(400).json({ data: { error: error } });
         }
       );
     });
@@ -145,7 +146,7 @@ export class Controller {
         })
         .catch((error) => {
           console.log(error);
-          res.json({ data: { error: error } });
+          res.status(400).json({ data: { error: error } });
         });
     });
   }
@@ -163,10 +164,10 @@ export class Controller {
             res.json({
               data: r,
             }),
-          (error) => res.json({ error: error })
+          (error) => res.status(400).json({ error: error })
         );
       } catch (err) {
-        return res.json({ error: err });
+        return res.status(400).json({ error: err });
       }
     });
   }
@@ -219,7 +220,7 @@ export class Controller {
             },
           },
         ];
-        return activityLog.aggregate(query, function (err, aStatistics) {
+        return ActivityLog.aggregate(query, function (err, aStatistics) {
           if (!err) {
             res.status(200);
             let data = aStatistics.map((aStat) => {
@@ -245,13 +246,13 @@ export class Controller {
           } else {
             console.log(err);
             res.status(400);
-            return res.send({ data: { error: err } });
+            return res.status(400).send({ data: { error: err } });
           }
         });
       } catch (err) {
         console.log(err);
         res.status(400);
-        return res.send({ data: { error: err } });
+        return res.status(400).send({ data: { error: err } });
       }
     });
   }

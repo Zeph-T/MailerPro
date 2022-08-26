@@ -608,38 +608,72 @@ export const CAMPAIGN_DATA = {
     },
     {
       label: "Sent",
-      renderer: (val) => val.totalSent,
+      renderer: (val) => (val.stats ? val.stats.sent : "-"),
       width: "7%",
       align: "left",
     },
     {
       label: "Fail",
-      renderer: (val) => val.fail,
+      renderer: (val) =>
+        val.stats ? (val.stats.fail ? val.stats.fail : 0) : "-",
       width: "30%",
       align: "left",
     },
     {
       label: "Opens",
-      renderer: (val) => val.opens,
+      renderer: (val) => (val.stats ? val.stats.open : "-"),
       width: "10%",
       align: "center",
     },
     {
       label: "Clicks",
-      renderer: (val) => val.clicks,
+      renderer: (val) => (val.stats ? val.stats.click : "-"),
       width: "10%",
       align: "center",
     },
     {
       label: "Bounces",
-      renderer: (val) => val.bounces,
+      renderer: (val) => (val.stats ? val.stats.bounce : "-"),
       width: "10%",
       align: "center",
     },
     {
       label: "Unsubscribes",
-      renderer: (val) => val.unsubscribes,
+      renderer: (val) => (val.stats ? val.stats.unsubscribe : "-"),
       width: "10%",
+      align: "right",
+    },
+  ],
+  tableDataSMS: [
+    {
+      label: "Name",
+      renderer: (val) => val.name,
+      width: "25%",
+      align: "left",
+    },
+    {
+      label: "Status",
+      renderer: (val) => val.status,
+      width: "30%",
+      align: "center",
+    },
+    {
+      label: "Sent",
+      renderer: (val) => (val.stats ? val.stats.sent : "-"),
+      width: "7%",
+      align: "center",
+    },
+    {
+      label: "Fail",
+      renderer: (val) =>
+        val.stats ? (val.stats.fail ? val.stats.failed : 0) : "-",
+      width: "7%",
+      align: "center",
+    },
+    {
+      label: "Queued",
+      renderer: (val) => (val.stats ? val.stats.queued : "-"),
+      width: "6%",
       align: "right",
     },
   ],
