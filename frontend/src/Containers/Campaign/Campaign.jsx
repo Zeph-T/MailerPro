@@ -21,8 +21,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {
   getAllCampaigns,
   getAllSMSCampaigns,
+  getCampignsStats,
 } from "../../Services/campaign.service";
 import { useSelector } from "react-redux";
+import notify from "./../../Utils/helper/notifyToast";
 
 function Campaign() {
   const userData = useSelector((state) => state.user.userData);
@@ -41,23 +43,27 @@ function Campaign() {
 
   const fetchCurrentData = async () => {
     try {
+      let response;
       if (currentTab === "email") {
-        const response = await getAllCampaigns(
-          userData.accessToken,
-          setCurrentPage
-        );
-
-        setCurrentData(response.data.campaigns);
-        setTotalItemsCount(response.data.total);
+        response = await getAllCampaigns(userData.accessToken, setCurrentPage);
       } else {
-        const response = await getAllSMSCampaigns(
+        response = await getAllSMSCampaigns(
           userData.accessToken,
           setCurrentPage
         );
-
-        setCurrentData(response.data.campaigns);
-        setTotalItemsCount(response.data.total);
       }
+
+      setTotalItemsCount(response.data.total);
+      const statsData = await getCampignsStats(
+        userData.accessToken,
+        response.data.campaigns.map((campaign) => campaign._id)
+      );
+      const updatedCampaigns = response.data.campaigns.map((campaign) => {
+        const stats = statsData.find((stat) => stat._id === campaign._id);
+        return { ...campaign, ...stats };
+      });
+      console.log(updatedCampaigns, statsData, response.data.campaigns);
+      setCurrentData(updatedCampaigns);
     } catch (error) {
       console.log(error);
       notify("Error fetching data", "error");
@@ -75,9 +81,8 @@ function Campaign() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
-                  display: currentTab =='sms' ? "inline" : "none"
+                  display: currentTab == "sms" ? "inline" : "none",
                 }}
-
                 color="buttonOrange"
                 onClick={() => navigate("/createsmscampaign")}
               >
@@ -86,7 +91,7 @@ function Campaign() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
-                  display: currentTab =='email' ? "inline" : "none"
+                  display: currentTab == "email" ? "inline" : "none",
                 }}
                 onClick={() => navigate("/createcampaign")}
               >
@@ -99,7 +104,7 @@ function Campaign() {
           tabsData={CAMPAIGN_DATA.tabs}
           currentTab={currentTab}
           handleClick={(val) => {
-            console.log("val",val)
+            console.log("val", val);
             setCurrentTab(val);
             setCurrentPage(0);
           }}

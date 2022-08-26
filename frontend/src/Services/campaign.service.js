@@ -91,3 +91,22 @@ export const getCampaignById = async (accessToken, id, isSMS) => {
     throw err;
   }
 };
+
+export const getCampignsStats = async (accessToken, ids) => {
+  try {
+    const { data } = await axios.post(
+      uri.GET_CAMPAIGNS_STATS,
+      {
+        campaigns: ids,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};

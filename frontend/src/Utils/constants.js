@@ -23,6 +23,7 @@ export const uri = {
   UPDATE_CAMPAIGN_URL: BASE_URL + "/campaigns/update",
   GET_ALL_CAMPAIGNS_URL: BASE_URL + "/campaigns",
   GET_CAMPAIGN_BY_ID_URL: BASE_URL + "/campaigns/campaignById",
+  GET_CAMPAIGNS_STATS: BASE_URL + "/campaigns/getStats",
   UPDATE_USER_URL: BASE_URL + "/users/updateUser",
   CHANGE_PASSWORD_URL: BASE_URL + "/users/changePassword",
   UPLOAD_CONTACTS_URL: BASE_IMPORTS_URL + "/importContacts",
