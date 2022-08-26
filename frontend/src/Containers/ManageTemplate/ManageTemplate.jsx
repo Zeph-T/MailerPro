@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import notify from "../../Utils/helper/notifyToast";
 import { useSelector } from "react-redux";
 import Header from "../../Components/Header";
@@ -14,6 +14,7 @@ import {
 import { ManageTemplateHTMLEditor } from "../../Components/ManageTemplate";
 
 const ManageTemplate = ({ isNew }) => {
+  const navigate = useNavigate();
   const params = useParams();
   const userData = useSelector((state) => state.user?.userData);
 
@@ -74,7 +75,7 @@ const ManageTemplate = ({ isNew }) => {
         }
       })();
     }
-  }, [params.templateId, userData.accessToken]);
+  }, [params.templateId]);
 
   useEffect(() => {
     (async () => {
@@ -111,9 +112,13 @@ const ManageTemplate = ({ isNew }) => {
             setIsSavedButtonClicked(false);
             return notify("Template updated successfully", "success");
           }
-          await createTemplate(compiledData, "EMAIL", userData.accessToken);
-          setIsSavedButtonClicked(false);
-          return notify("Template created successfully", "success");
+          const resp = await createTemplate(
+            compiledData,
+            "EMAIL",
+            userData.accessToken
+          );
+          notify("Template created successfully", "success");
+          return navigate(`/templates/${resp.data.data._id}`);
         }
       } catch (err) {
         return notify("Template creation failed", "error");
