@@ -51,6 +51,10 @@ const CampaignSchema = new mongoose.Schema({
     },
     tags: [],
   },
+  createdBy : {
+    type :  mongoose.Types.ObjectId,
+    ref : "User"
+}
 });
 
 export default mongoose.model("Campaign", CampaignSchema);

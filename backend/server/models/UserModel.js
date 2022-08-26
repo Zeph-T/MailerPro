@@ -22,6 +22,10 @@ const User = new mongoose.Schema({
     required: [true, "UnSubscriptionForm must be generated before saving"],
     default: "Sorry to see you go!",
   },
+  isAdmin : {
+    type : Boolean,
+    default : false
+  }
 });
 
 export default mongoose.model("User", User);

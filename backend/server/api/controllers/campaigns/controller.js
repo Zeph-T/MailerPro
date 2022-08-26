@@ -31,10 +31,12 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let campaignsCount = await Campaign.countDocuments();
+        let query = {isValid : true};
+        req.isAdmin ? null : query.createdBy = req.user
+        let campaignsCount = await Campaign.countDocuments(query);
         var page = req.query.page ? parseInt(req.query.page) : 1;
         var limit = req.query.limit ? parseInt(req.query.limit) : 10;
-        Campaign.find({})
+        Campaign.find(query)
           .limit(limit)
           .skip((page - 1) * limit)
           .sort({_id:  -1})
@@ -63,6 +65,7 @@ export class Controller {
         ReplyMail: req.body.replyTo,
         SenderName: req.body.fromName,
         senderMailAddress: req.body.fromEmail,
+        createdBy : req.user,
         status: "Draft",
         targetAudience: {
           audienceType: "ALL",
@@ -104,6 +107,7 @@ export class Controller {
           ? { scheduledTime: new Date(req.body.schedule.time) , status : "Scheduled" }
           : { scheduledTime: "" },
       );
+      updateData.createdBy = req.user;
       updateData.targetAudience.tags = updateData.targetAudience.tags.map(oTag=>oTag._id)
       Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true })
         .then(async (r) => {

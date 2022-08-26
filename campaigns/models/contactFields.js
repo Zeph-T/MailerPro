@@ -14,7 +14,11 @@ const ContactFieldSchema = new mongoose.Schema({
   isValid : {
     type : Boolean,
     default : true
-  }
+  },
+  createdBy : {
+    type : mongoose.Types.ObjectId,
+    ref : 'User'
+},
 });
 
 module.exports = mongoose.model('Fields', ContactFieldSchema);

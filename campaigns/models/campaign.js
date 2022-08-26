@@ -47,6 +47,10 @@ const CampaignSchema = new mongoose.Schema({
             enum : ["ALL" , "TAGS"]
         },
         tags : []
+    },
+    createdBy : {
+        type :  mongoose.Types.ObjectId,
+        ref : "User"
     }
 })
 

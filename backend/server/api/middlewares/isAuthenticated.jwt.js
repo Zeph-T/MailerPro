@@ -1,6 +1,6 @@
 import * as jwt from "jsonwebtoken";
 import env from "../../config/env";
-
+import mongoose from "mongoose";
 // eslint-disable-next-line no-unused-vars, no-shadow
 export default async function isAuthenticated(req, res, next) {
   let token = req.headers.authorization;
@@ -9,8 +9,9 @@ export default async function isAuthenticated(req, res, next) {
   else {
     try {
       token = token.split(" ")[1];
-      const userId = jwt.verify(token, env.JWT_SECRET);
-      req.user = userId;
+      const doc  = jwt.verify(token, env.JWT_SECRET);
+      req.user = mongoose.Types.ObjectId(doc.userId.toString());
+      req.isAdmin = doc.isAdmin;
       next();
     } catch (err) {
       res

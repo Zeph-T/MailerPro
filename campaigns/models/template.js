@@ -34,7 +34,11 @@ const TemplateSchema = new mongoose.Schema({
   description : {
     type : String,
     default : ""
-  }
+  },
+  createdBy : {
+    type : mongoose.Types.ObjectId,
+    ref : 'User'
+},
 });
 
 module.exports = mongoose.model('Template', TemplateSchema);
