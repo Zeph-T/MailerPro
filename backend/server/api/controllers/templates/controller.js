@@ -28,7 +28,7 @@ export class Controller {
             (error) => res.json({ error: error })
           );
       } catch (err) {
-        res.json({ error: err });
+        res.status(400).json({ error: err });
       }
     });
   }
@@ -39,7 +39,7 @@ export class Controller {
       req.body.createdBy = req.user;
       Template.create(req.body).then(
         (r) => res.json({ data: r }),
-        (error) => res.status(404).json({ data: { error: error } })
+        (error) => res.status(400).status(404).json({ data: { error: error } })
       );
     });
   }

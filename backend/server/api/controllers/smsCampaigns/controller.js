@@ -47,10 +47,10 @@ export class Controller {
                   campaigns: r,
                 },
               }),
-            (error) => res.json({ error: error })
+            (error) => res.status(400).json({ error: error })
           );
       } catch (err) {
-        return res.json({ error: err });
+        return res.status(400).json({ error: err });
       }
     });
   }
@@ -74,7 +74,7 @@ export class Controller {
         (r) => res.json({ data: r }),
         (error) => {
           console.log(error);
-          res.json({ data: { error: error } });
+          res.status(400).json({ data: { error: error } });
         }
       );
     });
@@ -145,7 +145,7 @@ export class Controller {
         })
         .catch((error) => {
           console.log(error);
-          res.json({ data: { error: error } });
+          res.status(400).json({ data: { error: error } });
         });
     });
   }
@@ -163,10 +163,10 @@ export class Controller {
             res.json({
               data: r,
             }),
-          (error) => res.json({ error: error })
+          (error) => res.status(400).json({ error: error })
         );
       } catch (err) {
-        return res.json({ error: err });
+        return res.status(400).json({ error: err });
       }
     });
   }
@@ -245,13 +245,13 @@ export class Controller {
           } else {
             console.log(err);
             res.status(400);
-            return res.send({ data: { error: err } });
+            return res.status(400).send({ data: { error: err } });
           }
         });
       } catch (err) {
         console.log(err);
         res.status(400);
-        return res.send({ data: { error: err } });
+        return res.status(400).send({ data: { error: err } });
       }
     });
   }

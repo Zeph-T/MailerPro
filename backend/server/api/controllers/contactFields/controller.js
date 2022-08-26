@@ -22,10 +22,10 @@ export class Controller {
                   contactFields: r,
                 },
               }),
-            (error) => res.json({ error: error })
+            (error) => res.status(400).json({ error: error })
           );
       } catch (err) {
-        res.json({ error: err });
+        res.status(400).json({ error: err });
       }
     });
   }
@@ -38,13 +38,13 @@ export class Controller {
           let createdContactField = new ContactField(req.body);
           createdContactField.save().then(
             (r) => res.json({ data: r }),
-            (error) => res.json({ data: { error: error } })
+            (error) => res.status(400).json({ data: { error: error } })
           );
         } else {
           throw "Required Fields Missing";
         }
       } catch (err) {
-        res.json({ data: { error: err } });
+        res.status(400).json({ data: { error: err } });
       }
     });
   }
@@ -58,7 +58,7 @@ export class Controller {
         { new: true }
       )
         .then((response) => res.json({ data: response }))
-        .catch((err) => res.json({ data: { error: err } }));
+        .catch((err) => res.status(400).json({ data: { error: err } }));
     });
   }
 }
