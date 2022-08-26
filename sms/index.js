@@ -10,7 +10,7 @@ const server = http.createServer((req,res)=>{
     res.send("Server Created");
 })
 
-const port = env.PORT || 2021 ;
+const port = env.PORT || 2022 ;
 
 mongoose.connect(env.DB_STRING , { useNewUrlParser : true, useUnifiedTopology : true })
 .then(async() => {
@@ -28,7 +28,7 @@ let db = mongoose.connection;
 db.on('error' , console.error.bind(console,'connection error : '));
 let collection = {};
 db.once('open',()=>{
-    collection = db.collection('jobs');
+    collection = db.collection('sjobs');
     const cron = new MongoCron({
         collection,
         onDocument : async (doc) => {

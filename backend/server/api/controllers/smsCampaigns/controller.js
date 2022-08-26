@@ -6,10 +6,10 @@ const { MongoCron } = require("mongodb-cron");
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 let collection = {};
-collection = db.collection("jobs");
+collection = db.collection("sjobs");
 
 db.once("open", function callback() {
-    collection = db.collection("jobs");
+    collection = db.collection("sjobs");
     /*eslint-disable no-unused-vars*/
     const cron = new MongoCron({
         collection,
@@ -36,6 +36,7 @@ export class Controller {
                 Campaign.find({})
                     .limit(limit)
                     .skip((page - 1) * limit)
+                    .sort({ _id: -1 })
                     .then(
                         (r) =>
                             res.json({
@@ -93,13 +94,14 @@ export class Controller {
                     ? { isMarkedForImmediateSend: false }
                     : { isMarkedForImmediateSend: true },
                 req.body.schedule.time
-                ? { scheduledTime: new Date(req.body.schedule.time) , status : "Scheduled" }
-                : { scheduledTime: "" },
+                    ? { scheduledTime: new Date(req.body.schedule.time), status: "Scheduled" }
+                    : { scheduledTime: "" },
             );
             updateData.targetAudience.tags = updateData.targetAudience.tags.map(oTag => oTag._id)
             Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true }).lean()
                 .then(async (r) => {
                     if (r.isMarkedForImmediateSend) {
+                        r.status = "Running"
                         try {
                             await collection.deleteOne({
                                 campaignId: r._id,
@@ -139,23 +141,23 @@ export class Controller {
         return res.send({ data: { error: err } });
     }
 
-    getCampaignById(req,res){
+    getCampaignById(req, res) {
         isAuthenticated(req, res, () => {
-          try {
-            Campaign.find({_id : mongoose.Types.ObjectId(req.params.id)})
-              .then(
-                (r) =>
-                  res.json({
-                    data: r
-                  }),
-                (error) => res.json({ error: error })
-              );
-          } catch (err) {
-            return res.json({ error: err });
-          }
+            try {
+                Campaign.find({ _id: mongoose.Types.ObjectId(req.params.id) })
+                    .then(
+                        (r) =>
+                            res.json({
+                                data: r
+                            }),
+                        (error) => res.json({ error: error })
+                    );
+            } catch (err) {
+                return res.json({ error: err });
+            }
         })
-      }
-    
+    }
+
 
     getCampaignStatisticsByIds(req, res) {
         isAuthenticated(req, res, () => {
@@ -211,43 +213,11 @@ export class Controller {
                         let data = aStatistics.map((aStat) => {
                             return {
                                 _id: aStat._id,
-                                aggregatedSendStatistics: {
-                                    sent: aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys.SUBSCRIBER_EMAIL_SENT
-                                    ]
-                                        ? aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys.SUBSCRIBER_EMAIL_SENT
-                                        ]
-                                        : 0,
-                                    unsubscribe: aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys.SUBSCRIBER_UNSUBSCRIBED_FROM_LINK
-                                    ]
-                                        ? aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys
-                                            .SUBSCRIBER_UNSUBSCRIBED_FROM_LINK
-                                        ]
-                                        : 0,
-                                    open: aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys.SUBSCRIBER_OPENED_EMAIL
-                                    ]
-                                        ? aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys.SUBSCRIBER_OPENED_EMAIL
-                                        ]
-                                        : 0,
-                                    click: aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys.SUBSCRIBER_CLICKED_EMAIL_LINK
-                                    ]
-                                        ? aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys.SUBSCRIBER_CLICKED_EMAIL_LINK
-                                        ]
-                                        : 0,
-                                    bounce: aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys.SUBSCRIBER_EMAIL_BOUNCED
-                                    ]
-                                        ? aStat.aggregatedSendStatistics[
-                                        oSubscriberActivityKeys.SUBSCRIBER_EMAIL_BOUNCED
-                                        ]
-                                        : 0,
+                                stats: {
+                                    sent: aStat.aggregatedSendStatistics.SMS_SENT ? aStat.aggregatedSendStatistics.SMS_SENT : 0,
+                                    failed: aStat.aggregatedSendStatistics.SMS_FAILED ? aStat.aggregatedSendStatistics.SMS_FAILED : 0,
+                                    queued: aStat.aggregatedSendStatistics.SMS_QUEUED ? aStat.aggregatedSendStatistics.SMS_QUEUED : 0,
+                                    delivered: aStat.aggregatedSendStatistics.SMS_DELIVERED ? aStat.aggregatedSendStatistics.SMS_DELIVERED : 0
                                 },
                             };
                         });

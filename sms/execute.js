@@ -258,6 +258,7 @@ let runSMSCampaign = async function (campaign, contactList) {
             let oContact = list.pop_front();
             oContact = oContact.getContact();
             if (oContact.phone) {
+                console.log(env.TWILIO_WEBHOOK_URL);
                 smsSendPromise.push(
                     twilioClient.messages.create({ body: bodyTemplate(oContact), from: senderNumber, to: oContact.phone, statusCallback: env.TWILIO_WEBHOOK_URL })
                         .then(async message => {
@@ -293,7 +294,6 @@ let runSMSCampaign = async function (campaign, contactList) {
 }
 
 let executeCampaign = async function (document) {
-    let deferred = Q.defer();
     try {
         console.log(document);
         if (document.campaignId) {
@@ -308,23 +308,20 @@ let executeCampaign = async function (document) {
                     await runEmailCampaign(campaign, contactList);
                     break;
                 case 'SMS':
-                    runSMSCampaign(campaign, contactList);
+                    await runSMSCampaign(campaign, contactList);
                     break;
             }
 
         } else {
-            deferred.reject('No campaignId found!');
+            console.log('No campaignId found!');
         }
     } catch (err) {
         console.log(err);
         Campaign.findOneAndUpdate({_id : campaignId},{$set : {status : "Aborted"}}).then(()=>{
-            deferred.reject(err);
         }).catch(oError=>{
-            deferred.reject(oError);
+            console.log(oError);
         })
     }
-    return deferred.promise;
-
 }
 
 

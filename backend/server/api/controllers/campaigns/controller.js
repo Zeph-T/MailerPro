@@ -37,6 +37,7 @@ export class Controller {
         Campaign.find({})
           .limit(limit)
           .skip((page - 1) * limit)
+          .sort({_id:  -1})
           .then(
             (r) =>
               res.json({
@@ -104,7 +105,7 @@ export class Controller {
           : { scheduledTime: "" },
       );
       updateData.targetAudience.tags = updateData.targetAudience.tags.map(oTag=>oTag._id)
-      Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true }).lean()
+      Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true })
         .then(async (r) => {
           if (r.isMarkedForImmediateSend) {
             r.status = "Running";
