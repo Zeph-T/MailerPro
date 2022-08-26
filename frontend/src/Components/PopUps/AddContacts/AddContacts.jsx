@@ -51,6 +51,14 @@ const AddContacts = ({
 
   const handleAddContact = async (e) => {
     e.preventDefault();
+    if (!(values.email || values.phone)) {
+      return notify("Please enter email or phone number", "warning");
+    }
+
+    if (values.phone && values.phone.length !== 10) {
+      return notify("Please enter valid phone number", "warning");
+    }
+
     const valuesToSend = {
       ...values,
       tags: values.tags.map((tag) => tag._id),
