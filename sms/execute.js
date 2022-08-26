@@ -258,9 +258,8 @@ let runSMSCampaign = async function (campaign, contactList) {
             let oContact = list.pop_front();
             oContact = oContact.getContact();
             if (oContact.phone) {
-                console.log(env.TWILIO_WEBHOOK_URL);
                 smsSendPromise.push(
-                    twilioClient.messages.create({ body: bodyTemplate(oContact), from: senderNumber, to: oContact.phone, statusCallback: env.TWILIO_WEBHOOK_URL })
+                    twilioClient.messages.create({ body: bodyTemplate(oContact), from: senderNumber, to: `+91${oContact.phone}`, statusCallback: env.TWILIO_WEBHOOK_URL })
                         .then(async message => {
                             await insertSubscriberActivityLog(oContact._id, oSubscriberActivityKeys.SMS_QUEUED, { sid: message.sid, campaignId: campaign._id })
                         }).catch(async err => {

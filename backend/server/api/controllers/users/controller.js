@@ -2,6 +2,28 @@ import Users from "../../../models/UserModel";
 import isAuthenticated from "../../middlewares/isAuthenticated.jwt";
 import AuthenticationService from "../../services/authentication.service";
 import PasswordService from "../../services/password.service";
+import aws from "aws-sdk"
+import env from "../../../config/env";
+
+
+async function verifyEmailIdentity(email) {
+  return new Promise((resolve, reject) => {
+    aws.config.update({
+      accesskeyId: env.AWS_ACCESS_KEY,
+      secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+      region: env.AWS_REGION
+    })
+    var params = {
+      EmailAddress: email
+     };
+    let ses = new aws.SES({ apiVersion: '2010-12-01' });
+    ses.verifyEmailAddress(params, function (err, data) {
+      if(err)reject(err);
+      else resolve({success : true, sendVerification : true});
+    });
+  })
+}
+
 
 export class Controller {
   async getUser(req, res) {
@@ -116,28 +138,41 @@ export class Controller {
     });
   }
 
+
   async register(req, res) {
-    let duplicateUser = await Users.findOne({ email: req.body.email });
-    if (duplicateUser) {
-      res.status(409).json({ data: { error: "Email Already Exists" } });
-    } else {
-      let { salt, hash } = PasswordService.createPassword(req.body.password);
-      let user = new Users({
-        email: req.body.email,
-        name: req.body.name,
-        salt: salt,
-        hash: hash,
-      });
-      user.save().then(
-        (r) =>
-          res.json({
-            data: r,
-            token: AuthenticationService.generateToken(user._id, user.isAdmin),
-          }),
-        (error) => res.status(400).json({ data: { error: error } })
-      );
+    try{
+      let duplicateUser = await Users.findOne({ email: req.body.email });
+      if (duplicateUser) {
+        res.status(409).json({ data: { error: "Email Already Exists" } });
+      } else {
+        let { salt, hash } = PasswordService.createPassword(req.body.password);
+        let user = new Users({
+          email: req.body.email,
+          name: req.body.name,
+          salt: salt,
+          hash: hash,
+        });
+        user.save(async (err,user)=>{
+          if(err)res.status(400).json({data : {error : err}});
+          else{
+            try{
+              if(user.email)await verifyEmailIdentity(user.email);
+              res.json({
+                data: user,
+                token: AuthenticationService.generateToken(user._id, user.isAdmin),
+                sentVerification : true
+              });
+            }catch(err){
+              res.status(400).json({data : {error : err}});
+            }
+          }
+        })
+      }
+    }catch(err){
+      res.status(400).json({data : {error : err}});
     }
   }
+
 
   login(req, res) {
     Users.findOne({ email: req.body.email })
