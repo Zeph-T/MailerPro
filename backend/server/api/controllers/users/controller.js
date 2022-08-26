@@ -259,7 +259,7 @@ export class Controller {
                 sentVerification: true,
               });
             } catch (err) {
-              res.status(200).json({ data: { error: err } });
+              res.status(400).json({ data: { error: err } });
             }
           }
         });
