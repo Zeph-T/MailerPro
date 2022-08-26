@@ -124,7 +124,9 @@ const AddContacts = ({
         name={ADD_CONTACTS_POPUP_DATA.inputType[1][0].name}
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][0].label}
         renderInput={(params) => <StyledMUITextField {...params} />}
-        onChange={handleUpdate}
+        onChange={(date) => {
+          setValues({ ...values, dob: date });
+        }}
         value={values[ADD_CONTACTS_POPUP_DATA.inputType[1][0].name]}
       />
       <StyledMUITextField
