@@ -61,3 +61,50 @@ export const changePassword = async (userData, accessToken) => {
     throw err;
   }
 };
+
+export const getAllAdmins = async (accessToken) => {
+  try {
+    const { data } = await axios.get(uri.GET_ALL_ADMINS_URL, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const addAdmin = async (adminEmail, accessToken) => {
+  try {
+    const { data } = await axios.post(
+      uri.ADD_ADMIN_URL,
+      { adminEmail },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const removeAdmin = async (adminEmail, accessToken) => {
+  try {
+    const { data } = await axios.post(
+      uri.REMOVE_ADMIN_URL,
+      { adminEmail },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};

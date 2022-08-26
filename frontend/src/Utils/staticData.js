@@ -697,5 +697,28 @@ export const SETTINGS_PAGE_DATA = {
       ],
       buttons: "Update Password",
     },
+    {
+      title: "Add New Admin",
+      inputRequired: [
+        {
+          name: "adminEmail",
+          label: "Admin Email",
+          type: "email",
+        },
+      ],
+      buttons: "Add New Admin",
+    },
+    {
+      title: "Remove Admin",
+      inputRequired: [
+        {
+          name: "removeAdmin",
+          label: "Remove Admin",
+          type: "email",
+          select: true,
+        },
+      ],
+      buttons: "Remove Admin",
+    },
   ],
 };

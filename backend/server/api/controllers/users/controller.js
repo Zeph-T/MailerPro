@@ -116,6 +116,102 @@ export class Controller {
     });
   }
 
+  async addAdmin(req, res) {
+    isAuthenticated(req, res, async () => {
+      try {
+        if (req.adminRole !== "superAdmin") {
+          return res
+            .status(401)
+            .json({ data: { error: "You are not authorized to add admin" } });
+        }
+        let { adminEmail } = req.body;
+        Users.findOne({ email: adminEmail })
+          .then((user) => {
+            if (!user) {
+              return res
+                .status(401)
+                .json({ data: { error: "User does not exist" } });
+            }
+            user.isAdmin = "admin";
+            user.save().then(
+              () =>
+                res.json({
+                  data: {
+                    message: "admin added successfully",
+                  },
+                }),
+              (error) => res.json({ data: { error: error } })
+            );
+          })
+          .catch((err) => {
+            res.status(401).json({ data: { error: err } });
+          });
+      } catch (err) {
+        res.json({ error: err });
+      }
+    });
+  }
+
+  async removeAdmin(req, res) {
+    isAuthenticated(req, res, async () => {
+      try {
+        if (req.adminRole !== "superAdmin") {
+          return res.status(401).json({
+            data: { error: "You are not authorized to remove admin" },
+          });
+        }
+        let { adminEmail } = req.body;
+        Users.findOne({ email: adminEmail })
+          .then((user) => {
+            if (!user) {
+              return res
+
+                .status(401)
+                .json({ data: { error: "User does not exist" } });
+            }
+            user.isAdmin = "user";
+            user.save().then(
+              () =>
+                res.json({
+                  data: {
+                    message: "Admin removed successfully",
+                  },
+                }),
+              (error) => res.json({ data: { error: error } })
+            );
+          })
+          .catch((err) => {
+            res.status(401).json({ data: { error: err } });
+          });
+      } catch (err) {
+        res.json({ error: err });
+      }
+    });
+  }
+
+  async getAdmins(req, res) {
+    isAuthenticated(req, res, async () => {
+      try {
+        if (req.adminRole !== "superAdmin") {
+          return res.status(401).json({
+            data: { error: "You are not authorized to get admins" },
+          });
+        }
+        Users.find({ isAdmin: "admin" })
+          .then((users) => {
+            return res.status(200).json({
+              data: users ? users : [],
+            });
+          })
+          .catch((err) => {
+            res.status(401).json({ data: { error: err } });
+          });
+      } catch (err) {
+        res.json({ error: err });
+      }
+    });
+  }
+
   async register(req, res) {
     let duplicateUser = await Users.findOne({ email: req.body.email });
     if (duplicateUser) {

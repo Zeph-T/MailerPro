@@ -43,7 +43,6 @@ const App = () => {
   }, [cookie]);
 
   useEffect(() => {
-    console.log("userData", userData);
     if (userData) {
       setInitialized(true);
     }

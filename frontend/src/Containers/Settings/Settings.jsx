@@ -6,15 +6,33 @@ import {
 } from "../../Components/General/Helpers";
 import Header from "../../Components/Header";
 import { SETTINGS_PAGE_DATA } from "../../Utils/staticData";
-import { changePassword, updateUser } from "../../Services/user.service";
+import {
+  changePassword,
+  updateUser,
+  getAllAdmins,
+  addAdmin,
+  removeAdmin,
+} from "../../Services/user.service";
 import styles from "./Settings.module.css";
 import notify from "./../../Utils/helper/notifyToast";
 import { UPDATE_USER_DATA } from "../../Redux/ActionTypes";
 import { useCookies } from "react-cookie";
+import { MenuItem } from "@mui/material";
+
+const TEMP_MAIL_LIST = [
+  {
+    email: "akash@gmail.com",
+  },
+  {
+    email: "gupta@gmail.com",
+  },
+];
 
 const Settings = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user?.userData);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [adminList, setAdminList] = useState(TEMP_MAIL_LIST);
   const [settings, setSettings] = useState({
     email: "",
     name: "",
@@ -22,8 +40,26 @@ const Settings = () => {
     password: "",
     newPassword: "",
     newConfirmPassword: "",
+    adminEmail: "",
+    removeAdmin: "",
   });
+
   const [, , removeCookie] = useCookies(["token"]);
+
+  const fetchAdminList = async () => {
+    try {
+      const { data } = await getAllAdmins(userData.accessToken);
+      setAdminList(data);
+    } catch (err) {
+      notify("Fetching Admin List Failed", "error");
+    }
+  };
+
+  useEffect(() => {
+    if (isSuperAdmin && userData.accessToken) {
+      fetchAdminList();
+    }
+  }, [isSuperAdmin, userData.accessToken]);
 
   useEffect(() => {
     if (userData) {
@@ -33,6 +69,9 @@ const Settings = () => {
         name: userData.name,
         unSubscriptionForm: userData.unSubscriptionForm,
       });
+      if (userData.isAdmin === "superAdmin") {
+        setIsSuperAdmin(true);
+      }
     }
   }, [userData]);
 
@@ -56,6 +95,10 @@ const Settings = () => {
         settings.newPassword === "" ||
         settings.newConfirmPassword === ""
       );
+    } else if (button === "Add New Admin") {
+      return settings.adminEmail === "";
+    } else if (button === "Remove Admin") {
+      return settings.removeAdmin === "";
     }
     return true;
   };
@@ -78,6 +121,16 @@ const Settings = () => {
         password: "",
         newPassword: "",
         newConfirmPassword: "",
+      });
+    } else if (button === "Add New Admin") {
+      setSettings({
+        ...settings,
+        adminEmail: "",
+      });
+    } else if (button === "Remove Admin") {
+      setSettings({
+        ...settings,
+        removeAdmin: "",
       });
     }
   };
@@ -143,17 +196,65 @@ const Settings = () => {
       } catch (err) {
         return notify("Error updating password", "error");
       }
+    } else if (button === "Add New Admin") {
+      try {
+        await addAdmin(settings.adminEmail, userData.accessToken);
+        await fetchAdminList();
+        setSettings({
+          ...settings,
+          adminEmail: "",
+        });
+        return notify("Admin added successfully", "success");
+      } catch (err) {
+        return notify("Error adding admin", "error");
+      }
+    } else if (button === "Remove Admin") {
+      try {
+        await removeAdmin(settings.removeAdmin, userData.accessToken);
+        await fetchAdminList();
+        setSettings({
+          ...settings,
+          removeAdmin: "",
+        });
+        return notify("Admin removed successfully", "success");
+      } catch (err) {
+        return notify("Error removing admin", "error");
+      }
     }
   };
 
   const sectionMapList = SETTINGS_PAGE_DATA.sectionList.map(
     (section, index) => {
+      if (
+        (section.title === "Add New Admin" ||
+          section.title === "Remove Admin") &&
+        !isSuperAdmin
+      ) {
+        return null;
+      }
+
       return (
         <div key={index} className={styles.SectionWrapper}>
           <h2 className={styles.InputWrapperHeading}>{section.title}</h2>
           <div className={styles.InputWrapper}>
             {section.inputRequired.map((input, index) => {
-              return (
+              return input.select ? (
+                <StyledMUITextField
+                  select
+                  key={index}
+                  name={input.name}
+                  label={input.label}
+                  type={input.type}
+                  value={settings[input.name]}
+                  onChange={handleInputChange}
+                >
+                  {adminList?.map((option) => (
+                    <MenuItem key={option.email} value={option.email}>
+                      {option.email}
+                    </MenuItem>
+                  ))}
+                </StyledMUITextField>
+              ) : (
                 <StyledMUITextField
                   key={index}
                   name={input.name}

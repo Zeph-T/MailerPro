@@ -7,4 +7,7 @@ export default express
   .post("/register", controller.register)
   .post("/login", controller.login)
   .post("/changePassword", controller.changePassword)
+  .post("/addAdmin", controller.addAdmin)
+  .post("/removeAdmin", controller.removeAdmin)
+  .get("/getAdmins", controller.getAdmins)
   .post("/updateUser", controller.updateUser);
