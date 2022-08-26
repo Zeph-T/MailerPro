@@ -23,8 +23,10 @@ const User = new mongoose.Schema({
     default: "Sorry to see you go!",
   },
   isAdmin: {
-    type: Boolean,
-    default: false,
+    type: String,
+    required: [true, "isAdmin must be generated before saving"],
+    enums: ["superAdmin", "admin", "user"],
+    default: "user",
   },
 });
 

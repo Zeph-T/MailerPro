@@ -5,7 +5,7 @@ class AuthenticationService {
    * Generate the JWT Token for the user
    * @param {String} id - ID of the user
    */
-  generateToken(id, isAdmin) {
+  generateToken(id, adminRole) {
     const today = new Date();
     const exp = new Date(today);
     exp.setDate(today.getDate() + 1000000); //Infinite Expiry!
@@ -13,7 +13,7 @@ class AuthenticationService {
     return jwt.sign(
       {
         userId: id,
-        isAdmin: isAdmin ? true : false,
+        adminRole,
         exp: exp.getTime() / 1000,
       },
       env.JWT_SECRET

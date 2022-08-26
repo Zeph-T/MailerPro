@@ -11,7 +11,7 @@ export default async function isAuthenticated(req, res, next) {
       token = token.split(" ")[1];
       const doc = jwt.verify(token, env.JWT_SECRET);
       req.user = mongoose.Types.ObjectId(doc.userId.toString());
-      req.isAdmin = doc.isAdmin;
+      req.isAdmin = ["superAdmin", "admin"].includes(doc.adminRole);
       next();
     } catch (err) {
       res

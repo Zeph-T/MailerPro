@@ -132,7 +132,7 @@ export class Controller {
         (r) =>
           res.json({
             data: r,
-            token: AuthenticationService.generateToken(user._id),
+            token: AuthenticationService.generateToken(user._id, user.isAdmin),
           }),
         (error) => res.json({ data: { error: error } })
       );
@@ -161,7 +161,7 @@ export class Controller {
             data: {
               token: AuthenticationService.generateToken(
                 user._id,
-                user.isAdmin ? true : false
+                user.isAdmin
               ),
             },
           });

@@ -1,48 +1,44 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const TemplateSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Name missing!"]
+    required: [true, "Name missing!"],
   },
-  content : {
-    type : String,
-    required : [true , "Template Content Missing"]
+  content: {
+    type: String,
+    required: [true, "Template Content Missing"],
   },
-  templateType : {
-    type : String,
-    enum : ["SMS","EMAIL"],
-    required : true
+  templateType: {
+    type: String,
+    enum: ["SMS", "EMAIL"],
+    required: true,
   },
-  editorType : {
-    type : String,
-    default : "TextEditor",
-    enum  : ["Drag&Drop" , "TextEditor"]    
+  editorType: {
+    type: String,
+    default: "TextEditor",
+    enum: ["Drag&Drop", "TextEditor"],
   },
-  isValid : {
+  isValid: {
     type: Boolean,
-    default : true
+    default: true,
   },
-  createdOn : {
-    type : Date,
-    default : Date.now
+  createdOn: {
+    type: Date,
+    default: Date.now,
   },
-  updatedOn : {
-    type : Date,
-    default : Date.now
+  updatedOn: {
+    type: Date,
+    default: Date.now,
   },
-  description : {
-    type : String,
-    default : ""
+  description: {
+    type: String,
+    default: "",
   },
-  createdBy : {
-    type : mongoose.Types.ObjectId,
-    ref : 'User'
-},
-isAdmin : {
-  type : Boolean,
-  default : false
-}
+  createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
 });
 
-module.exports = mongoose.model('Template', TemplateSchema);
+module.exports = mongoose.model("Template", TemplateSchema);
