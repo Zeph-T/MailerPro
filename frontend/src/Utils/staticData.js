@@ -501,6 +501,7 @@ export const ADD_CONTACTS_POPUP_DATA = {
         name: "email",
         label: "Email",
         type: "email",
+        required: true,
       },
       {
         name: "fname",

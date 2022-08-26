@@ -78,6 +78,7 @@ const AddContacts = ({
           name={input.name}
           label={input.label}
           type={input.type}
+          required={input.required === true}
           onChange={handleUpdate}
           value={values[input.name]}
         />
