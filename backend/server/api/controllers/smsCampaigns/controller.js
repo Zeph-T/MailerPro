@@ -1,6 +1,7 @@
 import Campaign from "../../../models/smsCampaign";
 import isAuthenticated from "../../middlewares/isAuthenticated.jwt.js";
 import mongoose from "mongoose";
+import ActivityLog from "../../../models/activityLog";
 const { MongoCron } = require("mongodb-cron");
 
 let db = mongoose.connection;
@@ -219,7 +220,7 @@ export class Controller {
             },
           },
         ];
-        return activityLog.aggregate(query, function (err, aStatistics) {
+        return ActivityLog.aggregate(query, function (err, aStatistics) {
           if (!err) {
             res.status(200);
             let data = aStatistics.map((aStat) => {

@@ -92,10 +92,10 @@ export const getCampaignById = async (accessToken, id, isSMS) => {
   }
 };
 
-export const getCampignsStats = async (accessToken, ids) => {
+export const getCampignsStats = async (accessToken, ids, isSMS) => {
   try {
     const { data } = await axios.post(
-      uri.GET_CAMPAIGNS_STATS,
+      isSMS ? uri.GET_SMS_CAMPAIGNS_STATS : uri.GET_CAMPAIGNS_STATS,
       {
         campaigns: ids,
       },

@@ -48,18 +48,16 @@ function Campaign() {
     try {
       let response;
       if (currentTab === "email") {
-        response = await getAllCampaigns(userData.accessToken, setCurrentPage);
+        response = await getAllCampaigns(userData.accessToken, currentPage);
       } else {
-        response = await getAllSMSCampaigns(
-          userData.accessToken,
-          setCurrentPage
-        );
+        response = await getAllSMSCampaigns(userData.accessToken, currentPage);
       }
 
       setTotalItemsCount(response.data.total);
       const statsData = await getCampignsStats(
         userData.accessToken,
-        response.data.campaigns.map((campaign) => campaign._id)
+        response.data.campaigns.map((campaign) => campaign._id),
+        currentTab !== "email"
       );
       const updatedCampaigns = response.data.campaigns.map((campaign) => {
         const stats = statsData.find((stat) => stat._id === campaign._id);
@@ -120,7 +118,9 @@ function Campaign() {
             <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
               <TableHead>
                 <TableRow>
-                  {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
+                  {CAMPAIGN_DATA[
+                    currentTab == "email" ? "tableData" : "tableDataSMS"
+                  ].map((columnInfo, index) => {
                     return (
                       <TableCell
                         align={columnInfo.align}
@@ -145,7 +145,9 @@ function Campaign() {
                         : navigate(`/managesmscampaign/${row._id}`)
                     }
                   >
-                    {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
+                    {CAMPAIGN_DATA[
+                      currentTab == "email" ? "tableData" : "tableDataSMS"
+                    ].map((columnInfo, index) => {
                       return (
                         <TableCell
                           align={columnInfo.align}

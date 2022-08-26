@@ -39,4 +39,5 @@ export const uri = {
   UPDATE_SMS_CAMPAIGN_URL: BASE_URL + "/smsCampaigns/update",
   GET_ALL_SMS_CAMPAIGNS_URL: BASE_URL + "/smsCampaigns",
   GET_SMS_CAMPAIGN_BY_ID_URL: BASE_URL + "/smsCampaigns/campaignById",
+  GET_SMS_CAMPAIGNS_STATS: BASE_URL + "/smsCampaigns/getStats",
 };

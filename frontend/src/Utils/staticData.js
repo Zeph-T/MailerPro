@@ -644,6 +644,39 @@ export const CAMPAIGN_DATA = {
       align: "right",
     },
   ],
+  tableDataSMS: [
+    {
+      label: "Name",
+      renderer: (val) => val.name,
+      width: "25%",
+      align: "left",
+    },
+    {
+      label: "Status",
+      renderer: (val) => val.status,
+      width: "30%",
+      align: "center",
+    },
+    {
+      label: "Sent",
+      renderer: (val) => (val.stats ? val.stats.sent : "-"),
+      width: "7%",
+      align: "center",
+    },
+    {
+      label: "Fail",
+      renderer: (val) =>
+        val.stats ? (val.stats.fail ? val.stats.failed : 0) : "-",
+      width: "7%",
+      align: "center",
+    },
+    {
+      label: "Queued",
+      renderer: (val) => (val.stats ? val.stats.queued : "-"),
+      width: "6%",
+      align: "right",
+    },
+  ],
 };
 
 export const SETTINGS_PAGE_DATA = {
