@@ -34,12 +34,15 @@ function Campaign() {
   const [currentTab, setCurrentTab] = React.useState(
     CAMPAIGN_DATA.tabs[0].value
   );
+  const [loading, setLoading] = React.useState(true);
   const [currentData, setCurrentData] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(0);
   const [totalItemsCount, setTotalItemsCount] = React.useState(0);
 
   React.useEffect(() => {
+    setLoading(true);
     fetchCurrentData();
+    setLoading(false);
   }, [currentPage, currentTab]);
 
   const fetchCurrentData = async () => {
@@ -67,6 +70,7 @@ function Campaign() {
       setCurrentData(updatedCampaigns);
     } catch (error) {
       console.log(error);
+      setLoading(false);
       notify("Error fetching data", "error");
     }
   };
@@ -112,7 +116,7 @@ function Campaign() {
         />
       </div>
       <div className={styles.ContentWrapper}>
-        {currentData.length > 0 ? (
+        {!loading ? (
           <TableContainer>
             <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
               <TableHead>

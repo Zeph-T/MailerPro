@@ -41,6 +41,7 @@ const TEMP_TABLE_CONTACTS_DATA = {
 
 function Templates() {
   const navigate = useNavigate();
+  const [loading, setLoading] = React.useState(true);
   const userData = useSelector((state) => state.user?.userData);
 
   const [currentTab, setCurrentTab] = React.useState(
@@ -64,13 +65,16 @@ function Templates() {
       setCurrentData(data.data.templates);
       setTotalItemsCount(data.data.total);
     } catch (err) {
+      setLoading(false);
       notify("Fetching templated failed", "error");
     }
   };
 
   React.useEffect(() => {
     setCurrentData([]);
+    setLoading(true);
     handleTemplateFetch();
+    setLoading(false)
   }, [currentPage, currentTab, userData.accessToken]);
 
   const handleDeleteTemplate = async (templateId) => {
@@ -128,7 +132,7 @@ function Templates() {
         />
       </div>
       <div className={styles.ContentWrapper}>
-        {currentData.length > 0 ? (
+        {!loading ? (
           <TableContainer>
             <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
               <TableBody>
