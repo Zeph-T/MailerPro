@@ -55,6 +55,10 @@ const CampaignSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "User",
   },
+  isValid: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export default mongoose.model("Campaign", CampaignSchema);

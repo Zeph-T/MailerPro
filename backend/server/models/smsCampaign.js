@@ -36,6 +36,10 @@ const CampaignSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "User",
   },
+  isValid: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = mongoose.model("smsCampaign", CampaignSchema);
