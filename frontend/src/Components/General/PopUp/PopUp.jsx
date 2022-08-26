@@ -41,8 +41,11 @@ function PopUp({
 
         clearTimeout(timeOutRef.current);
         timeOutRef.current = setTimeout(() => {
-          primaryWrapperRef.current.style.display = "none";
-          primaryWrapperRef.current.style.pointerEvents = "none";
+          if(primaryWrapperRef.current){
+            primaryWrapperRef.current.style.display = "none";
+            primaryWrapperRef.current.style.pointerEvents = "none";
+          }
+
         }, 250);
       }
     }
