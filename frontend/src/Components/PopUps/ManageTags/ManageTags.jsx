@@ -12,12 +12,14 @@ import {
   updateTag,
   createTag,
   removeTag,
+  getAllTags,
 } from "../../../Services/tags.service";
 import notify from "../../../Utils/helper/notifyToast";
 
 const ManageTags = () => {
   const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const [tagsLocale, setTagsLocale] = useState(userData.tags);
   useEffect(() => {
@@ -48,6 +50,7 @@ const ManageTags = () => {
   };
 
   const handleSave = async () => {
+    setIsProcessing(true);
     const changedTags = tagsLocale.filter(
       (tag, index) => tag._id && tag.name !== userData.tags[index]?.name
     );
@@ -82,13 +85,20 @@ const ManageTags = () => {
 
     await Promise.all([...changeMap, ...createMap, ...deleteMap]);
     notify("Tags updated successfully", "success");
-    dispatch({
-      type: UPDATE_USER_DATA,
-      data: {
-        ...userData,
-        tags: JSON.parse(JSON.stringify(tagsLocale)),
-      },
-    });
+    try {
+      const resp = await getAllTags(userData.accessToken);
+      dispatch({
+        type: UPDATE_USER_DATA,
+        data: {
+          ...userData,
+          tags: resp.data.tags,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      notify("Error in updating tags", "error");
+    }
+    setIsProcessing(false);
     closePopup();
   };
 
@@ -127,6 +137,7 @@ const ManageTags = () => {
           }),
             [tagsLocale];
         }}
+        disabled={isProcessing}
       >
         {MANAGE_TAGS_POPUP_DATA.buttons[0]}
       </StyledMUIButton>
@@ -139,6 +150,7 @@ const ManageTags = () => {
             padding: "1rem 2.5rem",
           }}
           onClick={handleSave}
+          disabled={isProcessing}
         >
           {MANAGE_TAGS_POPUP_DATA.buttons[1]}
         </StyledMUIButton>
@@ -152,6 +164,7 @@ const ManageTags = () => {
           onClick={() => {
             setTagsLocale(userData.tags);
           }}
+          disabled={isProcessing}
         >
           {MANAGE_TAGS_POPUP_DATA.buttons[2]}
         </StyledMUIButton>

@@ -6,6 +6,7 @@ import contactRouter from "./api/controllers/contact/router";
 import contactFieldRouter from "./api/controllers/contactFields/router";
 import dashboardRouter from "./api/controllers/dashboard/router";
 import tempalateRouter from "./api/controllers/templates/router";
+import smsCampaignRouter from "./api/controllers/smsCampaigns/router";
 
 export default function routes(app) {
   app.use("/Y/examples", examplesRouter);
@@ -16,6 +17,7 @@ export default function routes(app) {
   app.use("/contact", contactRouter);
   app.use("/contactFields", contactFieldRouter);
   app.use("/template", tempalateRouter);
+  app.use("/smsCampaigns", smsCampaignRouter);
 }
 
 /*

@@ -8,29 +8,13 @@ const CampaignSchema = new mongoose.Schema({
     note : {
         type : String
     },
-    Subject : {
-        type : String,
-        required:  true
-    },
-    ReplyMail  : {
-        type : String,
-        required : false
-    },
-    SenderName : {
-        type : String,
-        required : [true , "Sender Name Missing"]
-    },
-    senderMailAddress : {
-        type : String,
-        required : [true,"Sender Email Missing"]
-    },
     template : {
         type : mongoose.Types.ObjectId,
         ref : 'Template'
     },
     status : {
         type : String,
-        enum : ["Draft" , "Running" , "Scheduled" , "Aborted","Completed"],
+        enum : ["Draft" , "Running" , "Scheduled" , "Aborted"],
         required: [true , "Status of Campaign Missing"]
     },
     isMarkedForImmediateSend : {
@@ -51,4 +35,4 @@ const CampaignSchema = new mongoose.Schema({
 })
 
 
-module.exports =  mongoose.model("Campaign" , CampaignSchema)
+module.exports =  mongoose.model("smsCampaign" , CampaignSchema)

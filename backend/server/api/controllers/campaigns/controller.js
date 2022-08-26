@@ -1,12 +1,13 @@
 import Campaign from "../../../models/campaign";
 import isAuthenticated from "../../middlewares/isAuthenticated.jwt.js";
 import mongoose from "mongoose";
+import ActivityLog from "../../../models/activityLog";
 const { MongoCron } = require("mongodb-cron");
 
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 let collection = {};
-collection = db.collection("jobsz");
+collection = db.collection("jobs");
 
 db.once("open", function callback() {
   collection = db.collection("jobs");
@@ -36,6 +37,7 @@ export class Controller {
         Campaign.find({})
           .limit(limit)
           .skip((page - 1) * limit)
+          .sort({_id:  -1})
           .then(
             (r) =>
               res.json({
@@ -53,7 +55,6 @@ export class Controller {
   }
 
   create(req, res) {
-    console.log("create api in progress");
     isAuthenticated(req, res, () => {
       let createdCampaignData = {
         name: req.body.campaignName,
@@ -100,22 +101,24 @@ export class Controller {
           ? { isMarkedForImmediateSend: false }
           : { isMarkedForImmediateSend: true },
         req.body.schedule.time
-          ? { scheduledTime: req.body.schedule.time }
+          ? { scheduledTime: new Date(req.body.schedule.time) , status : "Scheduled" }
           : { scheduledTime: "" },
       );
-      console.log(req.body._id)
-      Campaign.findByIdAndUpdate(req.body._id, updateData, { new: true })
+      updateData.targetAudience.tags = updateData.targetAudience.tags.map(oTag=>oTag._id)
+      Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true })
         .then(async (r) => {
           if (r.isMarkedForImmediateSend) {
+            r.status = "Running";
             try {
               await collection.deleteOne({
                 campaignId: r._id,
               });
-              collection.insert({
+              await collection.insert({
                 campaignId: r._id,
                 campaignType: "EMAIL",
                 sleepUntil: new Date(),
               });
+              await r.save();
             } catch (err) {
               console.log(err);
             }
@@ -128,7 +131,7 @@ export class Controller {
               await collection.insert({
                 campaignId: r._id,
                 campaignType: "EMAIL",
-                sleepUntil: new Date(r.scheduledDate),
+                sleepUntil: new Date(r.scheduledTime),
               });
             } catch (err) {}
           }
@@ -144,6 +147,23 @@ export class Controller {
     console.log(err);
     res.status(400);
     return res.send({ data: { error: err } });
+  }
+
+  getCampaignById(req,res){
+    isAuthenticated(req, res, () => {
+      try {
+        Campaign.findOne({_id : mongoose.Types.ObjectId(req.params.id)})
+          .then(
+            (r) =>
+              res.json({
+                data: r
+              }),
+            (error) => res.json({ error: error })
+          );
+      } catch (err) {
+        return res.json({ error: err });
+      }
+    })
   }
 
   getCampaignStatisticsByIds(req, res) {
@@ -194,13 +214,13 @@ export class Controller {
             },
           },
         ];
-        return activityLog.aggregate(query, function (err, aStatistics) {
+        return ActivityLog.aggregate(query, function (err, aStatistics) {
           if (!err) {
             res.status(200);
             let data = aStatistics.map((aStat) => {
               return {
                 _id: aStat._id,
-                aggregatedSendStatistics: {
+                stats: {
                   sent: aStat.aggregatedSendStatistics[
                     oSubscriberActivityKeys.SUBSCRIBER_EMAIL_SENT
                   ]

@@ -23,6 +23,7 @@ const AddContacts = ({
   const [values, setValues] = useState({
     tags: [],
     status: "Subscribed",
+    dob: null,
   });
 
   useEffect(() => {
@@ -50,6 +51,14 @@ const AddContacts = ({
 
   const handleAddContact = async (e) => {
     e.preventDefault();
+    if (!(values.email || values.phone)) {
+      return notify("Please enter email or phone number", "warning");
+    }
+
+    if (values.phone && values.phone.length !== 10) {
+      return notify("Please enter valid phone number", "warning");
+    }
+
     const valuesToSend = {
       ...values,
       tags: values.tags.map((tag) => tag._id),
@@ -77,6 +86,7 @@ const AddContacts = ({
           name={input.name}
           label={input.label}
           type={input.type}
+          required={input.required === true}
           onChange={handleUpdate}
           value={values[input.name]}
         />
@@ -123,7 +133,9 @@ const AddContacts = ({
         name={ADD_CONTACTS_POPUP_DATA.inputType[1][0].name}
         label={ADD_CONTACTS_POPUP_DATA.inputType[1][0].label}
         renderInput={(params) => <StyledMUITextField {...params} />}
-        onChange={handleUpdate}
+        onChange={(date) => {
+          setValues({ ...values, dob: date });
+        }}
         value={values[ADD_CONTACTS_POPUP_DATA.inputType[1][0].name]}
       />
       <StyledMUITextField

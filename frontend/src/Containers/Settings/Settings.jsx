@@ -10,6 +10,7 @@ import { changePassword, updateUser } from "../../Services/user.service";
 import styles from "./Settings.module.css";
 import notify from "./../../Utils/helper/notifyToast";
 import { UPDATE_USER_DATA } from "../../Redux/ActionTypes";
+import { useCookies } from "react-cookie";
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Settings = () => {
     newPassword: "",
     newConfirmPassword: "",
   });
+  const [, , removeCookie] = useCookies(["token"]);
 
   useEffect(() => {
     if (userData) {
@@ -191,6 +193,18 @@ const Settings = () => {
     <div>
       <Header title={SETTINGS_PAGE_DATA.title} />
       {sectionMapList}
+      <StyledMUIButton
+        color="buttonRed"
+        style={{
+          padding: "1.2rem 2rem",
+          marginTop: "2rem",
+        }}
+        onClick={() => {
+          removeCookie("token", { path: "/" });
+        }}
+      >
+        {SETTINGS_PAGE_DATA.logOut}
+      </StyledMUIButton>
     </div>
   );
 };

@@ -7,6 +7,7 @@ function ManageCampaignState2({
   templates,
   activeTemplate = 0,
   setActiveTemplate,
+  isSMS,
 }) {
   return (
     <div className={styles.Wrapper}>
@@ -33,10 +34,23 @@ function ManageCampaignState2({
           </SwiperSlide>
         ))}
       </Swiper>
-      <div
-        className={styles.TemplatePreviewWrapper}
-        dangerouslySetInnerHTML={{ __html: templates.filter(item => item._id === activeTemplate)[0].content }}
-      />
+      {isSMS ? (
+        <pre
+          className={styles.TemplatePreviewWrapper + " " + styles.SMS}
+          dangerouslySetInnerHTML={{
+            __html: templates.filter((item) => item._id === activeTemplate)[0]
+              ?.content,
+          }}
+        />
+      ) : (
+        <div
+          className={styles.TemplatePreviewWrapper}
+          dangerouslySetInnerHTML={{
+            __html: templates.filter((item) => item._id === activeTemplate)[0]
+              ?.content,
+          }}
+        />
+      )}
     </div>
   );
 }

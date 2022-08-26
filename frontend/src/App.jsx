@@ -28,6 +28,7 @@ import PopUp from "./Components/General/PopUp";
 import { getAllTags } from "./Services/tags.service";
 import { getAllCustomFields } from "./Services/customField.service";
 import UnsubscribePage from "./Containers/UnsubscribePage/index";
+import ManageSMSTemplate from "./Containers/ManageSMSTemplate";
 
 const App = () => {
   const userData = useSelector((state) => state.user?.userData);
@@ -129,10 +130,18 @@ const App = () => {
                   path="/managecampaign/:id"
                   element={<ManageCampaign />}
                 />
+                <Route
+                  path="/managesmscampaign/:id"
+                  element={<ManageCampaign isSMS />}
+                />
                 <Route path="/campaign" element={<Campaign />} />
                 <Route
                   path="/createcampaign"
                   element={<ManageCampaign isNew />}
+                />
+                <Route
+                  path="/createsmscampaign"
+                  element={<ManageCampaign isSMS isNew />}
                 />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/templates" element={<Templates />} />
@@ -146,7 +155,11 @@ const App = () => {
                 />
                 <Route
                   path="/createsmstemplate"
-                  element={<ManageTemplate isNew isSMS />}
+                  element={<ManageSMSTemplate isNew isSMS />}
+                />
+                <Route
+                  path="/managesmstemplate/:templateId"
+                  element={<ManageSMSTemplate />}
                 />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="*" element={<Navigate to="/dashboard" />} />

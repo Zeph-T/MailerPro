@@ -18,6 +18,7 @@ const FileUpload = ({}) => {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   console.log(file);
   const closePopup = () => {
@@ -36,12 +37,18 @@ const FileUpload = ({}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (file) {
-      await uploadContacts(userData.accessToken, file, selectedTags);
-      notify("Contacts uploaded successfully", "success");
-      closePopup();
-    } else {
-      notify("Please select a file", "warning");
+    setIsProcessing(true);
+    try {
+      if (file) {
+        await uploadContacts(userData.accessToken, file, selectedTags);
+        notify("Contacts uploaded successfully", "success");
+        closePopup();
+      } else {
+        notify("Please select a file", "warning");
+      }
+    } catch (error) {
+      notify(error.message, "error");
+      setIsProcessing(false);
     }
   };
 
@@ -75,7 +82,12 @@ const FileUpload = ({}) => {
         value={selectedTags}
       />
 
-      <StyledMUIButton type="submit" color="buttonGreen" fullWidth>
+      <StyledMUIButton
+        type="submit"
+        color="buttonGreen"
+        fullWidth
+        disabled={isProcessing}
+      >
         {UPLOAD_FILE_POPUP_DATA.buttons.upload}
       </StyledMUIButton>
     </form>

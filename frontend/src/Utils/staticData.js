@@ -98,6 +98,7 @@ export const MANAGE_CAMPAIGN_DATA = {
   manageCampaign: "Manage Campaign",
   back: "Back",
   next: "Next",
+  save: "Save",
   steps: [
     {
       name: "Campaign Info",
@@ -333,6 +334,8 @@ export const DIRECTORY_PAGE_DATA = {
 export const MANAGE_TEMPLATE_DATA = {
   createTemplate: "Create Email Template",
   manageTemplate: "Edit Email Template",
+  createSMSTemplate: "Create SMS Template",
+  manageSMSTemplate: "Edit SMS Template",
   design: "Design",
   save: "Save",
   tabs: [
@@ -355,6 +358,8 @@ export const MANAGE_TEMPLATE_DATA = {
       fullWidth: true,
     },
   },
+  content: "Content",
+  addContent: "Add Content",
 };
 
 export const MANAGE_TAGS_POPUP_DATA = {
@@ -510,6 +515,11 @@ export const ADD_CONTACTS_POPUP_DATA = {
         type: "text",
       },
       {
+        name: "phone",
+        label: "Mobile Number",
+        type: "number",
+      },
+      {
         name: "lname",
         label: "Last Name",
         type: "text",
@@ -586,8 +596,14 @@ export const CAMPAIGN_DATA = {
   tableData: [
     {
       label: "Name",
-      renderer: (val) => val.mail,
+      renderer: (val) => val.name,
       width: "25%",
+      align: "left",
+    },
+    {
+      label: "Status",
+      renderer: (val) => val.status,
+      width: "7%",
       align: "left",
     },
     {
@@ -631,6 +647,7 @@ export const CAMPAIGN_DATA = {
 
 export const SETTINGS_PAGE_DATA = {
   title: "Settings",
+  logOut: "Log Out",
   sectionList: [
     {
       title: "Personal Details",
