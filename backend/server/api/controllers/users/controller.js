@@ -23,10 +23,10 @@ export class Controller {
             });
           })
           .catch((err) => {
-            res.status(401).json({ data: { error: err } });
+            res.status(400).json({ data: { error: err } });
           });
       } catch (err) {
-        res.json({ error: err });
+        res.status(400).json({ error: err });
       }
     });
   }
@@ -62,10 +62,10 @@ export class Controller {
             );
           })
           .catch((err) => {
-            res.status(401).json({ data: { error: err } });
+            res.status(400).json({ data: { error: err } });
           });
       } catch (err) {
-        res.json({ error: err });
+        res.status(400).json({ error: err });
       }
     });
   }
@@ -104,14 +104,14 @@ export class Controller {
                     message: "Password changed successfully",
                   },
                 }),
-              (error) => res.json({ data: { error: error } })
+              (error) => res.status(400).json({ data: { error: error } })
             );
           })
           .catch((err) => {
-            res.status(401).json({ data: { error: err } });
+            res.status(400).json({ data: { error: err } });
           });
       } catch (err) {
-        res.json({ error: err });
+        res.status(400).json({ error: err });
       }
     });
   }
@@ -134,7 +134,7 @@ export class Controller {
             data: r,
             token: AuthenticationService.generateToken(user._id, user.isAdmin),
           }),
-        (error) => res.json({ data: { error: error } })
+        (error) => res.status(400).json({ data: { error: error } })
       );
     }
   }
@@ -168,7 +168,7 @@ export class Controller {
         }
       })
       .catch((err) => {
-        res.status(401).json({ data: { error: err } });
+        res.status(400).json({ data: { error: err } });
       });
   }
 }

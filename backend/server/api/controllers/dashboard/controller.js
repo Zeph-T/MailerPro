@@ -48,7 +48,7 @@ export class Controller {
         });
       } catch (err) {
         console.log(err);
-        return res.json({ error: err });
+        return res.status(400).json({ error: err });
       }
     });
   }
