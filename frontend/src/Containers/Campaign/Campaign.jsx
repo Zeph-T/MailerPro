@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./Campaign.module.css";
+import Progress from "../../Utils/helper/linearProgress";
 import Header from "../../Components/Header/index";
 import { CAMPAIGN_DATA } from "../../Utils/staticData";
 import CustomTabs from "../../Components/General";
@@ -111,70 +112,74 @@ function Campaign() {
         />
       </div>
       <div className={styles.ContentWrapper}>
-        <TableContainer>
-          <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-            <TableHead>
-              <TableRow>
-                {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
-                  return (
-                    <TableCell
-                      align={columnInfo.align}
-                      width={columnInfo.width}
-                    >
-                      {columnInfo.label}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {currentData.map((row, index) => (
-                <TableRow
-                  key={index}
-                  style={{
-                    cursor: "pointer",
-                  }}
-                  onClick={() =>
-                    currentTab === "email"
-                      ? navigate(`/managecampaign/${row._id}`)
-                      : navigate(`/managesmscampaign/${row._id}`)
-                  }
-                >
+        {currentData.length > 0 ? (
+          <TableContainer>
+            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+              <TableHead>
+                <TableRow>
                   {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
                     return (
                       <TableCell
                         align={columnInfo.align}
                         width={columnInfo.width}
                       >
-                        {columnInfo.renderer(row)}
+                        {columnInfo.label}
                       </TableCell>
                     );
                   })}
                 </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TablePagination
-                count={totalItemsCount}
-                rowsPerPage={10}
-                page={currentPage}
-                SelectProps={{
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                }}
-                rowsPerPageOptions={[]}
-                onPageChange={(e, newPage) => {
-                  setCurrentPage(newPage);
-                }}
-                sx={{
-                  borderBottom: "none",
-                }}
-              />
-            </TableFooter>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {currentData.map((row, index) => (
+                  <TableRow
+                    key={index}
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() =>
+                      currentTab === "email"
+                        ? navigate(`/managecampaign/${row._id}`)
+                        : navigate(`/managesmscampaign/${row._id}`)
+                    }
+                  >
+                    {CAMPAIGN_DATA.tableData.map((columnInfo, index) => {
+                      return (
+                        <TableCell
+                          align={columnInfo.align}
+                          width={columnInfo.width}
+                        >
+                          {columnInfo.renderer(row)}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TablePagination
+                  count={totalItemsCount}
+                  rowsPerPage={10}
+                  page={currentPage}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  rowsPerPageOptions={[]}
+                  onPageChange={(e, newPage) => {
+                    setCurrentPage(newPage);
+                  }}
+                  sx={{
+                    borderBottom: "none",
+                  }}
+                />
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Progress />
+        )}
       </div>
     </div>
   );

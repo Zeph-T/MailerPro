@@ -7,7 +7,7 @@ export class Controller {
   async getUser(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        Users.findById(req.user.id)
+        Users.findById(req.user)
           .then((user) => {
             if (!user) {
               return res
@@ -35,7 +35,7 @@ export class Controller {
     isAuthenticated(req, res, async () => {
       try {
         let { email, name, unSubscriptionForm } = req.body;
-        Users.findById(req.user.id)
+        Users.findById(req.user)
           .then((user) => {
             if (!user) {
               return res
@@ -74,7 +74,7 @@ export class Controller {
     isAuthenticated(req, res, async () => {
       try {
         const { password, newPassword, newConfirmPassword } = req.body;
-        Users.findById(req.user.id)
+        Users.findById(req.user)
           .then((user) => {
             if (!user) {
               return res
@@ -132,7 +132,7 @@ export class Controller {
         (r) =>
           res.json({
             data: r,
-            token: AuthenticationService.generateToken(user._id),
+            token: AuthenticationService.generateToken(user._id, user.isAdmin),
           }),
         (error) => res.json({ data: { error: error } })
       );
@@ -159,7 +159,10 @@ export class Controller {
         } else {
           res.status(200).json({
             data: {
-              token: AuthenticationService.generateToken(user._id),
+              token: AuthenticationService.generateToken(
+                user._id,
+                user.isAdmin
+              ),
             },
           });
         }

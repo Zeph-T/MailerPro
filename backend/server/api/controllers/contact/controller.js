@@ -6,14 +6,16 @@ import isAuthenticated from "../../middlewares/isAuthenticated.jwt";
 export class Controller {
   async all(req, res) {
     isAuthenticated(req, res, () => {
+      let query = { isValid: true };
+      req.isAdmin ? null : (query.createdBy = req.user);
       let skip = req.query.skip,
         limit = 10;
-      let countPromise = Contact.countDocuments({ isValid: true });
+      let countPromise = Contact.countDocuments(query);
       let unSubscribedCountPromise = Contact.countDocuments({
         status: "Unsubscribed",
-        isValid: true,
+        ...query,
       });
-      let contactPromise = Contact.find({ isValid: true })
+      let contactPromise = Contact.find(query)
         .sort({ _id: -1 })
         .skip(skip * 10)
         .limit(limit);
@@ -40,6 +42,7 @@ export class Controller {
     isAuthenticated(req, res, async () => {
       try {
         if (req.body && (req.body.email || req.body.phone)) {
+          req.body.createdBy = req.user;
           let contact = await Contact.create(req.body);
           // newContact.save((err,contact)=>{
           //   if (contact) {
@@ -79,6 +82,7 @@ export class Controller {
     isAuthenticated(req, res, () => {
       try {
         if (req.params && req.body._id) {
+          req.body.createdBy = req.user;
           Contact.findOneAndUpdate(
             { _id: mongoose.Types.ObjectId(req.body._id) },
             req.body,
@@ -100,17 +104,17 @@ export class Controller {
       }
     });
   }
-  
-  async unSubscribeFromLink(req,res){
-    try{
+
+  async unSubscribeFromLink(req, res) {
+    try {
       if (req.params && req.params.contactId) {
         Contact.findOneAndUpdate(
           { _id: mongoose.Types.ObjectId(req.params.contactId) },
-          {status : "Unsubscribed" },
+          { status: "Unsubscribed" },
           { upsert: true, setDefaultsOnInsert: true }
         )
           .then((contact) => {
-            res.status(200).send({success : true});
+            res.status(200).send({ success: true });
           })
           .catch((err) => {
             console.log(err);
@@ -119,10 +123,9 @@ export class Controller {
       } else {
         throw "Contact ID not found!";
       }
-    }catch(err){
+    } catch (err) {
       return res.status(400).send({ data: { error: err } });
     }
   }
-
 }
 export default new Controller();

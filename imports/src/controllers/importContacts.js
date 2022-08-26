@@ -32,6 +32,9 @@ module.exports = (req, res) => {
         data.status = "Subscribed";
         data.hash = randomString;
         temp_headers = Object.keys(data);
+        if(!temp_headers.includes("email") && !temp_headers.includes("phone")){
+          res.send({data : {error : "Atleast email or phone field is required for importing contacts!"}});
+        }
         arr = findRemainingHeaders(temp_headers);
         dataArray.push(data);
       })
@@ -70,7 +73,7 @@ module.exports = (req, res) => {
             try{
               console.log("imported contacts");
               deleteCsv(Path);
-              await addTags(randomString, tags);
+              await addTags(randomString, tags , req.user);
               res.send("Successfully uploaded the CSV into Database");
             }catch(err){
               console.log(err);
@@ -123,7 +126,7 @@ function makeid(length) {
   return result;
 }
 
-async function addTags(hash, tags) {
+async function addTags(hash, tags , createdBy) {
   try {
     contact.updateMany(
       { hash: hash },
@@ -133,6 +136,7 @@ async function addTags(hash, tags) {
           isValid: true,
           createdOn: new Date(),
           updatedOn: new Date(),
+          createdBy : createdBy
         },
       },
       { $unset: { hash: 1 } },
@@ -140,6 +144,7 @@ async function addTags(hash, tags) {
         if (err) {
           console.log(err);
         }
+        console.log(doc);
         console.log({ message: "Successfully added tags" });
       }
     );

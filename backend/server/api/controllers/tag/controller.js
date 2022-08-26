@@ -7,8 +7,10 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let tagsCount = await Tag.countDocuments();
-        Tag.find({ isValid: true }).then(
+        let query = { isValid: true };
+        req.isAdmin ? null : (query.createdBy = req.user);
+        let tagsCount = await Tag.countDocuments(query);
+        Tag.find(query).then(
           (r) =>
             res.json({
               data: {
@@ -28,6 +30,7 @@ export class Controller {
     isAuthenticated(req, res, () => {
       let createdTagData = {
         name: req.body.name,
+        createdBy: req.user,
       };
 
       let createdTag = Tag.create(createdTagData).then(
@@ -39,6 +42,7 @@ export class Controller {
 
   update(req, res) {
     isAuthenticated(req, res, () => {
+      req.body.createdBy = req.user;
       Tag.findOneAndUpdate(
         { _id: mongoose.Types.ObjectId(req.body._id) },
         req.body,

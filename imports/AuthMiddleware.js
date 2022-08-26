@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const env = require("./env");
+const mongoose = require("mongoose");
 
 // eslint-disable-next-line no-unused-vars, no-shadow
 function isAuthenticated(req, res, next) {
@@ -9,8 +10,9 @@ function isAuthenticated(req, res, next) {
   else {
     try {
       token = token.split(" ")[1];
-      const userId = jwt.verify(token, env.JWT_SECRET);
-      req.user = userId;
+      const doc = jwt.verify(token, env.JWT_SECRET);
+      req.user = mongoose.Types.ObjectId(doc.userId.toString());
+      req.isAdmin = doc.isAdmin;
       next();
     } catch (err) {
       res

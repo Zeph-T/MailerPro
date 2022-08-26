@@ -51,7 +51,7 @@ const SocialMediaIconsList = SocialMediaIcons.map(
     return (
       <ImageStackComponent
         key={index}
-        link={contactLinks[SocialMediaIconName]}
+        link={"http://localhost:3000/"}
         normalDisplay={LANDING_PAGE_DATA.footer[`${SocialMediaIconName}`]}
         hoverDisplay={LANDING_PAGE_DATA.footer[`${SocialMediaIconName}H`]}
         iconsClass={Styles.Icons}
@@ -122,7 +122,7 @@ function LandingPageFooter() {
           <a href="/">
             <img src={logo} alt="Logo" />
           </a>
-          <div className={Styles.Copyright}>Copyright (c) 2021</div>
+          <div className={Styles.Copyright}>Copyright (c) 2022</div>
         </div>
         <div className={Styles.IconsWrapper}>
           <div

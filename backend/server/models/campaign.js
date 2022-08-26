@@ -34,15 +34,15 @@ const CampaignSchema = new mongoose.Schema({
   },
   template: {
     type: mongoose.Types.ObjectId,
-    ref: 'Template'
+    ref: "Template",
   },
   isMarkedForImmediateSend: {
     type: Boolean,
     default: false,
-    required: true
+    required: true,
   },
   scheduledTime: {
-    type: Date
+    type: Date,
   },
   targetAudience: {
     audienceType: {
@@ -50,6 +50,14 @@ const CampaignSchema = new mongoose.Schema({
       enum: ["ALL", "TAGS"],
     },
     tags: [],
+  },
+  createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
+  isValid: {
+    type: Boolean,
+    default: true,
   },
 });
 

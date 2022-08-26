@@ -14,8 +14,6 @@ function ImageStackComponent(props) {
   return (
     <a
       href={props.link}
-      target="_blank"
-      rel="noopener noreferrer"
       className={
         Styles.Wrapper + " " + props.iconsClass + " " + props.iconsWrapperClass
       }

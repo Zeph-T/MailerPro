@@ -41,7 +41,11 @@ const ContactSchema = new mongoose.Schema({
         type : mongoose.Types.ObjectId,
         ref : 'User'
     },
-    tags : []
+    tags : [],
+    createdBy : {
+        type : mongoose.Types.ObjectId,
+        ref : 'User'
+    },
 },{
     strict : false
 });

@@ -6,13 +6,15 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
+        let query = { isValid: true };
+        req.isAdmin ? null : (query.createdBy = req.user);
         let templatesCount = await Template.countDocuments({
-          isValid: true,
+          ...query,
           templateType: req.params.type,
         });
         let limit = 10,
           skip = req.query.skip;
-        Template.find({ isValid: true, templateType: req.params.type })
+        Template.find({ ...query, templateType: req.params.type })
           .skip(skip * 10)
           .limit(limit)
           .then(
@@ -34,6 +36,7 @@ export class Controller {
   createTemplate(req, res) {
     isAuthenticated(req, res, () => {
       req.body.templateType = req.params.type;
+      req.body.createdBy = req.user;
       Template.create(req.body).then(
         (r) => res.json({ data: r }),
         (error) => res.status(404).json({ data: { error: error } })
@@ -45,6 +48,7 @@ export class Controller {
     isAuthenticated(req, res, () => {
       try {
         if (req.body && req.body._id) {
+          req.body.createdBy = req.user;
           Template.findOneAndUpdate(
             { _id: mongoose.Types.ObjectId(req.body._id) },
             req.body,

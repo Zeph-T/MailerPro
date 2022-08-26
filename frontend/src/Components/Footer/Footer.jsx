@@ -11,12 +11,7 @@ function Footer() {
       <div className={styles.LeftSection}>
         <div className={styles.IconLinksWrapper}>
           {FOOTER_DATA.links.map((link, index) => (
-            <a
-              href={link.path}
-              key={index}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={"http://localhost:3000"} key={index}>
               <img src={link.icon} alt={link.name} className={styles.Icon} />
             </a>
           ))}

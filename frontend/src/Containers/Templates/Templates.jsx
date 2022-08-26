@@ -7,6 +7,7 @@ import Header from "./../../Components/Header/index";
 import { TEMPLATES_PAGE_DATA } from "./../../Utils/staticData";
 import CustomTabs from "../../Components/General";
 import StyledMUIButton from "./../../Components/General/Helpers/StyledMUIButton";
+import Progress from "../../Utils/helper/linearProgress";
 import {
   Table,
   TableBody,
@@ -94,6 +95,7 @@ function Templates() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
+                  display: currentTab == "SMS" ? "inline" : "none",
                 }}
                 color="buttonOrange"
                 onClick={() => {
@@ -105,6 +107,7 @@ function Templates() {
               <StyledMUIButton
                 style={{
                   padding: "0.8rem 1.5rem",
+                  display: currentTab == "EMAIL" ? "inline" : "none",
                 }}
                 onClick={() => {
                   navigate("/createtemplate");
@@ -125,74 +128,78 @@ function Templates() {
         />
       </div>
       <div className={styles.ContentWrapper}>
-        <TableContainer>
-          <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-            <TableBody>
-              {currentData.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell
-                    style={{ width: 160 }}
-                    align="right"
-                    padding="none"
-                  >
-                    <div className={styles.IconsOptions}>
-                      <div
-                        className={styles.IconButtonWrapper}
-                        style={{
-                          "--bg-color": "#FFF9D8",
-                        }}
-                        onClick={() => {
-                          navigate(
-                            currentTab === "EMAIL"
-                              ? `/managetemplate/${row._id}`
-                              : `/managesmstemplate/${row._id}`
-                          );
-                        }}
-                      >
-                        <EditIcon color="buttonYellow" fontSize="small" />
+        {currentData.length > 0 ? (
+          <TableContainer>
+            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+              <TableBody>
+                {currentData.map((row) => (
+                  <TableRow key={row.name}>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell
+                      style={{ width: 160 }}
+                      align="right"
+                      padding="none"
+                    >
+                      <div className={styles.IconsOptions}>
+                        <div
+                          className={styles.IconButtonWrapper}
+                          style={{
+                            "--bg-color": "#FFF9D8",
+                          }}
+                          onClick={() => {
+                            navigate(
+                              currentTab === "EMAIL"
+                                ? `/managetemplate/${row._id}`
+                                : `/managesmstemplate/${row._id}`
+                            );
+                          }}
+                        >
+                          <EditIcon color="buttonYellow" fontSize="small" />
+                        </div>
+                        <div
+                          className={styles.IconButtonWrapper}
+                          style={{
+                            "--bg-color": "#FFE5E4",
+                          }}
+                          onClick={() => {
+                            handleDeleteTemplate(row._id);
+                          }}
+                        >
+                          <DeleteIcon color="buttonRed" fontSize="small" />
+                        </div>
                       </div>
-                      <div
-                        className={styles.IconButtonWrapper}
-                        style={{
-                          "--bg-color": "#FFE5E4",
-                        }}
-                        onClick={() => {
-                          handleDeleteTemplate(row._id);
-                        }}
-                      >
-                        <DeleteIcon color="buttonRed" fontSize="small" />
-                      </div>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TablePagination
-                colSpan={3}
-                count={totalItemsCount}
-                rowsPerPage={10}
-                page={currentPage}
-                SelectProps={{
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                }}
-                rowsPerPageOptions={[]}
-                onPageChange={(e, newPage) => {
-                  setCurrentPage(newPage);
-                }}
-                sx={{
-                  borderBottom: "none",
-                }}
-              />
-            </TableFooter>
-          </Table>
-        </TableContainer>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TablePagination
+                  colSpan={3}
+                  count={totalItemsCount}
+                  rowsPerPage={10}
+                  page={currentPage}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  rowsPerPageOptions={[]}
+                  onPageChange={(e, newPage) => {
+                    setCurrentPage(newPage);
+                  }}
+                  sx={{
+                    borderBottom: "none",
+                  }}
+                />
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Progress />
+        )}
       </div>
     </div>
   );
