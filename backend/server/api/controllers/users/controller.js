@@ -132,7 +132,7 @@ export class Controller {
         (r) =>
           res.json({
             data: r,
-            token: AuthenticationService.generateToken(user._id)
+            token: AuthenticationService.generateToken(user._id),
           }),
         (error) => res.json({ data: { error: error } })
       );
@@ -159,7 +159,10 @@ export class Controller {
         } else {
           res.status(200).json({
             data: {
-              token: AuthenticationService.generateToken(user._id , user.isAdmin ? true : false),
+              token: AuthenticationService.generateToken(
+                user._id,
+                user.isAdmin ? true : false
+              ),
             },
           });
         }

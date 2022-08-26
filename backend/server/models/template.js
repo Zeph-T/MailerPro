@@ -40,8 +40,8 @@ const TemplateSchema = new mongoose.Schema({
   },
   createdBy: {
     type: mongoose.Types.ObjectId,
-    ref: "User"
-  }
+    ref: "User",
+  },
 });
 
 export default mongoose.model("Template", TemplateSchema);

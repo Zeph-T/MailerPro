@@ -6,8 +6,8 @@ import isAuthenticated from "../../middlewares/isAuthenticated.jwt";
 export class Controller {
   async all(req, res) {
     isAuthenticated(req, res, () => {
-      let query = {isValid : true};
-      req.isAdmin ? null : query.createdBy = req.user
+      let query = { isValid: true };
+      req.isAdmin ? null : (query.createdBy = req.user);
       let skip = req.query.skip,
         limit = 10;
       let countPromise = Contact.countDocuments(query);
@@ -104,17 +104,17 @@ export class Controller {
       }
     });
   }
-  
-  async unSubscribeFromLink(req,res){
-    try{
+
+  async unSubscribeFromLink(req, res) {
+    try {
       if (req.params && req.params.contactId) {
         Contact.findOneAndUpdate(
           { _id: mongoose.Types.ObjectId(req.params.contactId) },
-          {status : "Unsubscribed" },
+          { status: "Unsubscribed" },
           { upsert: true, setDefaultsOnInsert: true }
         )
           .then((contact) => {
-            res.status(200).send({success : true});
+            res.status(200).send({ success: true });
           })
           .catch((err) => {
             console.log(err);
@@ -123,10 +123,9 @@ export class Controller {
       } else {
         throw "Contact ID not found!";
       }
-    }catch(err){
+    } catch (err) {
       return res.status(400).send({ data: { error: err } });
     }
   }
-
 }
 export default new Controller();

@@ -7,10 +7,10 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let query = {isValid : true};
-        req.isAdmin ? null : query.createdBy = req.user
+        let query = { isValid: true };
+        req.isAdmin ? null : (query.createdBy = req.user);
         let contactFieldsCount = await ContactField.countDocuments({
-          query
+          query,
         });
         ContactField.find(query)
           .sort({ _id: -1 })

@@ -9,7 +9,7 @@ export default async function isAuthenticated(req, res, next) {
   else {
     try {
       token = token.split(" ")[1];
-      const doc  = jwt.verify(token, env.JWT_SECRET);
+      const doc = jwt.verify(token, env.JWT_SECRET);
       req.user = mongoose.Types.ObjectId(doc.userId.toString());
       req.isAdmin = doc.isAdmin;
       next();

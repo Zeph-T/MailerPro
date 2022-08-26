@@ -6,8 +6,8 @@ export class Controller {
   create(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let query = {isValid : true};
-        req.isAdmin ? null : query.createdBy = req.user
+        let query = { isValid: true };
+        req.isAdmin ? null : (query.createdBy = req.user);
         let allContacts = await Contact.find(query);
         const startTimestamp = req.body.startTimestamp;
         const endTimestamp = req.body.endTimestamp;

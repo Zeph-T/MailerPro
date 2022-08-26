@@ -6,8 +6,8 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let query = {isValid : true};
-        req.isAdmin ? null : query.createdBy = req.user
+        let query = { isValid: true };
+        req.isAdmin ? null : (query.createdBy = req.user);
         let templatesCount = await Template.countDocuments({
           ...query,
           templateType: req.params.type,

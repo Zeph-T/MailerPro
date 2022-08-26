@@ -31,15 +31,15 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let query = {isValid : true};
-        req.isAdmin ? null : query.createdBy = req.user
+        let query = { isValid: true };
+        req.isAdmin ? null : (query.createdBy = req.user);
         let campaignsCount = await Campaign.countDocuments(query);
         var page = req.query.page ? parseInt(req.query.page) : 1;
         var limit = req.query.limit ? parseInt(req.query.limit) : 10;
         Campaign.find(query)
           .limit(limit)
           .skip((page - 1) * limit)
-          .sort({_id:  -1})
+          .sort({ _id: -1 })
           .then(
             (r) =>
               res.json({
@@ -65,7 +65,7 @@ export class Controller {
         ReplyMail: req.body.replyTo,
         SenderName: req.body.fromName,
         senderMailAddress: req.body.fromEmail,
-        createdBy : req.user,
+        createdBy: req.user,
         status: "Draft",
         targetAudience: {
           audienceType: "ALL",
@@ -86,7 +86,7 @@ export class Controller {
       let updateData = {};
       Object.assign(
         updateData,
-        {_id:req.body._id},
+        { _id: req.body._id },
         req.body.info.campaignName ? { name: req.body.info.campaignName } : {},
         req.body.info.notes ? { note: req.body.info.notes } : {},
         req.body.info.subject ? { Subject: req.body.info.subject } : {},
@@ -95,21 +95,30 @@ export class Controller {
         req.body.info.fromEmail
           ? { senderMailAddress: req.body.info.fromEmail }
           : {},
-        req.body.template ? { template: mongoose.Types.ObjectId(req.body.template) } : {},
-        req.body.status ? { status: req.body.status } : {},
-        req.body.audience
-          ? { targetAudience: req.body.audience }
+        req.body.template
+          ? { template: mongoose.Types.ObjectId(req.body.template) }
           : {},
-        req.body.schedule.value==="later"
+        req.body.status ? { status: req.body.status } : {},
+        req.body.audience ? { targetAudience: req.body.audience } : {},
+        req.body.schedule.value === "later"
           ? { isMarkedForImmediateSend: false }
           : { isMarkedForImmediateSend: true },
         req.body.schedule.time
-          ? { scheduledTime: new Date(req.body.schedule.time) , status : "Scheduled" }
-          : { scheduledTime: "" },
+          ? {
+              scheduledTime: new Date(req.body.schedule.time),
+              status: "Scheduled",
+            }
+          : { scheduledTime: "" }
       );
       updateData.createdBy = req.user;
-      updateData.targetAudience.tags = updateData.targetAudience.tags.map(oTag=>oTag._id)
-      Campaign.findByIdAndUpdate(mongoose.Types.ObjectId(updateData._id), updateData, { new: true })
+      updateData.targetAudience.tags = updateData.targetAudience.tags.map(
+        (oTag) => oTag._id
+      );
+      Campaign.findByIdAndUpdate(
+        mongoose.Types.ObjectId(updateData._id),
+        updateData,
+        { new: true }
+      )
         .then(async (r) => {
           if (r.isMarkedForImmediateSend) {
             r.status = "Running";
@@ -141,10 +150,10 @@ export class Controller {
           }
           res.json({ data: r });
         })
-        .catch((error) =>{
+        .catch((error) => {
           console.log(error);
           res.json({ data: { error: error } });
-        })
+        });
     });
   }
   catch(err) {
@@ -153,21 +162,20 @@ export class Controller {
     return res.send({ data: { error: err } });
   }
 
-  getCampaignById(req,res){
+  getCampaignById(req, res) {
     isAuthenticated(req, res, () => {
       try {
-        Campaign.findOne({_id : mongoose.Types.ObjectId(req.params.id)})
-          .then(
-            (r) =>
-              res.json({
-                data: r
-              }),
-            (error) => res.json({ error: error })
-          );
+        Campaign.findOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(
+          (r) =>
+            res.json({
+              data: r,
+            }),
+          (error) => res.json({ error: error })
+        );
       } catch (err) {
         return res.json({ error: err });
       }
-    })
+    });
   }
 
   getCampaignStatisticsByIds(req, res) {

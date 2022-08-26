@@ -7,8 +7,8 @@ export class Controller {
   all(req, res) {
     isAuthenticated(req, res, async () => {
       try {
-        let query = {isValid : true};
-        req.isAdmin ? null : query.createdBy = req.user
+        let query = { isValid: true };
+        req.isAdmin ? null : (query.createdBy = req.user);
         let tagsCount = await Tag.countDocuments(query);
         Tag.find(query).then(
           (r) =>
@@ -30,7 +30,7 @@ export class Controller {
     isAuthenticated(req, res, () => {
       let createdTagData = {
         name: req.body.name,
-        createdBy : req.user
+        createdBy: req.user,
       };
 
       let createdTag = Tag.create(createdTagData).then(
