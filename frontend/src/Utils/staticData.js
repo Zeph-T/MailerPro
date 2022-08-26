@@ -90,7 +90,7 @@ export const FOOTER_DATA = {
   ],
   privacyPolicy: "Privacy Policy",
   termsOfUse: "Terms of Use",
-  copyright: "Copyright © 2020",
+  copyright: "Copyright © 2022",
 };
 
 export const MANAGE_CAMPAIGN_DATA = {
