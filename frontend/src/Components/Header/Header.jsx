@@ -12,6 +12,7 @@ function Header({
   title,
   subTitle,
   rightSecContent,
+  subTitleStyles,
 }) {
   return (
     <div className={styles.Wrapper}>
@@ -39,7 +40,7 @@ function Header({
             <h1>{title}</h1>
           </div>
         )}
-        {subTitle && <h4>{subTitle}</h4>}
+        {subTitle && <h4 style={subTitleStyles}>{subTitle}</h4>}
       </div>
       {rightSecContent && (
         <div className={styles.Rightwrapper}>{rightSecContent}</div>

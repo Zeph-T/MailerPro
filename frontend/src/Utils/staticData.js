@@ -409,6 +409,8 @@ export const CAMPAIGN_INSIGHTS_POPUP_DATA = {
 export const DASHBOARD_DATA = {
   RecentActivities: "Recent Activities",
   RecentActivitiesSubText: "Subscriber additions in the period",
+  MailerPro:
+    "MailerPro is a web platform, that assists in sending, managing and analyzing bulk emails and SMS. You can easily send highly customized mails to your contacts. A Huge amount of information can be sent to a large audience with better segregation and categorization using our tags functionality. You will be provided with templates and you can easily create one using our drag and drop editor. You can also import contacts from a CSV file. We provide statistics on the number of opens, clicks, bounces and unsubscribes. You can also manage your tags and custom fields.",
   subscriberData: [
     {
       date: "21 August,2022",
@@ -450,39 +452,39 @@ export const DASHBOARD_DATA = {
   unSubscriberData: [
     {
       date: "21 August,2022",
-      subscribers: "1000",
+      subscribers: "10000",
     },
     {
       date: "22 August,2022",
-      subscribers: "330",
+      subscribers: "3300",
     },
     {
       date: "23 August,2022",
-      subscribers: "300",
+      subscribers: "3000",
     },
     {
       date: "24 August,2022",
-      subscribers: "500",
+      subscribers: "5000",
     },
     {
       date: "25 August,2022",
-      subscribers: "600",
+      subscribers: "6000",
     },
     {
       date: "26 August,2022",
-      subscribers: "10",
-    },
-    {
-      date: "27 August,2022",
       subscribers: "100",
     },
     {
+      date: "27 August,2022",
+      subscribers: "1000",
+    },
+    {
       date: "28 August,2022",
-      subscribers: "200",
+      subscribers: "2000",
     },
     {
       date: "29 August,2022",
-      subscribers: "1200",
+      subscribers: "12000",
     },
   ],
 };
