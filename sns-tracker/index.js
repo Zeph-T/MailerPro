@@ -111,7 +111,7 @@ module.exports.handler = async function (event, context) {
             let oRecord = event.Records[i];
             const userAgent = oRecord.EventSource;
             if (userAgent !== "aws:sns") {
-                return "not from Mux sns";
+                return "not from sns";
             }
             let oSnsData = oRecord.Sns;
             try {
