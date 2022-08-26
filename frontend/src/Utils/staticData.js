@@ -50,16 +50,16 @@ export const NAVBAR_DATA = {
       path: "/directory",
     },
     {
-      name: "Campaign",
-      icon: Campaign,
-      iconActive: CampaignActive,
-      path: "/campaign",
-    },
-    {
       name: "Templates",
       icon: Templates,
       iconActive: TemplatesActive,
       path: "/templates",
+    },
+    {
+      name: "Campaign",
+      icon: Campaign,
+      iconActive: CampaignActive,
+      path: "/campaign",
     },
     {
       name: "Settings",
