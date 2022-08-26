@@ -1,7 +1,7 @@
 import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./ManageCampaignState2.module.css";
 import { MANAGE_CAMPAIGN_DATA } from "../../../Utils/staticData";
+import { StyledMUISelect } from "../../General/Helpers";
 
 function ManageCampaignState2({
   templates,
@@ -12,28 +12,18 @@ function ManageCampaignState2({
   return (
     <div className={styles.Wrapper}>
       <h2>{MANAGE_CAMPAIGN_DATA.steps[1].chooseTemplate}</h2>
-      <Swiper
-        spaceBetween={10}
-        width={250}
-        autoplay={false}
-        style={{ margin: "0 auto" }}
-        setWrapperSize={true}
-      >
-        {templates.map((template, index) => (
-          <SwiperSlide key={index}>
-            <div
-              className={
-                styles.NameComp +
-                " " +
-                (activeTemplate === template._id ? styles.ActiveNameComp : "")
-              }
-              onClick={() => setActiveTemplate(template._id)}
-            >
-              <span className={styles.NameCompText}>{template.name}</span>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <StyledMUISelect
+        value={activeTemplate}
+        options={templates.map((template) => ({
+          value: template._id,
+          label: template.name,
+        }))}
+        onChange={(e) => {
+          setActiveTemplate(e.target.value);
+        }}
+        style={{ maxWidth: "30rem" }}
+      />
+
       {isSMS ? (
         <pre
           className={styles.TemplatePreviewWrapper + " " + styles.SMS}
