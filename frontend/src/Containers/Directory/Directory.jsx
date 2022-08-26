@@ -47,7 +47,6 @@ function Directory() {
   React.useEffect(() => {
     setLoading(true);
     fetchCurrentPageData();
-    setLoading(false);
   }, [currentPage]);
 
   const fetchCurrentPageData = async () => {
@@ -73,9 +72,9 @@ function Directory() {
       });
     } catch (err) {
       console.log(err);
-      setLoading(false);
       notify("Internal Server Error", "error");
     }
+    setLoading(false);
   };
 
   return (

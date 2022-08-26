@@ -65,16 +65,15 @@ function Templates() {
       setCurrentData(data.data.templates);
       setTotalItemsCount(data.data.total);
     } catch (err) {
-      setLoading(false);
       notify("Fetching templated failed", "error");
     }
+    setLoading(false);
   };
 
   React.useEffect(() => {
     setCurrentData([]);
     setLoading(true);
     handleTemplateFetch();
-    setLoading(false)
   }, [currentPage, currentTab, userData.accessToken]);
 
   const handleDeleteTemplate = async (templateId) => {

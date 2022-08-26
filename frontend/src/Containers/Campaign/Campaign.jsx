@@ -42,7 +42,6 @@ function Campaign() {
   React.useEffect(() => {
     setLoading(true);
     fetchCurrentData();
-    setLoading(false);
   }, [currentPage, currentTab]);
 
   const fetchCurrentData = async () => {
@@ -70,9 +69,9 @@ function Campaign() {
       setCurrentData(updatedCampaigns);
     } catch (error) {
       console.log(error);
-      setLoading(false);
       notify("Error fetching data", "error");
     }
+    setLoading(false);
   };
 
   return (
